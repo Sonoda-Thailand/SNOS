@@ -1,0 +1,514 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    List<SNOS_Report.Models.DataClass.Top5list> topthickday = ViewBag.topthickday;
+    List<SNOS_Report.Models.DataClass.Top5list> topthickweek = ViewBag.topthickweek;
+    List<SNOS_Report.Models.DataClass.Top5list> topthickmonth = ViewBag.topthickmonth;
+    SNOS_Report.Models.DataClass.Daliy_workrate today_workrate = ViewBag.today_workrate;
+    SNOS_Report.Models.DataClass.Daliy_workrate yesterday_workrate = ViewBag.yesterday_workrate;
+    SNOS_Report.Models.DataClass.weekly_workrate thisweek_workrate = ViewBag.thisweek_workrate;
+    SNOS_Report.Models.DataClass.weekly_workrate lastweek_workrate = ViewBag.lastweek_workrate;
+    SNOS_Report.Models.DataClass.monthly_workrate thismonth_workrate = ViewBag.thismonth_workrate;
+    SNOS_Report.Models.DataClass.monthly_workrate lastmonth_workrate = ViewBag.lastmonth_workrate;
+    List<SNOS_Report.Database.Mac_Spec> lineinfor = ViewBag.linelist;
+    string linename = "";
+}
+<main class="content">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-8">
+                <h1 class="h3 d-inline align-middle">This day orders</h1>
+                <div class="justify-content-end col-4">
+                    <select class="form-select" aria-label="Default select example" id="line" onchange="changeline()">
+                        @{
+                            if (ViewBag.Line == 0)
+                            {
+                                <option selected value="0">All Line</option>
+                                linename = "All Line";
+
+                            }
+                            else
+                            {
+                                <option value="0">All Line</option>
+                                linename = "All Line";
+                            }
+                            int ct = 1;
+
+                            foreach (var x in lineinfor)
+                            {
+                                ct = x.Line_No;
+                                if (ct == ViewBag.Line)
+                                {
+                                    <option selected value="@x.Line_No"> @x.Line_Name </option>
+                                    linename = x.Line_Name;
+
+                                }
+                                else
+                                {
+                                    <option value="@x.Line_No"> @x.Line_Name </option>
+
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Top 5 thickness of day</h5>
+                        <h6 class="card-subtitle text-muted">
+                            Show top 5 of thickness in this day
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart w-100">
+                            <center>
+                                <div id="c1">
+
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Day comparison</h5>
+                        <h6 class="card-subtitle text-muted">Show work rate today and yesterday</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart w-100">
+                            <center>
+                                <div id="c2">
+
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <h1 class="h3 d-inline align-middle">This week orders</h1>
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Top 5 thickness of week</h5>
+                        <h6 class="card-subtitle text-muted">
+                            Show top 5 of thickness in this week
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart w-100">
+                            <center>
+                                <div id="c3">
+
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Week comparison</h5>
+                        <h6 class="card-subtitle text-muted">Show work rate thisweek and lastweek</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart w-100">
+                            <center>
+                                <div id="c4">
+
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <h1 class="h3 d-inline align-middle">This mounth orders</h1>
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Top 5 thickness of month</h5>
+                        <h6 class="card-subtitle text-muted">
+                            Show top 5 of thickness in this month
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart w-100">
+                            <center>
+                                <div id="c5">
+
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Month comparison</h5>
+                        <h6 class="card-subtitle text-muted">Show work rate thismonth and lastmonth</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart w-100">
+                            <center>
+                                <div id="c6">
+
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    document.getElementById("li-dashboard").classList.add("active")
+    function changeline() {
+        var line = document.getElementById("line").value;
+        window.location.replace("../Order_Report/ThisMonth?line=" + line);
+    }
+    //day
+    var options = {
+        series: [@topthickday[0].Total, @topthickday[1].Total, @topthickday[2].Total, @topthickday[3].Total, @topthickday[4].Total],
+        chart: {
+            width: 380,
+            height: 280,
+            type: 'pie',
+        }, yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return value + " Jobs";
+                }
+            },
+        },
+        labels: ['@topthickday[0].THICK mm', '@topthickday[1].THICK mm', '@topthickday[2].THICK mm', '@topthickday[3].THICK mm', '@topthickday[4].THICK mm'],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+
+    var chart = new ApexCharts(document.getElementById("c1"), options);
+    chart.render();
+     //week
+    options = {
+        series: [@topthickweek[0].Total, @topthickweek[1].Total, @topthickweek[2].Total, @topthickweek[3].Total, @topthickweek[4].Total],
+        chart: {
+            width: 380,
+            height: 280,
+            type: 'pie',
+        }, yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return value + " Jobs";
+                }
+            },
+        },
+        labels: ['@topthickweek[0].THICK mm', '@topthickweek[1].THICK mm', '@topthickweek[2].THICK mm', '@topthickweek[3].THICK mm', '@topthickweek[4].THICK mm'],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+    chart = new ApexCharts(document.getElementById("c3"), options);
+    chart.render();
+     //month
+    options = {
+        series: [@topthickmonth[0].Total, @topthickmonth[1].Total, @topthickmonth[2].Total, @topthickmonth[3].Total, @topthickmonth[4].Total],
+        chart: {
+            width: 380,
+            height: 280,
+            type: 'pie',
+        }, yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return value + " Jobs";
+                }
+            },
+        },
+        labels: ['@topthickmonth[0].THICK mm', '@topthickmonth[1].THICK mm', '@topthickmonth[2].THICK mm', '@topthickmonth[3].THICK mm', '@topthickmonth[4].THICK mm'],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+    chart = new ApexCharts(document.getElementById("c5"), options);
+    chart.render();
+
+
+    //day
+    options = {
+        series: [
+            {
+                name: "Today",
+                data: [@today_workrate.time_20_24_Last, @today_workrate.time_00_04, @today_workrate.time_04_08, @today_workrate.time_08_12, @today_workrate.time_12_16, @today_workrate.time_16_20, @today_workrate.time_20_24_Now]
+            },
+            {
+                name: "Yesterday",
+                data: [@yesterday_workrate.time_20_24_Last, @yesterday_workrate.time_00_04, @yesterday_workrate.time_04_08, @yesterday_workrate.time_08_12, @yesterday_workrate.time_12_16, @yesterday_workrate.time_16_20, @yesterday_workrate.time_20_24_Now]
+            }
+        ],
+        chart: {
+            height: 280,
+            type: 'line',
+            dropShadow: {
+                enabled: true,
+                color: '#000',
+                top: 18,
+                left: 7,
+                blur: 10,
+                opacity: 0.2
+            },
+            toolbar: {
+                show: false
+            }
+        },
+        colors: ['#77B6EA', '#545454'],
+        dataLabels: {
+            enabled: true,
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        title: {
+            text: 'Compare work rate between today and yesterday',
+            align: 'left'
+        },
+        grid: {
+            borderColor: '#e7e7e7',
+            row: {
+                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+        },
+        markers: {
+            size: 1
+        },
+        xaxis: {
+            categories: ['00.00', '04.00', '08.00', '12.00', '16.00', '20.00', '24.00'],
+            title: {
+                text: 'Month'
+            }
+        },
+        yaxis: {
+            title: {
+                text: 'Percent'
+            },
+            min: 0,
+            max: 100
+        },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'right',
+            floating: true,
+            offsetY: -25,
+            offsetX: -5
+        }
+    };
+
+    chart = new ApexCharts(document.querySelector("#c2"), options);
+    chart.render();
+
+
+    //week
+    options = {
+        series: [
+            {
+                name: "This Week",
+                data: [@thisweek_workrate.sunday, @thisweek_workrate.monday,@thisweek_workrate.tuesday,@thisweek_workrate.wednesday,@thisweek_workrate.thursday,@thisweek_workrate.friday,@thisweek_workrate.saturday]
+            },
+            {
+                name: "Last Week",
+                data: [@lastweek_workrate.sunday, @lastweek_workrate.monday,@lastweek_workrate.tuesday,@lastweek_workrate.wednesday,@lastweek_workrate.thursday,@lastweek_workrate.friday,@lastweek_workrate.saturday]
+            }
+        ],
+        chart: {
+            height: 280,
+            type: 'line',
+            dropShadow: {
+                enabled: true,
+                color: '#000',
+                top: 18,
+                left: 7,
+                blur: 10,
+                opacity: 0.2
+            },
+            toolbar: {
+                show: false
+            }
+        },
+        colors: ['#77B6EA', '#545454'],
+        dataLabels: {
+            enabled: true,
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        title: {
+            text: 'Compare work rate between Thisweek and Lastweek',
+            align: 'left'
+        },
+        grid: {
+            borderColor: '#e7e7e7',
+            row: {
+                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+        },
+        markers: {
+            size: 1
+        },
+        xaxis: {
+            categories: ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat'],
+            title: {
+                text: 'Month'
+            }
+        },
+        yaxis: {
+            title: {
+                text: 'Percent'
+            },
+            min: 0,
+            max: 100
+        },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'right',
+            floating: true,
+            offsetY: -25,
+            offsetX: -5
+        }
+    };
+    chart = new ApexCharts(document.querySelector("#c4"), options);
+    chart.render();
+
+    //month
+    options = {
+        series: [
+            {
+                name: "This Month",
+                 data: [@thismonth_workrate.week1, @thismonth_workrate.week2,@thismonth_workrate.week3,@thismonth_workrate.week4,@thismonth_workrate.week5]
+            },
+            {
+                name: "Last Month",
+                data: [@lastmonth_workrate.week1, @lastmonth_workrate.week2,@lastmonth_workrate.week3,@lastmonth_workrate.week4,@lastmonth_workrate.week5]
+            }
+        ],
+        chart: {
+            height: 280,
+            type: 'line',
+            dropShadow: {
+                enabled: true,
+                color: '#000',
+                top: 18,
+                left: 7,
+                blur: 10,
+                opacity: 0.2
+            },
+            toolbar: {
+                show: false
+            }
+        },
+        colors: ['#77B6EA', '#545454'],
+        dataLabels: {
+            enabled: true,
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        title: {
+            text: 'Compare work rate between Thismonth and Lastmonth',
+            align: 'left'
+        },
+        grid: {
+            borderColor: '#e7e7e7',
+            row: {
+                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+        },
+        markers: {
+            size: 1
+        },
+        xaxis: {
+            categories: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5'],
+            title: {
+                text: 'Month'
+            }
+        },
+        yaxis: {
+            title: {
+                text: 'Percent'
+            },
+            min: 0,
+            max: 100
+        },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'right',
+            floating: true,
+            offsetY: -25,
+            offsetX: -5
+        }
+    };
+
+    chart = new ApexCharts(document.querySelector("#c6"), options);
+    chart.render();
+
+
+
+    function changeline() {
+        var line = document.getElementById("line").value;
+        window.location.replace("../Home/Index?line=" + line);
+        //PRD//window.location.replace("../Home/Index?line=" + line);
+    }
+</script>

@@ -1,0 +1,283 @@
+﻿
+@{
+    ViewBag.Title = "Daily";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SNOS_Report.Database.Mac_Spec> lineinfor = ViewBag.linelist;
+    List<SNOS_Report.Database.Log_Work> datalist = ViewBag.datalist;
+    string linename = "";
+    string gettimeformat(int secs)
+    {
+        TimeSpan t = TimeSpan.FromSeconds(secs);
+
+        string answer = string.Format("{0:D2}h {1:D2}m {2:D2}s",
+                        t.Hours,
+                        t.Minutes,
+                        t.Seconds,
+                        t.Milliseconds);
+        return answer;
+    }
+}
+
+<main class="content">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-8">
+                <h1 class="h3 d-inline align-middle">Today timechart</h1>
+            </div>
+            <div class="justify-content-end col-4">
+                <select class="form-select" aria-label="Default select example" id="line" onchange="changeline()">
+                    @{
+                        int ct = 1;
+                        foreach (var x in lineinfor)
+                        {
+                            if (x.Line_No == ViewBag.Line)
+                            {
+                                <option selected value="@x.Line_No">@x.Line_Name</option>
+                                linename = x.Line_Name;
+
+                            }
+                            else
+                            {
+                                <option value="@x.Line_No">@x.Line_Name</option>
+
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <br>
+        <!--PC-->
+        <section id="PC" style="display:inherit">
+            <button type="button" class="btn btn-primary" onclick="tomobile();"><i class="fas fa-mobile-alt"></i> To Mobile Mode</button>
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <table id="Tabledata" width="100%" class="table-bordered">
+                            <thead>
+
+                                <tr>
+                                    <th scope="col" >↓H →M</th>
+                                    @{
+                                        for (int i = 0; i < 60; i++)
+                                        {
+                                            if (i < 10)
+                                            {
+                                                <th scope="col">@Html.Raw("0" + i)</th>
+                                            }
+                                            else
+                                            {
+                                                <th scope="col">@i</th>
+                                            }
+                                        }
+                                    }
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @{
+                                    int laststatus = datalist.Count == 0 ? 0 : 2;
+                                    for (int i = 0; i < 24; i++)
+                                    {
+                                        DateTime nowtime = DateTime.Now;
+                                        DateTime lastdatatime = DateTime.Now;
+                                        DateTime start = DateTime.Today.AddHours((i));
+                                        <tr>
+                                            <td>@i</td>
+                                            @{
+
+                                                for (int j = 0; j <= 59; j++)
+                                                {
+                                                    var item = datalist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
+                                                    if (item != null)
+                                                    {
+                                                        laststatus = item.LINE_STATUS;
+                                                        if (item.GET_TIME > nowtime)
+                                                        {
+                                                            laststatus = 0;
+                                                        }
+                                                    }
+                                                    else if (datalist.Count == 0)
+                                                    {
+                                                        laststatus = 0;
+                                                    }
+                                                    else { laststatus = 2; }
+                                                    if (start.AddMinutes(j) >= lastdatatime)
+                                                    {
+                                                        laststatus = 0;
+                                                    }
+                                                    switch (laststatus)
+                                                    {
+                                                        case 0:
+                                                            <td style="background-color: #FFFFFF;padding:0px;"></td>
+                                                            ;
+                                                            break;
+                                                        case 2:
+                                                            <td style="background-color: #CCCCCC; padding: 0px;"></td>
+                                                            ;
+                                                            break;
+                                                        case 4:
+                                                            <td style="background-color: #008000; padding: 0px;"></td>
+                                                            ;
+                                                            break;
+                                                        case 8:
+                                                            <td style="background-color: #FFCC00; padding: 0px;"></td>
+                                                            ;
+                                                            break;
+                                                        case 16:
+                                                            <td style="background-color: #FF0000; padding: 0px;"></td>
+                                                            ;
+                                                            break;
+                                                    }
+                                                }
+
+
+
+                                            }
+                                        </tr>
+                                        if (i < 23)
+                                        {
+                                            <tr>
+                                                <td style="padding:2px"></td>
+                                                @for (int j = 0; j <= 59; j++)
+                                                {
+                                                    <td style="background-color: #FFFFFF;padding:0px;"></td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!--Mobile-->
+        <section id="mobile" style="display:none">
+            <button type="button" class="btn btn-primary" onclick="toPC();"> <i class="fas fa-tv"></i> To PC Mode</button>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-responsive table-bordered">
+                            <thead>
+
+                                <tr>
+                                    <th scope="col">↓H →M</th>
+                                    @{
+                                        for (int i = 0; i < 60; i++)
+                                        {
+                                            if (i < 10)
+                                            {
+                                                <th scope="col">@Html.Raw("0" + i)</th>
+                                            }
+                                            else
+                                            {
+                                                <th scope="col">@i</th>
+                                            }
+                                        }
+                                    }
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @{
+                                    laststatus = datalist.Count == 0 ? 0 : 2;
+                                    for (int i = 0; i < 24; i++)
+                                    {
+                                        DateTime nowtime = DateTime.Now;
+                                        DateTime lastdatatime = DateTime.Now;
+                                        DateTime start = DateTime.Today.AddHours((i));
+                                        <tr>
+                                            <td>@i</td>
+                                            @{
+
+                                                for (int j = 0; j <= 59; j++)
+                                                {
+                                                    var item = datalist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
+                                                    if (item != null)
+                                                    {
+                                                        laststatus = item.LINE_STATUS;
+                                                        if (item.GET_TIME > nowtime)
+                                                        {
+                                                            laststatus = 0;
+                                                        }
+                                                    }
+                                                    else if (datalist.Count == 0)
+                                                    {
+                                                        laststatus = 0;
+                                                    }
+                                                    if (start.AddMinutes(j) >= lastdatatime)
+                                                    {
+                                                        laststatus = 0;
+                                                    }
+                                                    switch (laststatus)
+                                                    {
+                                                        case 0:
+                                                            <td style="background-color: #FFFFFF;padding:0px;"></td>
+                                                            ;
+                                                            break;
+                                                        case 2:
+                                                            <td style="background-color: #CCCCCC; padding: 0px;"></td>
+                                                            ;
+                                                            break;
+                                                        case 4:
+                                                            <td style="background-color: #008000; padding: 0px;"></td>
+                                                            ;
+                                                            break;
+                                                        case 8:
+                                                            <td style="background-color: #FFCC00; padding: 0px;"></td>
+                                                            ;
+                                                            break;
+                                                        case 16:
+                                                            <td style="background-color: #FF0000; padding: 0px;"></td>
+                                                            ;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        </tr>
+                                         if (i < 23)
+                                        {
+                                            <tr>
+                                                <td style="padding:2px"></td>
+                                                @for (int j = 0; j <= 59; j++)
+                                                {
+                                                    <td style="background-color: #FFFFFF;padding:0px;"></td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+<script>
+    document.getElementById("li_Timechart_Daily").classList.add("active")
+    //Dropdown li
+    document.getElementById("li_Timechart").classList.add("active");
+    document.getElementById("Timechart-a").classList.remove("collapsed");
+    document.getElementById("Timechart").classList.add("show");
+    function changeline() {
+        var line = document.getElementById("line").value;
+        window.location.replace("../TimeChart/Daily?line=" + line);
+    }
+    function tomobile() {
+        document.getElementById("mobile").style = "display:inherit";
+        document.getElementById("PC").style = "display:none";
+    }
+    function toPC() {
+        document.getElementById("mobile").style = "display:none";
+        document.getElementById("PC").style = "display:inherit";
+    }
+</script>

@@ -1,0 +1,1659 @@
+﻿@using Report_Service.Models.Entity;
+@{
+    ViewBag.Title = "today_Report";
+    List<DPROC_Entity> data = ViewBag.Datalog;
+    List<DPROCING_Entity> timechart = ViewBag.timechart;
+    List<U_Rate> rate = ViewBag.Urate;
+    DateTime nowtime = DateTime.Now;
+}
+<center>
+    <h1>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))</h1>
+</center>
+
+<!--Grid Report-->
+<h4>
+    Daily Report (Time Chart)
+</h4>
+@*
+    <td bgcolor="#FFFFFF">&nbsp;</td> No data 0
+    <td bgcolor="#CCCCCC">&nbsp;</td> Power off 2
+    <td bgcolor="#008000">&nbsp;</td> Run 4
+    <td bgcolor="#FFCC00">&nbsp;</td> Stop 8
+    <td bgcolor="#FF0000">&nbsp;</td> Error 16
+*@
+<!--period 1 / 00:00 to 07:59-->
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td>
+                <table style="FONT-SIZE: 12px" border="1" cellpadding="3" cellspacing="0">
+                    <tbody>
+                        <tr align="center">
+                            <td width="140" nowrap="" style="FONT-SIZE: 22px"><strong>Daily Report</strong></td>
+                            <td width="150" style="FONT-SIZE: 18px"><strong>@ViewBag.Linename</strong></td>
+                            <td width="180" nowrap="">
+                                <table style="FONT-SIZE: 16px" border="0" cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                        <tr align="center">
+                                            <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>00:00</strong></td>
+                                            <td>&nbsp;&nbsp;~&nbsp;&nbsp;</td>
+                                            <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>07:59</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td align="right">
+                <table style="FONT-SIZE: 14px" border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td align="right" nowrap="">Export Date : @Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))</td>
+                        </tr>
+                        <tr>
+                            <td align="right" nowrap="">Export Time : @Html.Raw(DateTime.Now.ToString("HH:mm"))</td>
+                        </tr>
+                        <tr>
+                            <td align="right" nowrap="">Page 1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table class="table table-bordered time-chart">
+    <tbody>
+        <tr align="center">
+            <td>&nbsp;</td>
+            <td>0</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>5</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>10</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>15</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>20</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>25</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>30</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>35</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>40</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>45</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>50</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>55</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>59</td>
+        </tr>
+        @{
+            int laststatus = timechart.Count == 0 ? 0 : 2;
+            DateTime lastdatatime = DateTime.Today;
+            try
+            {
+                lastdatatime = timechart.OrderByDescending(t => t.GET_TIME).FirstOrDefault().GET_TIME;
+            }
+            catch
+            {
+            }
+            for (int i = 0; i <= 7; i++)
+            {
+                DateTime start = DateTime.Today.AddHours((i));
+                DateTime end = DateTime.Today.AddHours((i + 1)).AddSeconds(-1);
+                var plist = timechart.FindAll(ta => ta.GET_TIME >= start && ta.GET_TIME <= end).ToList();
+
+                if (i < 7)
+                {
+                    <tr>
+                        <td>@Html.Raw("0" + i + ":00")</td>
+                        @{
+
+                            for (int j = 0; j <= 59; j++)
+                            {
+                                var item = plist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
+                                if (item != null)
+                                {
+                                    laststatus = item.LINE_STATUS;
+                                    if (item.GET_TIME > nowtime)
+                                    {
+                                        laststatus = 0;
+                                    }
+                                }
+                                else if (plist.Count == 0)
+                                {
+                                    laststatus = 0;
+                                }
+                                if (start.AddMinutes(j) >= lastdatatime)
+                                {
+                                    laststatus = 0;
+                                }
+                                switch (laststatus)
+                                {
+                                    case 0:
+                                        <td bgcolor="#FFFFFF">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 2:
+                                        <td bgcolor="#CCCCCC">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 4:
+                                        <td bgcolor="#008000">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 8:
+                                        <td bgcolor="#FFCC00">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 16:
+                                        <td bgcolor="#FF0000">&nbsp;</td>
+                                        ;
+                                        break;
+                                }
+                            }
+                        }
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>07:00</td>
+                        @{
+                            for (int j = 0; j <= 59; j++)
+                            {
+                                var item = plist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
+                                if (item != null)
+                                {
+                                    laststatus = item.LINE_STATUS;
+                                    if (item.GET_TIME > nowtime)
+                                    {
+                                        laststatus = 0;
+                                    }
+                                }
+                                else if (plist.Count == 0)
+                                {
+                                    laststatus = 0;
+                                }
+                                if (start.AddMinutes(j) >= lastdatatime)
+                                {
+                                    laststatus = 0;
+                                }
+                                switch (laststatus)
+                                {
+                                    case 0:
+                                        <td bgcolor="#FFFFFF">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 2:
+                                        <td bgcolor="#CCCCCC">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 4:
+                                        <td bgcolor="#008000">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 8:
+                                        <td bgcolor="#FFCC00">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 16:
+                                        <td bgcolor="#FF0000">&nbsp;</td>
+                                        ;
+                                        break;
+                                }
+                            }
+                        }
+                    </tr>
+                }
+
+            }
+        }
+
+        <tr align="center">
+            <td width="40">&nbsp;</td>
+            <td>0</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>5</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>10</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>15</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>20</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>25</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>30</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>35</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>40</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>45</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>50</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>55</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>59</td>
+        </tr>
+    </tbody>
+</table>
+<!--period 2 / 08:00 to 16:59-->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td>
+                <table style="FONT-SIZE: 12px" border="1" cellpadding="3" cellspacing="0">
+                    <tbody>
+                        <tr align="center">
+                            <td width="140" nowrap="" style="FONT-SIZE: 22px"><strong>Daily Report</strong></td>
+                            <td width="150" style="FONT-SIZE: 18px"><strong>@ViewBag.Linename</strong></td>
+                            <td width="180" nowrap="">
+                                <table style="FONT-SIZE: 16px" border="0" cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                        <tr align="center">
+                                            <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>08:00</strong></td>
+                                            <td>&nbsp;&nbsp;~&nbsp;&nbsp;</td>
+                                            <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>16:59</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td align="right">
+                <table style="FONT-SIZE: 14px" border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td align="right" nowrap="">Export Date : @Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))</td>
+                        </tr>
+                        <tr>
+                            <td align="right" nowrap="">Export Time : @Html.Raw(DateTime.Now.ToString("HH:mm"))</td>
+                        </tr>
+                        <tr>
+                            <td align="right" nowrap="">Page 2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table class="table table-bordered time-chart">
+    <tbody>
+        <tr align="center">
+            <td>&nbsp;</td>
+            <td>0</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>5</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>10</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>15</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>20</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>25</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>30</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>35</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>40</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>45</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>50</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>55</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>59</td>
+        </tr>
+        @{
+            for (int i = 8; i <= 16; i++)
+            {
+                DateTime start = DateTime.Today.AddHours((i));
+                DateTime end = DateTime.Today.AddHours((i + 1)).AddSeconds(-1);
+                var plist = timechart.FindAll(ta => ta.GET_TIME >= start && ta.GET_TIME <= end).ToList();
+                try
+                {
+                    lastdatatime = plist.OrderByDescending(t => t.GET_TIME).FirstOrDefault().GET_TIME;
+                }
+                catch
+                {
+                }
+                if (i < 10)
+                {
+                    <tr>
+                        <td>@Html.Raw("0" + i + ":00")</td>
+                        @{
+                            for (int j = 0; j <= 59; j++)
+                            {
+                                var item = plist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
+                                if (item != null)
+                                {
+                                    laststatus = item.LINE_STATUS;
+                                    if (item.GET_TIME > nowtime)
+                                    {
+                                        laststatus = 0;
+                                    }
+                                }
+                                else if (plist.Count == 0)
+                                {
+                                    laststatus = 0;
+                                }
+                                if (start.AddMinutes(j) >= lastdatatime)
+                                {
+                                    laststatus = 0;
+                                }
+                                switch (laststatus)
+                                {
+                                    case 0:
+                                        <td bgcolor="#FFFFFF">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 2:
+                                        <td bgcolor="#CCCCCC">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 4:
+                                        <td bgcolor="#008000">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 8:
+                                        <td bgcolor="#FFCC00">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 16:
+                                        <td bgcolor="#FF0000">&nbsp;</td>
+                                        ;
+                                        break;
+                                }
+                            }
+                        }
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                }
+                else if (i < 16)
+                {
+                    <tr>
+                        <td>@Html.Raw(i + ":00")</td>
+                        @{
+                            for (int j = 0; j <= 59; j++)
+                            {
+                                var item = plist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
+                                if (item != null)
+                                {
+                                    laststatus = item.LINE_STATUS;
+                                    if (item.GET_TIME > nowtime)
+                                    {
+                                        laststatus = 0;
+                                    }
+                                }
+                                else if (plist.Count == 0)
+                                {
+                                    laststatus = 0;
+                                }
+                                if (start.AddMinutes(j) >= lastdatatime)
+                                {
+                                    laststatus = 0;
+                                }
+                                switch (laststatus)
+                                {
+                                    case 0:
+                                        <td bgcolor="#FFFFFF">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 2:
+                                        <td bgcolor="#CCCCCC">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 4:
+                                        <td bgcolor="#008000">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 8:
+                                        <td bgcolor="#FFCC00">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 16:
+                                        <td bgcolor="#FF0000">&nbsp;</td>
+                                        ;
+                                        break;
+                                }
+                            }
+                        }
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>16:00</td>
+                        @{
+                            for (int j = 0; j <= 59; j++)
+                            {
+                                var item = plist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
+                                if (item != null)
+                                {
+                                    laststatus = item.LINE_STATUS;
+                                    if (item.GET_TIME > nowtime)
+                                    {
+                                        laststatus = 0;
+                                    }
+                                }
+                                else if (plist.Count == 0)
+                                {
+                                    laststatus = 0;
+                                }
+                                if (start.AddMinutes(j) >= lastdatatime)
+                                {
+                                    laststatus = 0;
+                                }
+                                switch (laststatus)
+                                {
+                                    case 0:
+                                        <td bgcolor="#FFFFFF">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 2:
+                                        <td bgcolor="#CCCCCC">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 4:
+                                        <td bgcolor="#008000">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 8:
+                                        <td bgcolor="#FFCC00">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 16:
+                                        <td bgcolor="#FF0000">&nbsp;</td>
+                                        ;
+                                        break;
+                                }
+                            }
+                        }
+                    </tr>
+                }
+
+            }
+        }
+
+        <tr align="center">
+            <td width="40">&nbsp;</td>
+            <td>0</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>5</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>10</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>15</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>20</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>25</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>30</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>35</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>40</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>45</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>50</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>55</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>59</td>
+        </tr>
+    </tbody>
+</table>
+<!--period 3 / 17:00 ถึง 23:59-->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td>
+                <table style="FONT-SIZE: 12px" border="1" cellpadding="3" cellspacing="0">
+                    <tbody>
+                        <tr align="center">
+                            <td width="140" nowrap="" style="FONT-SIZE: 22px"><strong>Daily Report</strong></td>
+                            <td width="150" style="FONT-SIZE: 18px"><strong>@ViewBag.Linename</strong></td>
+                            <td width="180" nowrap="">
+                                <table style="FONT-SIZE: 16px" border="0" cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                        <tr align="center">
+                                            <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>17:00</strong></td>
+                                            <td>&nbsp;&nbsp;~&nbsp;&nbsp;</td>
+                                            <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>23:59</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td align="right">
+                <table style="FONT-SIZE: 14px" border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td align="right" nowrap="">Export Date : @Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))</td>
+                        </tr>
+                        <tr>
+                            <td align="right" nowrap="">Export Time : @Html.Raw(DateTime.Now.ToString("HH:mm"))</td>
+                        </tr>
+                        <tr>
+                            <td align="right" nowrap="">Page 3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table class="table table-bordered time-chart">
+    <tbody>
+        <tr align="center">
+            <td>&nbsp;</td>
+            <td>0</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>5</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>10</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>15</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>20</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>25</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>30</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>35</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>40</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>45</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>50</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>55</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>59</td>
+        </tr>
+        @{
+            for (int i = 17; i <= 23; i++)
+            {
+                DateTime start = DateTime.Today.AddHours((i));
+                DateTime end = DateTime.Today.AddHours((i + 1)).AddSeconds(-1);
+                var plist = timechart.FindAll(ta => ta.GET_TIME >= start && ta.GET_TIME <= end).ToList();
+                try
+                {
+                    lastdatatime = plist.OrderByDescending(t => t.GET_TIME).FirstOrDefault().GET_TIME;
+                }
+                catch
+                {
+                }
+                if (i < 23)
+                {
+                    <tr>
+                        <td>@Html.Raw(i + ":00")</td>
+                        @{
+                            for (int j = 0; j <= 59; j++)
+                            {
+                                var item = plist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
+                                if (item != null)
+                                {
+                                    laststatus = item.LINE_STATUS;
+                                    if (item.GET_TIME > nowtime || start.AddMinutes(j) >= lastdatatime)
+                                    {
+                                        laststatus = 0;
+                                    }
+                                }
+                                else if (plist.Count == 0)
+                                {
+                                    laststatus = 0;
+                                }
+
+                                switch (laststatus)
+                                {
+                                    case 0:
+                                        <td bgcolor="#FFFFFF">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 2:
+                                        <td bgcolor="#CCCCCC">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 4:
+                                        <td bgcolor="#008000">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 8:
+                                        <td bgcolor="#FFCC00">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 16:
+                                        <td bgcolor="#FF0000">&nbsp;</td>
+                                        ;
+                                        break;
+                                }
+                            }
+                        }
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td style="border-left:solid 1px #CCCCCC">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>23:00</td>
+                        @{
+                            for (int j = 0; j <= 59; j++)
+                            {
+                                var item = plist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
+                                if (item != null)
+                                {
+                                    laststatus = item.LINE_STATUS;
+                                    if (item.GET_TIME > nowtime || start.AddMinutes(j) >= lastdatatime)
+                                    {
+                                        laststatus = 0;
+                                    }
+                                }
+                                else if (plist.Count == 0)
+                                {
+                                    laststatus = 0;
+                                }
+
+                                switch (laststatus)
+                                {
+                                    case 0:
+                                        <td bgcolor="#FFFFFF">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 2:
+                                        <td bgcolor="#CCCCCC">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 4:
+                                        <td bgcolor="#008000">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 8:
+                                        <td bgcolor="#FFCC00">&nbsp;</td>
+                                        ;
+                                        break;
+                                    case 16:
+                                        <td bgcolor="#FF0000">&nbsp;</td>
+                                        ;
+                                        break;
+                                }
+                            }
+                        }
+                    </tr>
+                }
+
+            }
+        }
+
+        <tr align="center">
+            <td width="40">&nbsp;</td>
+            <td>0</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>5</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>10</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>15</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>20</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>25</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>30</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>35</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>40</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>45</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>50</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>55</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>59</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+
+<!--Summary-->
+<br>
+<br>
+<h4>
+    Summary
+</h4>
+@{
+    int x = data.Count();
+    decimal lenght = 0;
+    double av_sp = 0;
+    double u_rate = 0;
+    TimeSpan powerontime = new TimeSpan();
+    TimeSpan runtime = new TimeSpan();
+    TimeSpan stoptime = new TimeSpan();
+    foreach (DPROC_Entity item in data)
+    {
+        lenght += item.SIZE;
+
+    }
+    foreach (U_Rate item in rate)
+    {
+        av_sp += item.AV_LineSpeed;
+        powerontime += item.PowerOn;
+        runtime += item.Runtime;
+        stoptime += item.StopTime;
+        u_rate += item.U_rate;
+    }
+    if (x != 0)
+    {
+        av_sp = av_sp / x;
+        u_rate = u_rate / x;
+    }
+    else
+    {
+        av_sp = 0;
+        u_rate = 0;
+    }
+    string FormatTimeDays(int value)
+    {
+        int day;
+        int hour;
+        int min;
+        day = value / 1440;
+        if (day <= 0)
+        {
+            hour = value / 60;
+        }
+        else
+        {
+            value = (value - (day * 1440));
+            hour = value / 60;
+        }
+
+        if (hour <= 0)
+        {
+            min = value;
+        }
+        else
+        {
+            value = (value - (hour * 60));
+            min = value;
+        }
+        return day + "d " + hour + "h " + min + "m";
+    }
+}
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td>
+                <table style="FONT-SIZE: 12px" border="1" cellpadding="3" cellspacing="0">
+                    <tbody>
+                        <tr align="center">
+                            <td nowrap="" style="FONT-SIZE: 22px"><strong>Utilization Rates</strong></td>
+                            <td width="180" style="FONT-SIZE: 18px; color:red;">@u_rate.ToString("N2") %</td>
+                            <td width="180" nowrap="">
+                                <table style="FONT-SIZE: 16px" border="0" cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                        <tr align="center">
+                                            <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>00:00</strong></td>
+                                            <td>&nbsp;&nbsp;~&nbsp;&nbsp;</td>
+                                            <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>23:59</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td align="right">
+                <table style="FONT-SIZE: 14px" border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td align="right" nowrap="">Export Date : @Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))</td>
+                        </tr>
+                        <tr>
+                            <td align="right" nowrap="">Export Time : @Html.Raw(ViewBag.NowTime.ToString("HH:mm"))</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered">
+    <thead>
+        <tr align="center">
+            <th scope="col">Power On Time</th>
+            <th scope="col">Run Time</th>
+            <th scope="col">Stop Time</th>
+        </tr>
+    </thead>
+    <tbody align="center" style="color:red;">
+        <tr>
+            <td>@FormatTimeDays((int)powerontime.TotalMinutes)</td>
+            <td>@FormatTimeDays((int)runtime.TotalMinutes)</td>
+            <td>@FormatTimeDays((int)stoptime.TotalMinutes)</td>
+        </tr>
+        <tr>
+            <td>@powerontime.TotalMinutes.ToString("N0") min.</td>
+            <td>@runtime.TotalMinutes.ToString("N0") min.</td>
+            <td>@stoptime.TotalMinutes.ToString("N0") min.</td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr style="text-align:center">
+            <th rowspan="2" style="vertical-align : middle;text-align:center;">Total</th>
+            <th>Length(m)</th>
+            <th>Average Speed (Len[m]/min)</th>
+        </tr>
+        <tr align="center" style="color:red;">
+            <th style="font-weight:normal;">@lenght.ToString("N")</th>
+            <th style="font-weight:normal;">@av_sp.ToString("N2")</th>
+        </tr>
+    </thead>
+</table>
+
+
+@{
+    if (x > 0)
+    {
+        <br>
+        <br>
+        <br>
+        <!--Table Report-->
+        <h4>
+            Daily Report (Order list)
+        </h4>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>
+                        <table style="FONT-SIZE: 12px" border="1" cellpadding="3" cellspacing="0">
+                            <tbody>
+                                <tr align="center">
+                                    <td width="140" nowrap="" style="FONT-SIZE: 22px"><strong>Daily Report</strong></td>
+                                    <td width="150" style="FONT-SIZE: 18px"><strong>@ViewBag.Linename</strong></td>
+                                    <td width="180" nowrap="">
+                                        <table style="FONT-SIZE: 16px" border="0" cellpadding="0" cellspacing="0">
+                                            <tbody>
+                                                <tr align="center">
+                                                    <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>00:00</strong></td>
+                                                    <td>&nbsp;&nbsp;~&nbsp;&nbsp;</td>
+                                                    <td><strong>@Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))<br>23:59</strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td align="right">
+                        <table style="FONT-SIZE: 14px" border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td align="right" nowrap="">Export Date : @Html.Raw(ViewBag.NowTime.ToString("dd/MM/yyyy"))</td>
+                                </tr>
+                                <tr>
+                                    <td align="right" nowrap="">Export Time : @Html.Raw(ViewBag.NowTime.ToString("HH:mm"))</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered">
+            <tbody>
+                <tr align="center">
+                    <td style="border-bottom: double 4px #666666"><strong>No.</strong></td>
+                    <td style="border-bottom: double 4px #666666"><strong>Start Time</strong></td>
+                    <td style="border-bottom: double 4px #666666"><strong>End Time</strong></td>
+                    <td style="border-bottom: double 4px #666666"><strong>Thick<br>(m)</strong></td>
+                    <td style="border-bottom: double 4px #666666"><strong>Length<br>(m)</strong></td>
+                    <td style="border-bottom: double 4px #666666"><strong>Power On Time<br>(min)</strong></td>
+                    <td style="border-bottom: double 4px #666666"><strong>Run Time<br>(min)</strong></td>
+                    <td style="border-bottom: double 4px #666666"><strong>Utilization Rates<br>(%)</strong></td>
+                    <td style="border-bottom: double 4px #666666"><strong>Average Speed<br>(Len[m]/min)</strong></td>
+                </tr>
+                @{
+                    for (int i = 0; i < 12; i++)
+                    {
+                        if (i < x)
+                        {
+                            <tr align="center">
+                                <td>@(i + 1)&nbsp;</td>
+                                <td>@Html.Raw(data[i].START_TIME.ToString("dd/MM HH:mm"))</td>
+                                <td>@Html.Raw(data[i].END_TIME.ToString("dd/MM HH:mm"))</td>
+                                <td>@data[i].THICK&nbsp;</td>
+                                <td>@data[i].SIZE&nbsp;</td>
+                                <td>@rate[i].PowerOn.TotalMinutes.ToString("0")&nbsp;</td>
+                                <td>@rate[i].Runtime.TotalMinutes.ToString("0")&nbsp;</td>
+                                <td>@rate[i].U_rate.ToString("N1")&nbsp;</td>
+                                <td>@rate[i].AV_LineSpeed.ToString("N2")&nbsp;</td>
+                            </tr>
+                        }
+
+                    }
+                }
+            </tbody>
+        </table>
+
+        if (x > 12)
+        {
+            <br>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr align="center">
+                        <td style="border-bottom: double 4px #666666"><strong>No.</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Start Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>End Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Thick<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Length<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Power On Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Run Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Utilization Rates<br>(%)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Average Speed<br>(Len[m]/min)</strong></td>
+                    </tr>
+                    @{
+                        for (int i = 12; i < 26; i++)
+                        {
+                            if (i < x)
+                            {
+                                <tr align="center">
+                                    <td>@(i + 1)&nbsp;</td>
+                                    <td>@Html.Raw(data[i].START_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@Html.Raw(data[i].END_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@data[i].THICK&nbsp;</td>
+                                    <td>@data[i].SIZE&nbsp;</td>
+                                    <td>@rate[i].PowerOn.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].Runtime.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].U_rate.ToString("N1")&nbsp;</td>
+                                    <td>@rate[i].AV_LineSpeed.ToString("N2")&nbsp;</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        if (x > 26)
+        {
+            <br>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr align="center">
+                        <td style="border-bottom: double 4px #666666"><strong>No.</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Start Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>End Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Thick<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Length<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Power On Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Run Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Utilization Rates<br>(%)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Average Speed<br>(Len[m]/min)</strong></td>
+                    </tr>
+                    @{
+                        for (int i = 26; i < 40; i++)
+                        {
+                            if (i < x)
+                            {
+                                <tr align="center">
+                                    <td>@(i + 1)&nbsp;</td>
+                                    <td>@Html.Raw(data[i].START_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@Html.Raw(data[i].END_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@data[i].THICK&nbsp;</td>
+                                    <td>@data[i].SIZE&nbsp;</td>
+                                    <td>@rate[i].PowerOn.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].Runtime.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].U_rate.ToString("N1")&nbsp;</td>
+                                    <td>@rate[i].AV_LineSpeed.ToString("N2")&nbsp;</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+
+        if (x > 40)
+        {
+            <br>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr align="center">
+                        <td style="border-bottom: double 4px #666666"><strong>No.</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Start Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>End Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Thick<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Length<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Power On Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Run Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Utilization Rates<br>(%)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Average Speed<br>(Len[m]/min)</strong></td>
+                    </tr>
+                    @{
+                        for (int i = 40; i < 54; i++)
+                        {
+                            if (i < x)
+                            {
+                                <tr align="center">
+                                    <td>@(i + 1)&nbsp;</td>
+                                    <td>@Html.Raw(data[i].START_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@Html.Raw(data[i].END_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@data[i].THICK&nbsp;</td>
+                                    <td>@data[i].SIZE&nbsp;</td>
+                                    <td>@rate[i].PowerOn.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].Runtime.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].U_rate.ToString("N1")&nbsp;</td>
+                                    <td>@rate[i].AV_LineSpeed.ToString("N2")&nbsp;</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+
+        if (x > 54)
+        {
+            <br>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr align="center">
+                        <td style="border-bottom: double 4px #666666"><strong>No.</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Start Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>End Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Thick<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Length<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Power On Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Run Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Utilization Rates<br>(%)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Average Speed<br>(Len[m]/min)</strong></td>
+                    </tr>
+                    @{
+                        for (int i = 54; i < 68; i++)
+                        {
+                            if (i < x)
+                            {
+                                <tr align="center">
+                                    <td>@(i + 1)&nbsp;</td>
+                                    <td>@Html.Raw(data[i].START_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@Html.Raw(data[i].END_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@data[i].THICK&nbsp;</td>
+                                    <td>@data[i].SIZE&nbsp;</td>
+                                    <td>@rate[i].PowerOn.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].Runtime.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].U_rate.ToString("N1")&nbsp;</td>
+                                    <td>@rate[i].AV_LineSpeed.ToString("N2")&nbsp;</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+
+        if (x > 68)
+        {
+            <br>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr align="center">
+                        <td style="border-bottom: double 4px #666666"><strong>No.</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Start Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>End Time</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Thick<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Length<br>(m)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Power On Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Run Time<br>(min)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Utilization Rates<br>(%)</strong></td>
+                        <td style="border-bottom: double 4px #666666"><strong>Average Speed<br>(Len[m]/min)</strong></td>
+                    </tr>
+                    @{
+                        for (int i = 68; i < 80; i++)
+                        {
+                            if (i < x)
+                            {
+                                <tr align="center">
+                                    <td>@(i + 1)&nbsp;</td>
+                                    <td>@Html.Raw(data[i].START_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@Html.Raw(data[i].END_TIME.ToString("dd/MM HH:mm"))</td>
+                                    <td>@data[i].THICK&nbsp;</td>
+                                    <td>@data[i].SIZE&nbsp;</td>
+                                    <td>@rate[i].PowerOn.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].Runtime.TotalMinutes.ToString("0")&nbsp;</td>
+                                    <td>@rate[i].U_rate.ToString("N1")&nbsp;</td>
+                                    <td>@rate[i].AV_LineSpeed.ToString("N2")&nbsp;</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    }
+}

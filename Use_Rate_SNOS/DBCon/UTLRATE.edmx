@@ -1,0 +1,722 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="UTLRATE_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DCONF">
+          <Key>
+            <PropertyRef Name="FUNCNO" />
+            <PropertyRef Name="FUNCSUBNO" />
+          </Key>
+          <Property Name="FUNCNO" Type="smallint" Nullable="false" />
+          <Property Name="FUNCSUBNO" Type="smallint" Nullable="false" />
+          <Property Name="INT_VAL" Type="int" />
+          <Property Name="DEC_VAL" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="VCHAR_VAL" Type="varchar" MaxLength="50" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DDRIVE">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="EVENT_TIME" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="EVENT_TIME" Type="datetime" Nullable="false" />
+          <Property Name="EVENT" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DPROC">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="START_TIME" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="SIZE" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="THICK" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="smallint" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="smallint" Nullable="false" />
+          <Property Name="START_TIME" Type="datetime" Nullable="false" />
+          <Property Name="END_TIME" Type="datetime" />
+          <Property Name="SPEED" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DPROCING">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="GET_TIME" Type="datetime" Nullable="false" />
+          <Property Name="LINE_STATUS" Type="smallint" Nullable="false" />
+          <Property Name="SPEED" Type="smallint" Nullable="false" />
+          <Property Name="SIZE" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="THICK" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="smallint" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="smallint" Nullable="false" />
+          <Property Name="START_TIME" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DTROUBLELOG">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="EVENT_TIME" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="EVENT_TIME" Type="datetime" Nullable="false" />
+          <Property Name="ERRNO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MBOARD_INFO">
+          <Key>
+            <PropertyRef Name="BOARD" />
+          </Key>
+          <Property Name="BOARD" Type="int" Nullable="false" />
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="IP" Type="varchar" MaxLength="15" />
+          <Property Name="ENABLE" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEVENT">
+          <Key>
+            <PropertyRef Name="EVENT" />
+          </Key>
+          <Property Name="EVENT" Type="smallint" Nullable="false" />
+          <Property Name="ENNAME" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="JPNAME" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MLINE_INFO">
+          <Key>
+            <PropertyRef Name="LINE" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="LINE_NAME" Type="nvarchar" MaxLength="20" />
+          <Property Name="LINE_TYPE" Type="smallint" Nullable="false" />
+          <Property Name="IP" Type="varchar" MaxLength="15" />
+          <Property Name="PORT_TCP" Type="int" />
+          <Property Name="PORT_UDP" Type="int" />
+          <Property Name="ENABLE" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MLINE_TYPE">
+          <Key>
+            <PropertyRef Name="LINE_TYPE" />
+          </Key>
+          <Property Name="LINE_TYPE" Type="smallint" Nullable="false" />
+          <Property Name="ENNAME" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="JPNAME" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SHEET_COUNT" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MSEQERRCD">
+          <Key>
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="ERRNO" />
+            <PropertyRef Name="LANG" />
+          </Key>
+          <Property Name="LINE_TYPE" Type="smallint" Nullable="false" />
+          <Property Name="ERRNO" Type="int" Nullable="false" />
+          <Property Name="LANG" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'UTLRATE.dbo.V_Top_Now_DPROC' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_Top_Now_DPROC">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="SIZE" />
+            <PropertyRef Name="THICK" />
+            <PropertyRef Name="SHEET_SCHED" />
+            <PropertyRef Name="SHEET_RESULT" />
+            <PropertyRef Name="START_TIME" />
+            <PropertyRef Name="SPEED" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="SIZE" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="THICK" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="smallint" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="smallint" Nullable="false" />
+          <Property Name="START_TIME" Type="datetime" Nullable="false" />
+          <Property Name="END_TIME" Type="datetime" />
+          <Property Name="SPEED" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'UTLRATE.dbo.VDRIVE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VDRIVE">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="EVENT_TIME" />
+            <PropertyRef Name="EVENT_NAME" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="LINE_NAME" Type="nvarchar" MaxLength="20" />
+          <Property Name="LINE_TYPE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="EVENT_TIME" Type="datetime" Nullable="false" />
+          <Property Name="EVENT_NAME" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'UTLRATE.dbo.VLINE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VLINE">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="ENABLE" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="LINE_NAME" Type="nvarchar" MaxLength="20" />
+          <Property Name="LINE_TYPE" Type="varchar" MaxLength="20" />
+          <Property Name="PORT_TCP" Type="int" />
+          <Property Name="PORT_UDP" Type="int" />
+          <Property Name="ENABLE" Type="smallint" Nullable="false" />
+          <Property Name="IP" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'UTLRATE.dbo.VPROC' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VPROC">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="THICK" />
+            <PropertyRef Name="SHEET_SCHED" />
+            <PropertyRef Name="SHEET_RESULT" />
+            <PropertyRef Name="START_TIME" />
+            <PropertyRef Name="SPEED" />
+            <PropertyRef Name="SIZE" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="LINE_NAME" Type="nvarchar" MaxLength="20" />
+          <Property Name="LINE_TYPE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="THICK" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="smallint" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="smallint" Nullable="false" />
+          <Property Name="START_TIME" Type="datetime" Nullable="false" />
+          <Property Name="END_TIME" Type="datetime" />
+          <Property Name="SPEED" Type="smallint" Nullable="false" />
+          <Property Name="SIZE" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'UTLRATE.dbo.VPROCING' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VPROCING">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="EVENT_NAME" />
+            <PropertyRef Name="SIZE" />
+            <PropertyRef Name="THICK" />
+            <PropertyRef Name="SHEET_SCHED" />
+            <PropertyRef Name="SHEET_RESULT" />
+            <PropertyRef Name="SPEED" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="LINE_NAME" Type="nvarchar" MaxLength="20" />
+          <Property Name="LINE_TYPE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="GET_TIME" Type="datetime" Nullable="false" />
+          <Property Name="EVENT_NAME" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SIZE" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="THICK" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="smallint" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="smallint" Nullable="false" />
+          <Property Name="START_TIME" Type="datetime" />
+          <Property Name="SPEED" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="UTLRATE_ModelStoreContainer">
+          <EntitySet Name="DCONF" EntityType="Self.DCONF" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DDRIVE" EntityType="Self.DDRIVE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DPROC" EntityType="Self.DPROC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DPROCING" EntityType="Self.DPROCING" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DTROUBLELOG" EntityType="Self.DTROUBLELOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MBOARD_INFO" EntityType="Self.MBOARD_INFO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEVENT" EntityType="Self.MEVENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MLINE_INFO" EntityType="Self.MLINE_INFO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MLINE_TYPE" EntityType="Self.MLINE_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MSEQERRCD" EntityType="Self.MSEQERRCD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_Top_Now_DPROC" EntityType="Self.V_Top_Now_DPROC" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Top_Now_DPROC].[LINE] AS [LINE], 
+    [V_Top_Now_DPROC].[SIZE] AS [SIZE], 
+    [V_Top_Now_DPROC].[THICK] AS [THICK], 
+    [V_Top_Now_DPROC].[SHEET_SCHED] AS [SHEET_SCHED], 
+    [V_Top_Now_DPROC].[SHEET_RESULT] AS [SHEET_RESULT], 
+    [V_Top_Now_DPROC].[START_TIME] AS [START_TIME], 
+    [V_Top_Now_DPROC].[END_TIME] AS [END_TIME], 
+    [V_Top_Now_DPROC].[SPEED] AS [SPEED]
+    FROM [dbo].[V_Top_Now_DPROC] AS [V_Top_Now_DPROC]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VDRIVE" EntityType="Self.VDRIVE" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VDRIVE].[LINE] AS [LINE], 
+    [VDRIVE].[LINE_NAME] AS [LINE_NAME], 
+    [VDRIVE].[LINE_TYPE] AS [LINE_TYPE], 
+    [VDRIVE].[EVENT_TIME] AS [EVENT_TIME], 
+    [VDRIVE].[EVENT_NAME] AS [EVENT_NAME]
+    FROM [dbo].[VDRIVE] AS [VDRIVE]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VLINE" EntityType="Self.VLINE" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VLINE].[LINE] AS [LINE], 
+    [VLINE].[LINE_NAME] AS [LINE_NAME], 
+    [VLINE].[LINE_TYPE] AS [LINE_TYPE], 
+    [VLINE].[PORT_TCP] AS [PORT_TCP], 
+    [VLINE].[PORT_UDP] AS [PORT_UDP], 
+    [VLINE].[ENABLE] AS [ENABLE], 
+    [VLINE].[IP] AS [IP]
+    FROM [dbo].[VLINE] AS [VLINE]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VPROC" EntityType="Self.VPROC" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VPROC].[LINE] AS [LINE], 
+    [VPROC].[LINE_NAME] AS [LINE_NAME], 
+    [VPROC].[LINE_TYPE] AS [LINE_TYPE], 
+    [VPROC].[THICK] AS [THICK], 
+    [VPROC].[SHEET_SCHED] AS [SHEET_SCHED], 
+    [VPROC].[SHEET_RESULT] AS [SHEET_RESULT], 
+    [VPROC].[START_TIME] AS [START_TIME], 
+    [VPROC].[END_TIME] AS [END_TIME], 
+    [VPROC].[SPEED] AS [SPEED], 
+    [VPROC].[SIZE] AS [SIZE]
+    FROM [dbo].[VPROC] AS [VPROC]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VPROCING" EntityType="Self.VPROCING" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VPROCING].[LINE] AS [LINE], 
+    [VPROCING].[LINE_NAME] AS [LINE_NAME], 
+    [VPROCING].[LINE_TYPE] AS [LINE_TYPE], 
+    [VPROCING].[GET_TIME] AS [GET_TIME], 
+    [VPROCING].[EVENT_NAME] AS [EVENT_NAME], 
+    [VPROCING].[SIZE] AS [SIZE], 
+    [VPROCING].[THICK] AS [THICK], 
+    [VPROCING].[SHEET_SCHED] AS [SHEET_SCHED], 
+    [VPROCING].[SHEET_RESULT] AS [SHEET_RESULT], 
+    [VPROCING].[START_TIME] AS [START_TIME], 
+    [VPROCING].[SPEED] AS [SPEED]
+    FROM [dbo].[VPROCING] AS [VPROCING]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UTLRATE_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DCONF">
+          <Key>
+            <PropertyRef Name="FUNCNO" />
+            <PropertyRef Name="FUNCSUBNO" />
+          </Key>
+          <Property Name="FUNCNO" Type="Int16" Nullable="false" />
+          <Property Name="FUNCSUBNO" Type="Int16" Nullable="false" />
+          <Property Name="INT_VAL" Type="Int32" />
+          <Property Name="DEC_VAL" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="VCHAR_VAL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DDRIVE">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="EVENT_TIME" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="EVENT_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EVENT" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DPROC">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="START_TIME" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="SIZE" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="THICK" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="Int16" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="Int16" Nullable="false" />
+          <Property Name="START_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="END_TIME" Type="DateTime" Precision="3" />
+          <Property Name="SPEED" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DPROCING">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="GET_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LINE_STATUS" Type="Int16" Nullable="false" />
+          <Property Name="SPEED" Type="Int16" Nullable="false" />
+          <Property Name="SIZE" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="THICK" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="Int16" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="Int16" Nullable="false" />
+          <Property Name="START_TIME" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DTROUBLELOG">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="EVENT_TIME" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="EVENT_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ERRNO" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MBOARD_INFO">
+          <Key>
+            <PropertyRef Name="BOARD" />
+          </Key>
+          <Property Name="BOARD" Type="Int32" Nullable="false" />
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="IP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ENABLE" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEVENT">
+          <Key>
+            <PropertyRef Name="EVENT" />
+          </Key>
+          <Property Name="EVENT" Type="Int16" Nullable="false" />
+          <Property Name="ENNAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JPNAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MLINE_INFO">
+          <Key>
+            <PropertyRef Name="LINE" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="LINE_NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LINE_TYPE" Type="Int16" Nullable="false" />
+          <Property Name="IP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="PORT_TCP" Type="Int32" />
+          <Property Name="PORT_UDP" Type="Int32" />
+          <Property Name="ENABLE" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MLINE_TYPE">
+          <Key>
+            <PropertyRef Name="LINE_TYPE" />
+          </Key>
+          <Property Name="LINE_TYPE" Type="Int16" Nullable="false" />
+          <Property Name="ENNAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JPNAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SHEET_COUNT" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MSEQERRCD">
+          <Key>
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="ERRNO" />
+            <PropertyRef Name="LANG" />
+          </Key>
+          <Property Name="LINE_TYPE" Type="Int16" Nullable="false" />
+          <Property Name="ERRNO" Type="Int32" Nullable="false" />
+          <Property Name="LANG" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_Top_Now_DPROC">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="SIZE" />
+            <PropertyRef Name="THICK" />
+            <PropertyRef Name="SHEET_SCHED" />
+            <PropertyRef Name="SHEET_RESULT" />
+            <PropertyRef Name="START_TIME" />
+            <PropertyRef Name="SPEED" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="SIZE" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="THICK" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="Int16" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="Int16" Nullable="false" />
+          <Property Name="START_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="END_TIME" Type="DateTime" Precision="3" />
+          <Property Name="SPEED" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VDRIVE">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="EVENT_TIME" />
+            <PropertyRef Name="EVENT_NAME" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="LINE_NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LINE_TYPE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EVENT_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EVENT_NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VLINE">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="ENABLE" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="LINE_NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LINE_TYPE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PORT_TCP" Type="Int32" />
+          <Property Name="PORT_UDP" Type="Int32" />
+          <Property Name="ENABLE" Type="Int16" Nullable="false" />
+          <Property Name="IP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VPROC">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="THICK" />
+            <PropertyRef Name="SHEET_SCHED" />
+            <PropertyRef Name="SHEET_RESULT" />
+            <PropertyRef Name="START_TIME" />
+            <PropertyRef Name="SPEED" />
+            <PropertyRef Name="SIZE" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="LINE_NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LINE_TYPE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="THICK" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="Int16" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="Int16" Nullable="false" />
+          <Property Name="START_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="END_TIME" Type="DateTime" Precision="3" />
+          <Property Name="SPEED" Type="Int16" Nullable="false" />
+          <Property Name="SIZE" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VPROCING">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="EVENT_NAME" />
+            <PropertyRef Name="SIZE" />
+            <PropertyRef Name="THICK" />
+            <PropertyRef Name="SHEET_SCHED" />
+            <PropertyRef Name="SHEET_RESULT" />
+            <PropertyRef Name="SPEED" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="LINE_NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LINE_TYPE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GET_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EVENT_NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SIZE" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="THICK" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="SHEET_SCHED" Type="Int16" Nullable="false" />
+          <Property Name="SHEET_RESULT" Type="Int16" Nullable="false" />
+          <Property Name="START_TIME" Type="DateTime" Precision="3" />
+          <Property Name="SPEED" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="UTLRATE_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DCONFs" EntityType="Self.DCONF" />
+          <EntitySet Name="DDRIVEs" EntityType="Self.DDRIVE" />
+          <EntitySet Name="DPROCs" EntityType="Self.DPROC" />
+          <EntitySet Name="DPROCINGs" EntityType="Self.DPROCING" />
+          <EntitySet Name="DTROUBLELOGs" EntityType="Self.DTROUBLELOG" />
+          <EntitySet Name="MBOARD_INFO" EntityType="Self.MBOARD_INFO" />
+          <EntitySet Name="MEVENTs" EntityType="Self.MEVENT" />
+          <EntitySet Name="MLINE_INFO" EntityType="Self.MLINE_INFO" />
+          <EntitySet Name="MLINE_TYPE" EntityType="Self.MLINE_TYPE" />
+          <EntitySet Name="MSEQERRCDs" EntityType="Self.MSEQERRCD" />
+          <EntitySet Name="V_Top_Now_DPROC" EntityType="Self.V_Top_Now_DPROC" />
+          <EntitySet Name="VDRIVEs" EntityType="Self.VDRIVE" />
+          <EntitySet Name="VLINEs" EntityType="Self.VLINE" />
+          <EntitySet Name="VPROCs" EntityType="Self.VPROC" />
+          <EntitySet Name="VPROCINGs" EntityType="Self.VPROCING" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UTLRATE_ModelStoreContainer" CdmEntityContainer="UTLRATE_Entities">
+          <EntitySetMapping Name="DCONFs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.DCONF">
+              <MappingFragment StoreEntitySet="DCONF">
+                <ScalarProperty Name="FUNCNO" ColumnName="FUNCNO" />
+                <ScalarProperty Name="FUNCSUBNO" ColumnName="FUNCSUBNO" />
+                <ScalarProperty Name="INT_VAL" ColumnName="INT_VAL" />
+                <ScalarProperty Name="DEC_VAL" ColumnName="DEC_VAL" />
+                <ScalarProperty Name="VCHAR_VAL" ColumnName="VCHAR_VAL" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DDRIVEs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.DDRIVE">
+              <MappingFragment StoreEntitySet="DDRIVE">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="EVENT_TIME" ColumnName="EVENT_TIME" />
+                <ScalarProperty Name="EVENT" ColumnName="EVENT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DPROCs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.DPROC">
+              <MappingFragment StoreEntitySet="DPROC">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="SIZE" ColumnName="SIZE" />
+                <ScalarProperty Name="THICK" ColumnName="THICK" />
+                <ScalarProperty Name="SHEET_SCHED" ColumnName="SHEET_SCHED" />
+                <ScalarProperty Name="SHEET_RESULT" ColumnName="SHEET_RESULT" />
+                <ScalarProperty Name="START_TIME" ColumnName="START_TIME" />
+                <ScalarProperty Name="END_TIME" ColumnName="END_TIME" />
+                <ScalarProperty Name="SPEED" ColumnName="SPEED" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DPROCINGs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.DPROCING">
+              <MappingFragment StoreEntitySet="DPROCING">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="GET_TIME" ColumnName="GET_TIME" />
+                <ScalarProperty Name="LINE_STATUS" ColumnName="LINE_STATUS" />
+                <ScalarProperty Name="SPEED" ColumnName="SPEED" />
+                <ScalarProperty Name="SIZE" ColumnName="SIZE" />
+                <ScalarProperty Name="THICK" ColumnName="THICK" />
+                <ScalarProperty Name="SHEET_SCHED" ColumnName="SHEET_SCHED" />
+                <ScalarProperty Name="SHEET_RESULT" ColumnName="SHEET_RESULT" />
+                <ScalarProperty Name="START_TIME" ColumnName="START_TIME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DTROUBLELOGs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.DTROUBLELOG">
+              <MappingFragment StoreEntitySet="DTROUBLELOG">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="EVENT_TIME" ColumnName="EVENT_TIME" />
+                <ScalarProperty Name="ERRNO" ColumnName="ERRNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MBOARD_INFO">
+            <EntityTypeMapping TypeName="UTLRATE_Model.MBOARD_INFO">
+              <MappingFragment StoreEntitySet="MBOARD_INFO">
+                <ScalarProperty Name="BOARD" ColumnName="BOARD" />
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="ENABLE" ColumnName="ENABLE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEVENTs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.MEVENT">
+              <MappingFragment StoreEntitySet="MEVENT">
+                <ScalarProperty Name="EVENT" ColumnName="EVENT" />
+                <ScalarProperty Name="ENNAME" ColumnName="ENNAME" />
+                <ScalarProperty Name="JPNAME" ColumnName="JPNAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MLINE_INFO">
+            <EntityTypeMapping TypeName="UTLRATE_Model.MLINE_INFO">
+              <MappingFragment StoreEntitySet="MLINE_INFO">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="LINE_NAME" ColumnName="LINE_NAME" />
+                <ScalarProperty Name="LINE_TYPE" ColumnName="LINE_TYPE" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="PORT_TCP" ColumnName="PORT_TCP" />
+                <ScalarProperty Name="PORT_UDP" ColumnName="PORT_UDP" />
+                <ScalarProperty Name="ENABLE" ColumnName="ENABLE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MLINE_TYPE">
+            <EntityTypeMapping TypeName="UTLRATE_Model.MLINE_TYPE">
+              <MappingFragment StoreEntitySet="MLINE_TYPE">
+                <ScalarProperty Name="LINE_TYPE" ColumnName="LINE_TYPE" />
+                <ScalarProperty Name="ENNAME" ColumnName="ENNAME" />
+                <ScalarProperty Name="JPNAME" ColumnName="JPNAME" />
+                <ScalarProperty Name="SHEET_COUNT" ColumnName="SHEET_COUNT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MSEQERRCDs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.MSEQERRCD">
+              <MappingFragment StoreEntitySet="MSEQERRCD">
+                <ScalarProperty Name="LINE_TYPE" ColumnName="LINE_TYPE" />
+                <ScalarProperty Name="ERRNO" ColumnName="ERRNO" />
+                <ScalarProperty Name="LANG" ColumnName="LANG" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Top_Now_DPROC">
+            <EntityTypeMapping TypeName="UTLRATE_Model.V_Top_Now_DPROC">
+              <MappingFragment StoreEntitySet="V_Top_Now_DPROC">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="SIZE" ColumnName="SIZE" />
+                <ScalarProperty Name="THICK" ColumnName="THICK" />
+                <ScalarProperty Name="SHEET_SCHED" ColumnName="SHEET_SCHED" />
+                <ScalarProperty Name="SHEET_RESULT" ColumnName="SHEET_RESULT" />
+                <ScalarProperty Name="START_TIME" ColumnName="START_TIME" />
+                <ScalarProperty Name="END_TIME" ColumnName="END_TIME" />
+                <ScalarProperty Name="SPEED" ColumnName="SPEED" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VDRIVEs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.VDRIVE">
+              <MappingFragment StoreEntitySet="VDRIVE">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="LINE_NAME" ColumnName="LINE_NAME" />
+                <ScalarProperty Name="LINE_TYPE" ColumnName="LINE_TYPE" />
+                <ScalarProperty Name="EVENT_TIME" ColumnName="EVENT_TIME" />
+                <ScalarProperty Name="EVENT_NAME" ColumnName="EVENT_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VLINEs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.VLINE">
+              <MappingFragment StoreEntitySet="VLINE">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="LINE_NAME" ColumnName="LINE_NAME" />
+                <ScalarProperty Name="LINE_TYPE" ColumnName="LINE_TYPE" />
+                <ScalarProperty Name="PORT_TCP" ColumnName="PORT_TCP" />
+                <ScalarProperty Name="PORT_UDP" ColumnName="PORT_UDP" />
+                <ScalarProperty Name="ENABLE" ColumnName="ENABLE" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VPROCs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.VPROC">
+              <MappingFragment StoreEntitySet="VPROC">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="LINE_NAME" ColumnName="LINE_NAME" />
+                <ScalarProperty Name="LINE_TYPE" ColumnName="LINE_TYPE" />
+                <ScalarProperty Name="THICK" ColumnName="THICK" />
+                <ScalarProperty Name="SHEET_SCHED" ColumnName="SHEET_SCHED" />
+                <ScalarProperty Name="SHEET_RESULT" ColumnName="SHEET_RESULT" />
+                <ScalarProperty Name="START_TIME" ColumnName="START_TIME" />
+                <ScalarProperty Name="END_TIME" ColumnName="END_TIME" />
+                <ScalarProperty Name="SPEED" ColumnName="SPEED" />
+                <ScalarProperty Name="SIZE" ColumnName="SIZE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VPROCINGs">
+            <EntityTypeMapping TypeName="UTLRATE_Model.VPROCING">
+              <MappingFragment StoreEntitySet="VPROCING">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="LINE_NAME" ColumnName="LINE_NAME" />
+                <ScalarProperty Name="LINE_TYPE" ColumnName="LINE_TYPE" />
+                <ScalarProperty Name="GET_TIME" ColumnName="GET_TIME" />
+                <ScalarProperty Name="EVENT_NAME" ColumnName="EVENT_NAME" />
+                <ScalarProperty Name="SIZE" ColumnName="SIZE" />
+                <ScalarProperty Name="THICK" ColumnName="THICK" />
+                <ScalarProperty Name="SHEET_SCHED" ColumnName="SHEET_SCHED" />
+                <ScalarProperty Name="SHEET_RESULT" ColumnName="SHEET_RESULT" />
+                <ScalarProperty Name="START_TIME" ColumnName="START_TIME" />
+                <ScalarProperty Name="SPEED" ColumnName="SPEED" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

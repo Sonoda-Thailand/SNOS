@@ -1,0 +1,10 @@
+﻿.time-chart {
+    font-size: 12px;
+    border-color: #383838;
+}
+    .time-chart td {
+        margin: 0px;
+        padding: 0px;
+        height: 25px;
+        width: 25px;
+    }

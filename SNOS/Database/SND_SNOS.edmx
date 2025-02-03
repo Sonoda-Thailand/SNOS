@@ -1,0 +1,1840 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SND_SNOSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SND_SNOS.dbo.Error_Mapping' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Error_Mapping">
+          <Key>
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="Error_No" />
+            <PropertyRef Name="Language" />
+            <PropertyRef Name="Title" />
+          </Key>
+          <Property Name="LINE_TYPE" Type="int" Nullable="false" />
+          <Property Name="Error_No" Type="int" Nullable="false" />
+          <Property Name="Language" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Detail" Type="nvarchar" MaxLength="2500" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SND_SNOS.dbo.Log_A' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Log_A">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="Motor_Uncoiler" />
+            <PropertyRef Name="Motor_Tree_Roll" />
+            <PropertyRef Name="Motor_Slitter" />
+            <PropertyRef Name="Motor_Roll_Tension" />
+            <PropertyRef Name="Motor_Recoiler" />
+            <PropertyRef Name="GearBox_Uncoiler" />
+            <PropertyRef Name="GearBox_Tree_Roll" />
+            <PropertyRef Name="GearBox_Slitter" />
+            <PropertyRef Name="GearBox_Roll_Tension" />
+            <PropertyRef Name="GearBox_Recoiler" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="GET_TIME" Type="datetime" Nullable="false" />
+          <Property Name="Motor_Uncoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Tree_Roll" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Slitter" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Roll_Tension" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Recoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Uncoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Tree_Roll" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Slitter" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Roll_Tension" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Recoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log_Error">
+          <Key>
+            <PropertyRef Name="Error_Time" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="Error_Time" Type="datetime" Nullable="false" />
+          <Property Name="Error_Number" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SND_SNOS.dbo.Log_security_Sensor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Log_security_Sensor">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="Laser_Scanner_1" />
+            <PropertyRef Name="Laser_Scanner_2" />
+            <PropertyRef Name="Laser_Scanner_3" />
+            <PropertyRef Name="Laser_Scanner_4" />
+            <PropertyRef Name="Laser_Scanner_5" />
+            <PropertyRef Name="Laser_Scanner_6" />
+            <PropertyRef Name="Laser_Scanner_7" />
+            <PropertyRef Name="Laser_Scanner_8" />
+            <PropertyRef Name="Laser_Scanner_9" />
+            <PropertyRef Name="Laser_Scanner_10" />
+            <PropertyRef Name="Laser_Scanner_11" />
+            <PropertyRef Name="Laser_Scanner_12" />
+            <PropertyRef Name="Laser_Scanner_13" />
+            <PropertyRef Name="Laser_Scanner_14" />
+            <PropertyRef Name="Laser_Scanner_15" />
+            <PropertyRef Name="Laser_Scanner_16" />
+            <PropertyRef Name="Laser_Scanner_17" />
+            <PropertyRef Name="Laser_Scanner_18" />
+            <PropertyRef Name="Laser_Scanner_19" />
+            <PropertyRef Name="Laser_Scanner_20" />
+            <PropertyRef Name="Door_Sensor_1" />
+            <PropertyRef Name="Door_Sensor_2" />
+            <PropertyRef Name="Door_Sensor_3" />
+            <PropertyRef Name="Door_Sensor_4" />
+            <PropertyRef Name="Door_Sensor_5" />
+            <PropertyRef Name="Gate_1" />
+            <PropertyRef Name="Gate_2" />
+            <PropertyRef Name="Gate_3" />
+            <PropertyRef Name="Signal_Tower_1" />
+            <PropertyRef Name="Signal_Tower_2" />
+            <PropertyRef Name="Signal_Tower_3" />
+            <PropertyRef Name="Signal_Tower_4" />
+            <PropertyRef Name="Signal_Tower_5" />
+            <PropertyRef Name="Signal_Tower_6" />
+            <PropertyRef Name="Safety_pin_1" />
+            <PropertyRef Name="Safety_pin_2" />
+            <PropertyRef Name="Safety_pin_3" />
+            <PropertyRef Name="Safety_pin_4" />
+            <PropertyRef Name="Safety_pin_5" />
+            <PropertyRef Name="Safety_pin_6" />
+            <PropertyRef Name="Safety_pin_7" />
+            <PropertyRef Name="Safety_pin_8" />
+            <PropertyRef Name="Safety_pin_9" />
+            <PropertyRef Name="Safety_pin_10" />
+            <PropertyRef Name="Safety_pin_11" />
+            <PropertyRef Name="Safety_pin_12" />
+            <PropertyRef Name="Safety_pin_13" />
+            <PropertyRef Name="Safety_pin_14" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="GET_TIME" Type="datetime" Nullable="false" />
+          <Property Name="Laser_Scanner_1" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_2" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_3" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_4" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_5" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_6" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_7" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_8" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_9" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_10" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_11" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_12" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_13" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_14" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_15" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_16" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_17" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_18" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_19" Type="bit" Nullable="false" />
+          <Property Name="Laser_Scanner_20" Type="bit" Nullable="false" />
+          <Property Name="Door_Sensor_1" Type="bit" Nullable="false" />
+          <Property Name="Door_Sensor_2" Type="bit" Nullable="false" />
+          <Property Name="Door_Sensor_3" Type="bit" Nullable="false" />
+          <Property Name="Door_Sensor_4" Type="bit" Nullable="false" />
+          <Property Name="Door_Sensor_5" Type="bit" Nullable="false" />
+          <Property Name="Gate_1" Type="bit" Nullable="false" />
+          <Property Name="Gate_2" Type="bit" Nullable="false" />
+          <Property Name="Gate_3" Type="bit" Nullable="false" />
+          <Property Name="Signal_Tower_1" Type="bit" Nullable="false" />
+          <Property Name="Signal_Tower_2" Type="bit" Nullable="false" />
+          <Property Name="Signal_Tower_3" Type="bit" Nullable="false" />
+          <Property Name="Signal_Tower_4" Type="bit" Nullable="false" />
+          <Property Name="Signal_Tower_5" Type="bit" Nullable="false" />
+          <Property Name="Signal_Tower_6" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_1" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_2" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_3" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_4" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_5" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_6" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_7" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_8" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_9" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_10" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_11" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_12" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_13" Type="bit" Nullable="false" />
+          <Property Name="Safety_pin_14" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log_Temp">
+          <Key>
+            <PropertyRef Name="GET_TIME" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="GET_TIME" Type="datetime" Nullable="false" />
+          <Property Name="Motor_Uncoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Tree_Roll" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Slitter" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Roll_Tension" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Recoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Uncoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Tree_Roll" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Slitter" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Roll_Tension" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Recoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SND_SNOS.dbo.Log_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Log_V">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="Motor_Uncoiler" />
+            <PropertyRef Name="Motor_Tree_Roll" />
+            <PropertyRef Name="Motor_Slitter" />
+            <PropertyRef Name="Motor_Roll_Tension" />
+            <PropertyRef Name="Motor_Recoiler" />
+            <PropertyRef Name="GearBox_Uncoiler" />
+            <PropertyRef Name="GearBox_Tree_Roll" />
+            <PropertyRef Name="GearBox_Slitter" />
+            <PropertyRef Name="GearBox_Roll_Tension" />
+            <PropertyRef Name="GearBox_Recoiler" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="GET_TIME" Type="datetime" Nullable="false" />
+          <Property Name="Motor_Uncoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Tree_Roll" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Slitter" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Roll_Tension" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Recoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Uncoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Tree_Roll" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Slitter" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Roll_Tension" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Recoiler" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log_Work">
+          <Key>
+            <PropertyRef Name="GET_TIME" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="GET_TIME" Type="datetime" Nullable="false" />
+          <Property Name="LINE_STATUS" Type="int" Nullable="false" />
+          <Property Name="SPEED" Type="int" Nullable="false" />
+          <Property Name="SIZE" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="THICK" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="PLAN" Type="int" Nullable="false" />
+          <Property Name="RESULT" Type="int" Nullable="false" />
+          <Property Name="UNCOIL_expand" Type="bit" Nullable="false" />
+          <Property Name="UNCOIL_Speed" Type="int" Nullable="false" />
+          <Property Name="RECOIL_expand" Type="bit" Nullable="false" />
+          <Property Name="RECOIL_Speed" Type="int" Nullable="false" />
+          <Property Name="SCRAP_WINDER_L_expand" Type="bit" Nullable="false" />
+          <Property Name="SCRAP_WINDER_L_Speed" Type="int" Nullable="false" />
+          <Property Name="SCRAP_WINDER_R_expand" Type="bit" Nullable="false" />
+          <Property Name="SCRAP_WINDER_R_Speed" Type="int" Nullable="false" />
+          <Property Name="Outside_Diameter_UC" Type="int" Nullable="false" />
+          <Property Name="Outside_Diameter_RC" Type="int" Nullable="false" />
+          <Property Name="Inside_Diameter_UC" Type="int" Nullable="false" />
+          <Property Name="Inside_Diameter_RC" Type="int" Nullable="false" />
+          <Property Name="Cutting_Mode" Type="int" Nullable="false" />
+          <Property Name="Preparetion" Type="bit" Nullable="false" />
+          <Property Name="COIL_DIVIDE_SET" Type="int" Nullable="false" />
+          <Property Name="Weight" Type="int" Nullable="false" />
+          <Property Name="Side_Guid_Status" Type="bit" Nullable="false" />
+          <Property Name="Slitter_Status" Type="bit" Nullable="false" />
+          <Property Name="PILER_NO1" Type="bit" />
+          <Property Name="PILER_NO2" Type="bit" />
+        </EntityType>
+        <EntityType Name="Mac_Spec">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Think_W" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Think_A" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Think_M" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Order_Size_W" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Order_Size_A" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Order_Size_M" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Uncoil_W" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Uncoil_A" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Uncoil_M" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Recoil_W" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Recoil_A" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Recoil_M" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Speed_W" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Speed_A" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Speed_M" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Work_rate_W" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Work_rate_A" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Work_rate_M" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Create_Date" Type="datetime" Nullable="false" />
+          <Property Name="Modifly_Date" Type="datetime" Nullable="false" />
+          <Property Name="Line_No" Type="int" Nullable="false" />
+          <Property Name="LINE_TYPE" Type="int" Nullable="false" />
+          <Property Name="Line_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Versioncheck">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+          <Property Name="SNTM_Key" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Customer_Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SND_SNOS.dbo.All_DataView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="All_DataView">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="LINE_STATUS" />
+            <PropertyRef Name="SPEED" />
+            <PropertyRef Name="SIZE" />
+            <PropertyRef Name="THICK" />
+            <PropertyRef Name="PLAN" />
+            <PropertyRef Name="RESULT" />
+            <PropertyRef Name="UNCOIL_expand" />
+            <PropertyRef Name="UNCOIL_Speed" />
+            <PropertyRef Name="RECOIL_expand" />
+            <PropertyRef Name="RECOIL_Speed" />
+            <PropertyRef Name="SCRAP_WINDER_L_expand" />
+            <PropertyRef Name="SCRAP_WINDER_L_Speed" />
+            <PropertyRef Name="SCRAP_WINDER_R_Speed" />
+            <PropertyRef Name="SCRAP_WINDER_R_expand" />
+            <PropertyRef Name="Outside_Diameter_UC" />
+            <PropertyRef Name="Outside_Diameter_RC" />
+            <PropertyRef Name="Inside_Diameter_UC" />
+            <PropertyRef Name="Inside_Diameter_RC" />
+            <PropertyRef Name="Cutting_Mode" />
+            <PropertyRef Name="Preparetion" />
+            <PropertyRef Name="COIL_DIVIDE_SET" />
+            <PropertyRef Name="Weight" />
+            <PropertyRef Name="Side_Guid_Status" />
+            <PropertyRef Name="Slitter_Status" />
+          </Key>
+          <Property Name="LINE" Type="int" Nullable="false" />
+          <Property Name="GET_TIME" Type="datetime" Nullable="false" />
+          <Property Name="LINE_STATUS" Type="int" Nullable="false" />
+          <Property Name="SPEED" Type="int" Nullable="false" />
+          <Property Name="SIZE" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="THICK" Type="decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="PLAN" Type="int" Nullable="false" />
+          <Property Name="RESULT" Type="int" Nullable="false" />
+          <Property Name="UNCOIL_expand" Type="bit" Nullable="false" />
+          <Property Name="UNCOIL_Speed" Type="int" Nullable="false" />
+          <Property Name="RECOIL_expand" Type="bit" Nullable="false" />
+          <Property Name="RECOIL_Speed" Type="int" Nullable="false" />
+          <Property Name="SCRAP_WINDER_L_expand" Type="bit" Nullable="false" />
+          <Property Name="SCRAP_WINDER_L_Speed" Type="int" Nullable="false" />
+          <Property Name="SCRAP_WINDER_R_Speed" Type="int" Nullable="false" />
+          <Property Name="SCRAP_WINDER_R_expand" Type="bit" Nullable="false" />
+          <Property Name="Outside_Diameter_UC" Type="int" Nullable="false" />
+          <Property Name="Outside_Diameter_RC" Type="int" Nullable="false" />
+          <Property Name="Inside_Diameter_UC" Type="int" Nullable="false" />
+          <Property Name="Inside_Diameter_RC" Type="int" Nullable="false" />
+          <Property Name="Cutting_Mode" Type="int" Nullable="false" />
+          <Property Name="Preparetion" Type="bit" Nullable="false" />
+          <Property Name="COIL_DIVIDE_SET" Type="int" Nullable="false" />
+          <Property Name="Weight" Type="int" Nullable="false" />
+          <Property Name="Side_Guid_Status" Type="bit" Nullable="false" />
+          <Property Name="Slitter_Status" Type="bit" Nullable="false" />
+          <Property Name="Motor_Uncoiler_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Tree_Roll_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Slitter_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Roll_Tension_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Recoiler_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Uncoiler_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Tree_Roll_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Slitter_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Roll_Tension_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Recoiler_A" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Uncoiler_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Tree_Roll_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Slitter_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Roll_Tension_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Recoiler_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Uncoiler_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Tree_Roll_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Slitter_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Roll_Tension_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Recoiler_V" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Uncoiler_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Tree_Roll_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Slitter_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Roll_Tension_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Recoiler_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Uncoiler_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Tree_Roll_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Slitter_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Roll_Tension_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Recoiler_Temp" Type="decimal" Precision="16" Scale="6" />
+          <Property Name="Laser_Scanner_1" Type="bit" />
+          <Property Name="Laser_Scanner_2" Type="bit" />
+          <Property Name="Laser_Scanner_3" Type="bit" />
+          <Property Name="Laser_Scanner_4" Type="bit" />
+          <Property Name="Laser_Scanner_5" Type="bit" />
+          <Property Name="Laser_Scanner_6" Type="bit" />
+          <Property Name="Laser_Scanner_7" Type="bit" />
+          <Property Name="Laser_Scanner_8" Type="bit" />
+          <Property Name="Laser_Scanner_9" Type="bit" />
+          <Property Name="Laser_Scanner_10" Type="bit" />
+          <Property Name="Laser_Scanner_11" Type="bit" />
+          <Property Name="Laser_Scanner_12" Type="bit" />
+          <Property Name="Laser_Scanner_13" Type="bit" />
+          <Property Name="Laser_Scanner_14" Type="bit" />
+          <Property Name="Laser_Scanner_15" Type="bit" />
+          <Property Name="Laser_Scanner_16" Type="bit" />
+          <Property Name="Laser_Scanner_17" Type="bit" />
+          <Property Name="Laser_Scanner_18" Type="bit" />
+          <Property Name="Laser_Scanner_19" Type="bit" />
+          <Property Name="Laser_Scanner_20" Type="bit" />
+          <Property Name="Door_Sensor_1" Type="bit" />
+          <Property Name="Door_Sensor_2" Type="bit" />
+          <Property Name="Door_Sensor_3" Type="bit" />
+          <Property Name="Door_Sensor_4" Type="bit" />
+          <Property Name="Door_Sensor_5" Type="bit" />
+          <Property Name="Gate_1" Type="bit" />
+          <Property Name="Gate_2" Type="bit" />
+          <Property Name="Gate_3" Type="bit" />
+          <Property Name="Signal_Tower_1" Type="bit" />
+          <Property Name="Signal_Tower_2" Type="bit" />
+          <Property Name="Signal_Tower_3" Type="bit" />
+          <Property Name="Signal_Tower_4" Type="bit" />
+          <Property Name="Signal_Tower_5" Type="bit" />
+          <Property Name="Signal_Tower_6" Type="bit" />
+          <Property Name="Safety_pin_1" Type="bit" />
+          <Property Name="Safety_pin_2" Type="bit" />
+          <Property Name="Safety_pin_3" Type="bit" />
+          <Property Name="Safety_pin_4" Type="bit" />
+          <Property Name="Safety_pin_5" Type="bit" />
+          <Property Name="Safety_pin_6" Type="bit" />
+          <Property Name="Safety_pin_7" Type="bit" />
+          <Property Name="Safety_pin_8" Type="bit" />
+          <Property Name="Safety_pin_9" Type="bit" />
+          <Property Name="Safety_pin_10" Type="bit" />
+          <Property Name="Safety_pin_11" Type="bit" />
+          <Property Name="Safety_pin_12" Type="bit" />
+          <Property Name="Safety_pin_13" Type="bit" />
+          <Property Name="Safety_pin_14" Type="bit" />
+          <Property Name="Error_Time" Type="datetime" />
+          <Property Name="Error_Number" Type="int" />
+        </EntityType>
+        <Function Name="Add_Log" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LINE" Type="int" Mode="In" />
+          <Parameter Name="LINE_STATUS" Type="int" Mode="In" />
+          <Parameter Name="SPEED" Type="int" Mode="In" />
+          <Parameter Name="SIZE" Type="decimal" Mode="In" />
+          <Parameter Name="THICK" Type="decimal" Mode="In" />
+          <Parameter Name="PLAN" Type="int" Mode="In" />
+          <Parameter Name="RESULT" Type="int" Mode="In" />
+          <Parameter Name="UNCOIL_expand" Type="bit" Mode="In" />
+          <Parameter Name="UNCOIL_Speed" Type="int" Mode="In" />
+          <Parameter Name="RECOIL_expand" Type="bit" Mode="In" />
+          <Parameter Name="RECOIL_Speed" Type="int" Mode="In" />
+          <Parameter Name="SCRAP_WINDER_L_expand" Type="bit" Mode="In" />
+          <Parameter Name="SCRAP_WINDER_L_Speed" Type="int" Mode="In" />
+          <Parameter Name="SCRAP_WINDER_R_expand" Type="bit" Mode="In" />
+          <Parameter Name="SCRAP_WINDER_R_Speed" Type="int" Mode="In" />
+          <Parameter Name="Outside_Diameter_UC" Type="int" Mode="In" />
+          <Parameter Name="Outside_Diameter_RC" Type="int" Mode="In" />
+          <Parameter Name="Inside_Diameter_UC" Type="int" Mode="In" />
+          <Parameter Name="Inside_Diameter_RC" Type="int" Mode="In" />
+          <Parameter Name="Cutting_Mode" Type="int" Mode="In" />
+          <Parameter Name="Preparetion" Type="bit" Mode="In" />
+          <Parameter Name="COIL_DIVIDE_SET" Type="int" Mode="In" />
+          <Parameter Name="Weight" Type="int" Mode="In" />
+          <Parameter Name="Side_Guid_Status" Type="bit" Mode="In" />
+          <Parameter Name="Slitter_Status" Type="bit" Mode="In" />
+          <Parameter Name="PILER_NO1" Type="int" Mode="In" />
+          <Parameter Name="PILER_NO2" Type="int" Mode="In" />
+          <Parameter Name="Error_Number" Type="int" Mode="In" />
+          <Parameter Name="Motor_Uncoiler_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Tree_Roll_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Slitter_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Roll_Tension_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Recoiler_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Uncoiler_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Tree_Roll_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Slitter_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Roll_Tension_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Recoiler_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Uncoiler_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Tree_Roll_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Slitter_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Roll_Tension_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Recoiler_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Uncoiler_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Tree_Roll_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Slitter_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Roll_Tension_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Recoiler_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Uncoiler_A" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Tree_Roll_A" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Slitter_A" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Roll_Tension_A" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Recoiler_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Uncoiler_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Tree_Roll_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Slitter_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Roll_Tension_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Recoiler_A" Type="decimal" Mode="In" />
+          <Parameter Name="Laser_Scanner_1" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_2" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_3" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_4" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_5" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_6" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_7" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_8" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_9" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_10" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_11" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_12" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_13" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_14" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_15" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_16" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_17" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_18" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_19" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_20" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_1" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_2" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_3" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_4" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_5" Type="bit" Mode="In" />
+          <Parameter Name="Gate_1" Type="bit" Mode="In" />
+          <Parameter Name="Gate_2" Type="bit" Mode="In" />
+          <Parameter Name="Gate_3" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_1" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_2" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_3" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_4" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_5" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_6" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_1" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_2" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_3" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_4" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_5" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_6" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_7" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_8" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_9" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_10" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_11" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_12" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_13" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_14" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="Add_Log_Timeset" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LINE" Type="int" Mode="In" />
+          <Parameter Name="mytime" Type="datetime" Mode="In" />
+          <Parameter Name="LINE_STATUS" Type="int" Mode="In" />
+          <Parameter Name="SPEED" Type="int" Mode="In" />
+          <Parameter Name="SIZE" Type="decimal" Mode="In" />
+          <Parameter Name="THICK" Type="decimal" Mode="In" />
+          <Parameter Name="PLAN" Type="int" Mode="In" />
+          <Parameter Name="RESULT" Type="int" Mode="In" />
+          <Parameter Name="UNCOIL_expand" Type="bit" Mode="In" />
+          <Parameter Name="UNCOIL_Speed" Type="int" Mode="In" />
+          <Parameter Name="RECOIL_expand" Type="bit" Mode="In" />
+          <Parameter Name="RECOIL_Speed" Type="int" Mode="In" />
+          <Parameter Name="SCRAP_WINDER_L_expand" Type="bit" Mode="In" />
+          <Parameter Name="SCRAP_WINDER_L_Speed" Type="int" Mode="In" />
+          <Parameter Name="SCRAP_WINDER_R_expand" Type="bit" Mode="In" />
+          <Parameter Name="SCRAP_WINDER_R_Speed" Type="int" Mode="In" />
+          <Parameter Name="Outside_Diameter_UC" Type="int" Mode="In" />
+          <Parameter Name="Outside_Diameter_RC" Type="int" Mode="In" />
+          <Parameter Name="Inside_Diameter_UC" Type="int" Mode="In" />
+          <Parameter Name="Inside_Diameter_RC" Type="int" Mode="In" />
+          <Parameter Name="Cutting_Mode" Type="int" Mode="In" />
+          <Parameter Name="Preparetion" Type="bit" Mode="In" />
+          <Parameter Name="COIL_DIVIDE_SET" Type="int" Mode="In" />
+          <Parameter Name="Weight" Type="int" Mode="In" />
+          <Parameter Name="Side_Guid_Status" Type="bit" Mode="In" />
+          <Parameter Name="Slitter_Status" Type="bit" Mode="In" />
+          <Parameter Name="PILER_NO1" Type="int" Mode="In" />
+          <Parameter Name="PILER_NO2" Type="int" Mode="In" />
+          <Parameter Name="Error_Number" Type="int" Mode="In" />
+          <Parameter Name="Motor_Uncoiler_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Tree_Roll_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Slitter_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Roll_Tension_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Recoiler_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Uncoiler_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Tree_Roll_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Slitter_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Roll_Tension_T" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Recoiler_T" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Uncoiler_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Tree_Roll_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Slitter_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Roll_Tension_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Recoiler_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Uncoiler_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Tree_Roll_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Slitter_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Roll_Tension_V" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Recoiler_V" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Uncoiler_A" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Tree_Roll_A" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Slitter_A" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Roll_Tension_A" Type="decimal" Mode="In" />
+          <Parameter Name="Motor_Recoiler_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Uncoiler_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Tree_Roll_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Slitter_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Roll_Tension_A" Type="decimal" Mode="In" />
+          <Parameter Name="GearBox_Recoiler_A" Type="decimal" Mode="In" />
+          <Parameter Name="Laser_Scanner_1" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_2" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_3" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_4" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_5" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_6" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_7" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_8" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_9" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_10" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_11" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_12" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_13" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_14" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_15" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_16" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_17" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_18" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_19" Type="bit" Mode="In" />
+          <Parameter Name="Laser_Scanner_20" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_1" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_2" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_3" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_4" Type="bit" Mode="In" />
+          <Parameter Name="Door_Sensor_5" Type="bit" Mode="In" />
+          <Parameter Name="Gate_1" Type="bit" Mode="In" />
+          <Parameter Name="Gate_2" Type="bit" Mode="In" />
+          <Parameter Name="Gate_3" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_1" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_2" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_3" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_4" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_5" Type="bit" Mode="In" />
+          <Parameter Name="Signal_Tower_6" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_1" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_2" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_3" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_4" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_5" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_6" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_7" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_8" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_9" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_10" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_11" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_12" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_13" Type="bit" Mode="In" />
+          <Parameter Name="Safety_pin_14" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="Clear_All_Log" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="SND_SNOSModelStoreContainer">
+          <EntitySet Name="Log_Error" EntityType="Self.Log_Error" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log_Temp" EntityType="Self.Log_Temp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log_Work" EntityType="Self.Log_Work" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mac_Spec" EntityType="Self.Mac_Spec" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Versioncheck" EntityType="Self.Versioncheck" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Error_Mapping" EntityType="Self.Error_Mapping" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Error_Mapping].[LINE_TYPE] AS [LINE_TYPE], 
+    [Error_Mapping].[Error_No] AS [Error_No], 
+    [Error_Mapping].[Language] AS [Language], 
+    [Error_Mapping].[Title] AS [Title], 
+    [Error_Mapping].[Detail] AS [Detail]
+    FROM [dbo].[Error_Mapping] AS [Error_Mapping]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Log_A" EntityType="Self.Log_A" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Log_A].[LINE] AS [LINE], 
+    [Log_A].[GET_TIME] AS [GET_TIME], 
+    [Log_A].[Motor_Uncoiler] AS [Motor_Uncoiler], 
+    [Log_A].[Motor_Tree_Roll] AS [Motor_Tree_Roll], 
+    [Log_A].[Motor_Slitter] AS [Motor_Slitter], 
+    [Log_A].[Motor_Roll_Tension] AS [Motor_Roll_Tension], 
+    [Log_A].[Motor_Recoiler] AS [Motor_Recoiler], 
+    [Log_A].[GearBox_Uncoiler] AS [GearBox_Uncoiler], 
+    [Log_A].[GearBox_Tree_Roll] AS [GearBox_Tree_Roll], 
+    [Log_A].[GearBox_Slitter] AS [GearBox_Slitter], 
+    [Log_A].[GearBox_Roll_Tension] AS [GearBox_Roll_Tension], 
+    [Log_A].[GearBox_Recoiler] AS [GearBox_Recoiler]
+    FROM [dbo].[Log_A] AS [Log_A]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Log_security_Sensor" EntityType="Self.Log_security_Sensor" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Log_security_Sensor].[LINE] AS [LINE], 
+    [Log_security_Sensor].[GET_TIME] AS [GET_TIME], 
+    [Log_security_Sensor].[Laser_Scanner_1] AS [Laser_Scanner_1], 
+    [Log_security_Sensor].[Laser_Scanner_2] AS [Laser_Scanner_2], 
+    [Log_security_Sensor].[Laser_Scanner_3] AS [Laser_Scanner_3], 
+    [Log_security_Sensor].[Laser_Scanner_4] AS [Laser_Scanner_4], 
+    [Log_security_Sensor].[Laser_Scanner_5] AS [Laser_Scanner_5], 
+    [Log_security_Sensor].[Laser_Scanner_6] AS [Laser_Scanner_6], 
+    [Log_security_Sensor].[Laser_Scanner_7] AS [Laser_Scanner_7], 
+    [Log_security_Sensor].[Laser_Scanner_8] AS [Laser_Scanner_8], 
+    [Log_security_Sensor].[Laser_Scanner_9] AS [Laser_Scanner_9], 
+    [Log_security_Sensor].[Laser_Scanner_10] AS [Laser_Scanner_10], 
+    [Log_security_Sensor].[Laser_Scanner_11] AS [Laser_Scanner_11], 
+    [Log_security_Sensor].[Laser_Scanner_12] AS [Laser_Scanner_12], 
+    [Log_security_Sensor].[Laser_Scanner_13] AS [Laser_Scanner_13], 
+    [Log_security_Sensor].[Laser_Scanner_14] AS [Laser_Scanner_14], 
+    [Log_security_Sensor].[Laser_Scanner_15] AS [Laser_Scanner_15], 
+    [Log_security_Sensor].[Laser_Scanner_16] AS [Laser_Scanner_16], 
+    [Log_security_Sensor].[Laser_Scanner_17] AS [Laser_Scanner_17], 
+    [Log_security_Sensor].[Laser_Scanner_18] AS [Laser_Scanner_18], 
+    [Log_security_Sensor].[Laser_Scanner_19] AS [Laser_Scanner_19], 
+    [Log_security_Sensor].[Laser_Scanner_20] AS [Laser_Scanner_20], 
+    [Log_security_Sensor].[Door_Sensor_1] AS [Door_Sensor_1], 
+    [Log_security_Sensor].[Door_Sensor_2] AS [Door_Sensor_2], 
+    [Log_security_Sensor].[Door_Sensor_3] AS [Door_Sensor_3], 
+    [Log_security_Sensor].[Door_Sensor_4] AS [Door_Sensor_4], 
+    [Log_security_Sensor].[Door_Sensor_5] AS [Door_Sensor_5], 
+    [Log_security_Sensor].[Gate_1] AS [Gate_1], 
+    [Log_security_Sensor].[Gate_2] AS [Gate_2], 
+    [Log_security_Sensor].[Gate_3] AS [Gate_3], 
+    [Log_security_Sensor].[Signal_Tower_1] AS [Signal_Tower_1], 
+    [Log_security_Sensor].[Signal_Tower_2] AS [Signal_Tower_2], 
+    [Log_security_Sensor].[Signal_Tower_3] AS [Signal_Tower_3], 
+    [Log_security_Sensor].[Signal_Tower_4] AS [Signal_Tower_4], 
+    [Log_security_Sensor].[Signal_Tower_5] AS [Signal_Tower_5], 
+    [Log_security_Sensor].[Signal_Tower_6] AS [Signal_Tower_6], 
+    [Log_security_Sensor].[Safety_pin_1] AS [Safety_pin_1], 
+    [Log_security_Sensor].[Safety_pin_2] AS [Safety_pin_2], 
+    [Log_security_Sensor].[Safety_pin_3] AS [Safety_pin_3], 
+    [Log_security_Sensor].[Safety_pin_4] AS [Safety_pin_4], 
+    [Log_security_Sensor].[Safety_pin_5] AS [Safety_pin_5], 
+    [Log_security_Sensor].[Safety_pin_6] AS [Safety_pin_6], 
+    [Log_security_Sensor].[Safety_pin_7] AS [Safety_pin_7], 
+    [Log_security_Sensor].[Safety_pin_8] AS [Safety_pin_8], 
+    [Log_security_Sensor].[Safety_pin_9] AS [Safety_pin_9], 
+    [Log_security_Sensor].[Safety_pin_10] AS [Safety_pin_10], 
+    [Log_security_Sensor].[Safety_pin_11] AS [Safety_pin_11], 
+    [Log_security_Sensor].[Safety_pin_12] AS [Safety_pin_12], 
+    [Log_security_Sensor].[Safety_pin_13] AS [Safety_pin_13], 
+    [Log_security_Sensor].[Safety_pin_14] AS [Safety_pin_14]
+    FROM [dbo].[Log_security_Sensor] AS [Log_security_Sensor]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Log_V" EntityType="Self.Log_V" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Log_V].[LINE] AS [LINE], 
+    [Log_V].[GET_TIME] AS [GET_TIME], 
+    [Log_V].[Motor_Uncoiler] AS [Motor_Uncoiler], 
+    [Log_V].[Motor_Tree_Roll] AS [Motor_Tree_Roll], 
+    [Log_V].[Motor_Slitter] AS [Motor_Slitter], 
+    [Log_V].[Motor_Roll_Tension] AS [Motor_Roll_Tension], 
+    [Log_V].[Motor_Recoiler] AS [Motor_Recoiler], 
+    [Log_V].[GearBox_Uncoiler] AS [GearBox_Uncoiler], 
+    [Log_V].[GearBox_Tree_Roll] AS [GearBox_Tree_Roll], 
+    [Log_V].[GearBox_Slitter] AS [GearBox_Slitter], 
+    [Log_V].[GearBox_Roll_Tension] AS [GearBox_Roll_Tension], 
+    [Log_V].[GearBox_Recoiler] AS [GearBox_Recoiler]
+    FROM [dbo].[Log_V] AS [Log_V]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="All_DataView" EntityType="Self.All_DataView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [All_DataView].[LINE] AS [LINE], 
+    [All_DataView].[GET_TIME] AS [GET_TIME], 
+    [All_DataView].[LINE_STATUS] AS [LINE_STATUS], 
+    [All_DataView].[SPEED] AS [SPEED], 
+    [All_DataView].[SIZE] AS [SIZE], 
+    [All_DataView].[THICK] AS [THICK], 
+    [All_DataView].[PLAN] AS [PLAN], 
+    [All_DataView].[RESULT] AS [RESULT], 
+    [All_DataView].[UNCOIL_expand] AS [UNCOIL_expand], 
+    [All_DataView].[UNCOIL_Speed] AS [UNCOIL_Speed], 
+    [All_DataView].[RECOIL_expand] AS [RECOIL_expand], 
+    [All_DataView].[RECOIL_Speed] AS [RECOIL_Speed], 
+    [All_DataView].[SCRAP_WINDER_L_expand] AS [SCRAP_WINDER_L_expand], 
+    [All_DataView].[SCRAP_WINDER_L_Speed] AS [SCRAP_WINDER_L_Speed], 
+    [All_DataView].[SCRAP_WINDER_R_Speed] AS [SCRAP_WINDER_R_Speed], 
+    [All_DataView].[SCRAP_WINDER_R_expand] AS [SCRAP_WINDER_R_expand], 
+    [All_DataView].[Outside_Diameter_UC] AS [Outside_Diameter_UC], 
+    [All_DataView].[Outside_Diameter_RC] AS [Outside_Diameter_RC], 
+    [All_DataView].[Inside_Diameter_UC] AS [Inside_Diameter_UC], 
+    [All_DataView].[Inside_Diameter_RC] AS [Inside_Diameter_RC], 
+    [All_DataView].[Cutting_Mode] AS [Cutting_Mode], 
+    [All_DataView].[Preparetion] AS [Preparetion], 
+    [All_DataView].[COIL_DIVIDE_SET] AS [COIL_DIVIDE_SET], 
+    [All_DataView].[Weight] AS [Weight], 
+    [All_DataView].[Side_Guid_Status] AS [Side_Guid_Status], 
+    [All_DataView].[Slitter_Status] AS [Slitter_Status], 
+    [All_DataView].[Motor_Uncoiler_A] AS [Motor_Uncoiler_A], 
+    [All_DataView].[Motor_Tree_Roll_A] AS [Motor_Tree_Roll_A], 
+    [All_DataView].[Motor_Slitter_A] AS [Motor_Slitter_A], 
+    [All_DataView].[Motor_Roll_Tension_A] AS [Motor_Roll_Tension_A], 
+    [All_DataView].[Motor_Recoiler_A] AS [Motor_Recoiler_A], 
+    [All_DataView].[GearBox_Uncoiler_A] AS [GearBox_Uncoiler_A], 
+    [All_DataView].[GearBox_Tree_Roll_A] AS [GearBox_Tree_Roll_A], 
+    [All_DataView].[GearBox_Slitter_A] AS [GearBox_Slitter_A], 
+    [All_DataView].[GearBox_Roll_Tension_A] AS [GearBox_Roll_Tension_A], 
+    [All_DataView].[GearBox_Recoiler_A] AS [GearBox_Recoiler_A], 
+    [All_DataView].[Motor_Uncoiler_V] AS [Motor_Uncoiler_V], 
+    [All_DataView].[Motor_Tree_Roll_V] AS [Motor_Tree_Roll_V], 
+    [All_DataView].[Motor_Slitter_V] AS [Motor_Slitter_V], 
+    [All_DataView].[Motor_Roll_Tension_V] AS [Motor_Roll_Tension_V], 
+    [All_DataView].[Motor_Recoiler_V] AS [Motor_Recoiler_V], 
+    [All_DataView].[GearBox_Uncoiler_V] AS [GearBox_Uncoiler_V], 
+    [All_DataView].[GearBox_Tree_Roll_V] AS [GearBox_Tree_Roll_V], 
+    [All_DataView].[GearBox_Slitter_V] AS [GearBox_Slitter_V], 
+    [All_DataView].[GearBox_Roll_Tension_V] AS [GearBox_Roll_Tension_V], 
+    [All_DataView].[GearBox_Recoiler_V] AS [GearBox_Recoiler_V], 
+    [All_DataView].[Motor_Uncoiler_Temp] AS [Motor_Uncoiler_Temp], 
+    [All_DataView].[Motor_Tree_Roll_Temp] AS [Motor_Tree_Roll_Temp], 
+    [All_DataView].[Motor_Slitter_Temp] AS [Motor_Slitter_Temp], 
+    [All_DataView].[Motor_Roll_Tension_Temp] AS [Motor_Roll_Tension_Temp], 
+    [All_DataView].[Motor_Recoiler_Temp] AS [Motor_Recoiler_Temp], 
+    [All_DataView].[GearBox_Uncoiler_Temp] AS [GearBox_Uncoiler_Temp], 
+    [All_DataView].[GearBox_Tree_Roll_Temp] AS [GearBox_Tree_Roll_Temp], 
+    [All_DataView].[GearBox_Slitter_Temp] AS [GearBox_Slitter_Temp], 
+    [All_DataView].[GearBox_Roll_Tension_Temp] AS [GearBox_Roll_Tension_Temp], 
+    [All_DataView].[GearBox_Recoiler_Temp] AS [GearBox_Recoiler_Temp], 
+    [All_DataView].[Laser_Scanner_1] AS [Laser_Scanner_1], 
+    [All_DataView].[Laser_Scanner_2] AS [Laser_Scanner_2], 
+    [All_DataView].[Laser_Scanner_3] AS [Laser_Scanner_3], 
+    [All_DataView].[Laser_Scanner_4] AS [Laser_Scanner_4], 
+    [All_DataView].[Laser_Scanner_5] AS [Laser_Scanner_5], 
+    [All_DataView].[Laser_Scanner_6] AS [Laser_Scanner_6], 
+    [All_DataView].[Laser_Scanner_7] AS [Laser_Scanner_7], 
+    [All_DataView].[Laser_Scanner_8] AS [Laser_Scanner_8], 
+    [All_DataView].[Laser_Scanner_9] AS [Laser_Scanner_9], 
+    [All_DataView].[Laser_Scanner_10] AS [Laser_Scanner_10], 
+    [All_DataView].[Laser_Scanner_11] AS [Laser_Scanner_11], 
+    [All_DataView].[Laser_Scanner_12] AS [Laser_Scanner_12], 
+    [All_DataView].[Laser_Scanner_13] AS [Laser_Scanner_13], 
+    [All_DataView].[Laser_Scanner_14] AS [Laser_Scanner_14], 
+    [All_DataView].[Laser_Scanner_15] AS [Laser_Scanner_15], 
+    [All_DataView].[Laser_Scanner_16] AS [Laser_Scanner_16], 
+    [All_DataView].[Laser_Scanner_17] AS [Laser_Scanner_17], 
+    [All_DataView].[Laser_Scanner_18] AS [Laser_Scanner_18], 
+    [All_DataView].[Laser_Scanner_19] AS [Laser_Scanner_19], 
+    [All_DataView].[Laser_Scanner_20] AS [Laser_Scanner_20], 
+    [All_DataView].[Door_Sensor_1] AS [Door_Sensor_1], 
+    [All_DataView].[Door_Sensor_2] AS [Door_Sensor_2], 
+    [All_DataView].[Door_Sensor_3] AS [Door_Sensor_3], 
+    [All_DataView].[Door_Sensor_4] AS [Door_Sensor_4], 
+    [All_DataView].[Door_Sensor_5] AS [Door_Sensor_5], 
+    [All_DataView].[Gate_1] AS [Gate_1], 
+    [All_DataView].[Gate_2] AS [Gate_2], 
+    [All_DataView].[Gate_3] AS [Gate_3], 
+    [All_DataView].[Signal_Tower_1] AS [Signal_Tower_1], 
+    [All_DataView].[Signal_Tower_2] AS [Signal_Tower_2], 
+    [All_DataView].[Signal_Tower_3] AS [Signal_Tower_3], 
+    [All_DataView].[Signal_Tower_4] AS [Signal_Tower_4], 
+    [All_DataView].[Signal_Tower_5] AS [Signal_Tower_5], 
+    [All_DataView].[Signal_Tower_6] AS [Signal_Tower_6], 
+    [All_DataView].[Safety_pin_1] AS [Safety_pin_1], 
+    [All_DataView].[Safety_pin_2] AS [Safety_pin_2], 
+    [All_DataView].[Safety_pin_3] AS [Safety_pin_3], 
+    [All_DataView].[Safety_pin_4] AS [Safety_pin_4], 
+    [All_DataView].[Safety_pin_5] AS [Safety_pin_5], 
+    [All_DataView].[Safety_pin_6] AS [Safety_pin_6], 
+    [All_DataView].[Safety_pin_7] AS [Safety_pin_7], 
+    [All_DataView].[Safety_pin_8] AS [Safety_pin_8], 
+    [All_DataView].[Safety_pin_9] AS [Safety_pin_9], 
+    [All_DataView].[Safety_pin_10] AS [Safety_pin_10], 
+    [All_DataView].[Safety_pin_11] AS [Safety_pin_11], 
+    [All_DataView].[Safety_pin_12] AS [Safety_pin_12], 
+    [All_DataView].[Safety_pin_13] AS [Safety_pin_13], 
+    [All_DataView].[Safety_pin_14] AS [Safety_pin_14], 
+    [All_DataView].[Error_Time] AS [Error_Time], 
+    [All_DataView].[Error_Number] AS [Error_Number]
+    FROM [dbo].[All_DataView] AS [All_DataView]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SND_SNOSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Log_Error">
+          <Key>
+            <PropertyRef Name="Error_Time" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="Error_Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Error_Number" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log_Temp">
+          <Key>
+            <PropertyRef Name="GET_TIME" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="GET_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Motor_Uncoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Tree_Roll" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Slitter" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Roll_Tension" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Recoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Uncoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Tree_Roll" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Slitter" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Roll_Tension" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Recoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mac_Spec">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Think_W" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Think_A" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Think_M" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Order_Size_W" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Order_Size_A" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Order_Size_M" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Uncoil_W" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Uncoil_A" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Uncoil_M" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Recoil_W" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Recoil_A" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Recoil_M" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Speed_W" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Speed_A" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Speed_M" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Work_rate_W" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Work_rate_A" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Work_rate_M" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Create_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modifly_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Line_No" Type="Int32" Nullable="false" />
+          <Property Name="LINE_TYPE" Type="Int32" Nullable="false" />
+          <Property Name="Line_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Versioncheck">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SNTM_Key" Type="Guid" Nullable="false" />
+          <Property Name="Customer_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Error_Mapping">
+          <Key>
+            <PropertyRef Name="LINE_TYPE" />
+            <PropertyRef Name="Error_No" />
+            <PropertyRef Name="Language" />
+            <PropertyRef Name="Title" />
+          </Key>
+          <Property Name="LINE_TYPE" Type="Int32" Nullable="false" />
+          <Property Name="Error_No" Type="Int32" Nullable="false" />
+          <Property Name="Language" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Detail" Type="String" MaxLength="2500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Log_A">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="Motor_Uncoiler" />
+            <PropertyRef Name="Motor_Tree_Roll" />
+            <PropertyRef Name="Motor_Slitter" />
+            <PropertyRef Name="Motor_Roll_Tension" />
+            <PropertyRef Name="Motor_Recoiler" />
+            <PropertyRef Name="GearBox_Uncoiler" />
+            <PropertyRef Name="GearBox_Tree_Roll" />
+            <PropertyRef Name="GearBox_Slitter" />
+            <PropertyRef Name="GearBox_Roll_Tension" />
+            <PropertyRef Name="GearBox_Recoiler" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="GET_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Motor_Uncoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Tree_Roll" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Slitter" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Roll_Tension" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Recoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Uncoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Tree_Roll" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Slitter" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Roll_Tension" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Recoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log_security_Sensor">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="Laser_Scanner_1" />
+            <PropertyRef Name="Laser_Scanner_2" />
+            <PropertyRef Name="Laser_Scanner_3" />
+            <PropertyRef Name="Laser_Scanner_4" />
+            <PropertyRef Name="Laser_Scanner_5" />
+            <PropertyRef Name="Laser_Scanner_6" />
+            <PropertyRef Name="Laser_Scanner_7" />
+            <PropertyRef Name="Laser_Scanner_8" />
+            <PropertyRef Name="Laser_Scanner_9" />
+            <PropertyRef Name="Laser_Scanner_10" />
+            <PropertyRef Name="Laser_Scanner_11" />
+            <PropertyRef Name="Laser_Scanner_12" />
+            <PropertyRef Name="Laser_Scanner_13" />
+            <PropertyRef Name="Laser_Scanner_14" />
+            <PropertyRef Name="Laser_Scanner_15" />
+            <PropertyRef Name="Laser_Scanner_16" />
+            <PropertyRef Name="Laser_Scanner_17" />
+            <PropertyRef Name="Laser_Scanner_18" />
+            <PropertyRef Name="Laser_Scanner_19" />
+            <PropertyRef Name="Laser_Scanner_20" />
+            <PropertyRef Name="Door_Sensor_1" />
+            <PropertyRef Name="Door_Sensor_2" />
+            <PropertyRef Name="Door_Sensor_3" />
+            <PropertyRef Name="Door_Sensor_4" />
+            <PropertyRef Name="Door_Sensor_5" />
+            <PropertyRef Name="Gate_1" />
+            <PropertyRef Name="Gate_2" />
+            <PropertyRef Name="Gate_3" />
+            <PropertyRef Name="Signal_Tower_1" />
+            <PropertyRef Name="Signal_Tower_2" />
+            <PropertyRef Name="Signal_Tower_3" />
+            <PropertyRef Name="Signal_Tower_4" />
+            <PropertyRef Name="Signal_Tower_5" />
+            <PropertyRef Name="Signal_Tower_6" />
+            <PropertyRef Name="Safety_pin_1" />
+            <PropertyRef Name="Safety_pin_2" />
+            <PropertyRef Name="Safety_pin_3" />
+            <PropertyRef Name="Safety_pin_4" />
+            <PropertyRef Name="Safety_pin_5" />
+            <PropertyRef Name="Safety_pin_6" />
+            <PropertyRef Name="Safety_pin_7" />
+            <PropertyRef Name="Safety_pin_8" />
+            <PropertyRef Name="Safety_pin_9" />
+            <PropertyRef Name="Safety_pin_10" />
+            <PropertyRef Name="Safety_pin_11" />
+            <PropertyRef Name="Safety_pin_12" />
+            <PropertyRef Name="Safety_pin_13" />
+            <PropertyRef Name="Safety_pin_14" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="GET_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Laser_Scanner_1" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_2" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_3" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_4" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_5" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_6" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_7" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_8" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_9" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_10" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_11" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_12" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_13" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_14" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_15" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_16" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_17" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_18" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_19" Type="Boolean" Nullable="false" />
+          <Property Name="Laser_Scanner_20" Type="Boolean" Nullable="false" />
+          <Property Name="Door_Sensor_1" Type="Boolean" Nullable="false" />
+          <Property Name="Door_Sensor_2" Type="Boolean" Nullable="false" />
+          <Property Name="Door_Sensor_3" Type="Boolean" Nullable="false" />
+          <Property Name="Door_Sensor_4" Type="Boolean" Nullable="false" />
+          <Property Name="Door_Sensor_5" Type="Boolean" Nullable="false" />
+          <Property Name="Gate_1" Type="Boolean" Nullable="false" />
+          <Property Name="Gate_2" Type="Boolean" Nullable="false" />
+          <Property Name="Gate_3" Type="Boolean" Nullable="false" />
+          <Property Name="Signal_Tower_1" Type="Boolean" Nullable="false" />
+          <Property Name="Signal_Tower_2" Type="Boolean" Nullable="false" />
+          <Property Name="Signal_Tower_3" Type="Boolean" Nullable="false" />
+          <Property Name="Signal_Tower_4" Type="Boolean" Nullable="false" />
+          <Property Name="Signal_Tower_5" Type="Boolean" Nullable="false" />
+          <Property Name="Signal_Tower_6" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_1" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_2" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_3" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_4" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_5" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_6" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_7" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_8" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_9" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_10" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_11" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_12" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_13" Type="Boolean" Nullable="false" />
+          <Property Name="Safety_pin_14" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log_V">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="Motor_Uncoiler" />
+            <PropertyRef Name="Motor_Tree_Roll" />
+            <PropertyRef Name="Motor_Slitter" />
+            <PropertyRef Name="Motor_Roll_Tension" />
+            <PropertyRef Name="Motor_Recoiler" />
+            <PropertyRef Name="GearBox_Uncoiler" />
+            <PropertyRef Name="GearBox_Tree_Roll" />
+            <PropertyRef Name="GearBox_Slitter" />
+            <PropertyRef Name="GearBox_Roll_Tension" />
+            <PropertyRef Name="GearBox_Recoiler" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="GET_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Motor_Uncoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Tree_Roll" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Slitter" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Roll_Tension" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="Motor_Recoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Uncoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Tree_Roll" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Slitter" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Roll_Tension" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="GearBox_Recoiler" Type="Decimal" Precision="16" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SND_SNOSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Log_Error" EntityType="Self.Log_Error" />
+          <EntitySet Name="Log_Temp" EntityType="Self.Log_Temp" />
+          <EntitySet Name="Mac_Spec" EntityType="Self.Mac_Spec" />
+          <EntitySet Name="Versionchecks" EntityType="Self.Versioncheck" />
+          <EntitySet Name="Error_Mapping" EntityType="Self.Error_Mapping" />
+          <EntitySet Name="Log_A" EntityType="Self.Log_A" />
+          <EntitySet Name="Log_security_Sensor" EntityType="Self.Log_security_Sensor" />
+          <EntitySet Name="Log_V" EntityType="Self.Log_V" />
+          <EntitySet Name="Log_Work" EntityType="SND_SNOSModel.Log_Work" />
+          <EntitySet Name="All_DataView" EntityType="SND_SNOSModel.All_DataView" />
+          <FunctionImport Name="Add_Log">
+            <Parameter Name="LINE" Mode="In" Type="Int32" />
+            <Parameter Name="LINE_STATUS" Mode="In" Type="Int32" />
+            <Parameter Name="SPEED" Mode="In" Type="Int32" />
+            <Parameter Name="SIZE" Mode="In" Type="Decimal" />
+            <Parameter Name="THICK" Mode="In" Type="Decimal" />
+            <Parameter Name="PLAN" Mode="In" Type="Int32" />
+            <Parameter Name="RESULT" Mode="In" Type="Int32" />
+            <Parameter Name="UNCOIL_expand" Mode="In" Type="Boolean" />
+            <Parameter Name="UNCOIL_Speed" Mode="In" Type="Int32" />
+            <Parameter Name="RECOIL_expand" Mode="In" Type="Boolean" />
+            <Parameter Name="RECOIL_Speed" Mode="In" Type="Int32" />
+            <Parameter Name="SCRAP_WINDER_L_expand" Mode="In" Type="Boolean" />
+            <Parameter Name="SCRAP_WINDER_L_Speed" Mode="In" Type="Int32" />
+            <Parameter Name="SCRAP_WINDER_R_expand" Mode="In" Type="Boolean" />
+            <Parameter Name="SCRAP_WINDER_R_Speed" Mode="In" Type="Int32" />
+            <Parameter Name="Outside_Diameter_UC" Mode="In" Type="Int32" />
+            <Parameter Name="Outside_Diameter_RC" Mode="In" Type="Int32" />
+            <Parameter Name="Inside_Diameter_UC" Mode="In" Type="Int32" />
+            <Parameter Name="Inside_Diameter_RC" Mode="In" Type="Int32" />
+            <Parameter Name="Cutting_Mode" Mode="In" Type="Int32" />
+            <Parameter Name="Preparetion" Mode="In" Type="Boolean" />
+            <Parameter Name="COIL_DIVIDE_SET" Mode="In" Type="Int32" />
+            <Parameter Name="Weight" Mode="In" Type="Int32" />
+            <Parameter Name="Side_Guid_Status" Mode="In" Type="Boolean" />
+            <Parameter Name="Slitter_Status" Mode="In" Type="Boolean" />
+            <Parameter Name="PILER_NO1" Mode="In" Type="Int32" />
+            <Parameter Name="PILER_NO2" Mode="In" Type="Int32" />
+            <Parameter Name="Error_Number" Mode="In" Type="Int32" />
+            <Parameter Name="Motor_Uncoiler_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Tree_Roll_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Slitter_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Roll_Tension_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Recoiler_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Uncoiler_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Tree_Roll_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Slitter_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Roll_Tension_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Recoiler_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Uncoiler_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Tree_Roll_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Slitter_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Roll_Tension_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Recoiler_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Uncoiler_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Tree_Roll_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Slitter_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Roll_Tension_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Recoiler_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Uncoiler_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Tree_Roll_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Slitter_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Roll_Tension_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Recoiler_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Uncoiler_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Tree_Roll_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Slitter_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Roll_Tension_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Recoiler_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Laser_Scanner_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_4" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_5" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_6" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_7" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_8" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_9" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_10" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_11" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_12" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_13" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_14" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_15" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_16" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_17" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_18" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_19" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_20" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_4" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_5" Mode="In" Type="Boolean" />
+            <Parameter Name="Gate_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Gate_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Gate_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_4" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_5" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_6" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_4" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_5" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_6" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_7" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_8" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_9" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_10" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_11" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_12" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_13" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_14" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="Add_Log_Timeset">
+            <Parameter Name="LINE" Mode="In" Type="Int32" />
+            <Parameter Name="mytime" Mode="In" Type="DateTime" />
+            <Parameter Name="LINE_STATUS" Mode="In" Type="Int32" />
+            <Parameter Name="SPEED" Mode="In" Type="Int32" />
+            <Parameter Name="SIZE" Mode="In" Type="Decimal" />
+            <Parameter Name="THICK" Mode="In" Type="Decimal" />
+            <Parameter Name="PLAN" Mode="In" Type="Int32" />
+            <Parameter Name="RESULT" Mode="In" Type="Int32" />
+            <Parameter Name="UNCOIL_expand" Mode="In" Type="Boolean" />
+            <Parameter Name="UNCOIL_Speed" Mode="In" Type="Int32" />
+            <Parameter Name="RECOIL_expand" Mode="In" Type="Boolean" />
+            <Parameter Name="RECOIL_Speed" Mode="In" Type="Int32" />
+            <Parameter Name="SCRAP_WINDER_L_expand" Mode="In" Type="Boolean" />
+            <Parameter Name="SCRAP_WINDER_L_Speed" Mode="In" Type="Int32" />
+            <Parameter Name="SCRAP_WINDER_R_expand" Mode="In" Type="Boolean" />
+            <Parameter Name="SCRAP_WINDER_R_Speed" Mode="In" Type="Int32" />
+            <Parameter Name="Outside_Diameter_UC" Mode="In" Type="Int32" />
+            <Parameter Name="Outside_Diameter_RC" Mode="In" Type="Int32" />
+            <Parameter Name="Inside_Diameter_UC" Mode="In" Type="Int32" />
+            <Parameter Name="Inside_Diameter_RC" Mode="In" Type="Int32" />
+            <Parameter Name="Cutting_Mode" Mode="In" Type="Int32" />
+            <Parameter Name="Preparetion" Mode="In" Type="Boolean" />
+            <Parameter Name="COIL_DIVIDE_SET" Mode="In" Type="Int32" />
+            <Parameter Name="Weight" Mode="In" Type="Int32" />
+            <Parameter Name="Side_Guid_Status" Mode="In" Type="Boolean" />
+            <Parameter Name="Slitter_Status" Mode="In" Type="Boolean" />
+            <Parameter Name="PILER_NO1" Mode="In" Type="Int32" />
+            <Parameter Name="PILER_NO2" Mode="In" Type="Int32" />
+            <Parameter Name="Error_Number" Mode="In" Type="Int32" />
+            <Parameter Name="Motor_Uncoiler_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Tree_Roll_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Slitter_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Roll_Tension_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Recoiler_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Uncoiler_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Tree_Roll_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Slitter_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Roll_Tension_T" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Recoiler_T" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Uncoiler_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Tree_Roll_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Slitter_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Roll_Tension_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Recoiler_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Uncoiler_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Tree_Roll_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Slitter_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Roll_Tension_V" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Recoiler_V" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Uncoiler_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Tree_Roll_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Slitter_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Roll_Tension_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Motor_Recoiler_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Uncoiler_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Tree_Roll_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Slitter_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Roll_Tension_A" Mode="In" Type="Decimal" />
+            <Parameter Name="GearBox_Recoiler_A" Mode="In" Type="Decimal" />
+            <Parameter Name="Laser_Scanner_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_4" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_5" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_6" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_7" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_8" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_9" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_10" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_11" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_12" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_13" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_14" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_15" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_16" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_17" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_18" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_19" Mode="In" Type="Boolean" />
+            <Parameter Name="Laser_Scanner_20" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_4" Mode="In" Type="Boolean" />
+            <Parameter Name="Door_Sensor_5" Mode="In" Type="Boolean" />
+            <Parameter Name="Gate_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Gate_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Gate_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_4" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_5" Mode="In" Type="Boolean" />
+            <Parameter Name="Signal_Tower_6" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_1" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_2" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_3" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_4" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_5" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_6" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_7" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_8" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_9" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_10" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_11" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_12" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_13" Mode="In" Type="Boolean" />
+            <Parameter Name="Safety_pin_14" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="Clear_All_Log" />
+        </EntityContainer>
+        <EntityType Name="Log_Work">
+          <Key>
+            <PropertyRef Name="GET_TIME" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="GET_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LINE_STATUS" Type="Int32" Nullable="false" />
+          <Property Name="SPEED" Type="Int32" Nullable="false" />
+          <Property Name="SIZE" Type="Decimal" Nullable="false" Precision="16" Scale="6" />
+          <Property Name="THICK" Type="Decimal" Nullable="false" Precision="16" Scale="6" />
+          <Property Name="PLAN" Type="Int32" Nullable="false" />
+          <Property Name="RESULT" Type="Int32" Nullable="false" />
+          <Property Name="UNCOIL_expand" Type="Boolean" Nullable="false" />
+          <Property Name="UNCOIL_Speed" Type="Int32" Nullable="false" />
+          <Property Name="RECOIL_expand" Type="Boolean" Nullable="false" />
+          <Property Name="RECOIL_Speed" Type="Int32" Nullable="false" />
+          <Property Name="SCRAP_WINDER_L_expand" Type="Boolean" Nullable="false" />
+          <Property Name="SCRAP_WINDER_L_Speed" Type="Int32" Nullable="false" />
+          <Property Name="SCRAP_WINDER_R_expand" Type="Boolean" Nullable="false" />
+          <Property Name="SCRAP_WINDER_R_Speed" Type="Int32" Nullable="false" />
+          <Property Name="Outside_Diameter_UC" Type="Int32" Nullable="false" />
+          <Property Name="Outside_Diameter_RC" Type="Int32" Nullable="false" />
+          <Property Name="Inside_Diameter_UC" Type="Int32" Nullable="false" />
+          <Property Name="Inside_Diameter_RC" Type="Int32" Nullable="false" />
+          <Property Name="Cutting_Mode" Type="Int32" Nullable="false" />
+          <Property Name="Preparetion" Type="Boolean" Nullable="false" />
+          <Property Name="COIL_DIVIDE_SET" Type="Int32" Nullable="false" />
+          <Property Name="Weight" Type="Int32" Nullable="false" />
+          <Property Name="Side_Guid_Status" Type="Boolean" Nullable="false" />
+          <Property Name="Slitter_Status" Type="Boolean" Nullable="false" />
+          <Property Name="PILER_NO1" Type="Boolean" />
+          <Property Name="PILER_NO2" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="All_DataView">
+          <Key>
+            <PropertyRef Name="LINE" />
+            <PropertyRef Name="GET_TIME" />
+            <PropertyRef Name="LINE_STATUS" />
+            <PropertyRef Name="SPEED" />
+            <PropertyRef Name="SIZE" />
+            <PropertyRef Name="THICK" />
+            <PropertyRef Name="PLAN" />
+            <PropertyRef Name="RESULT" />
+            <PropertyRef Name="UNCOIL_expand" />
+            <PropertyRef Name="UNCOIL_Speed" />
+            <PropertyRef Name="RECOIL_expand" />
+            <PropertyRef Name="RECOIL_Speed" />
+            <PropertyRef Name="SCRAP_WINDER_L_expand" />
+            <PropertyRef Name="SCRAP_WINDER_L_Speed" />
+            <PropertyRef Name="SCRAP_WINDER_R_Speed" />
+            <PropertyRef Name="SCRAP_WINDER_R_expand" />
+            <PropertyRef Name="Outside_Diameter_UC" />
+            <PropertyRef Name="Outside_Diameter_RC" />
+            <PropertyRef Name="Inside_Diameter_UC" />
+            <PropertyRef Name="Inside_Diameter_RC" />
+            <PropertyRef Name="Cutting_Mode" />
+            <PropertyRef Name="Preparetion" />
+            <PropertyRef Name="COIL_DIVIDE_SET" />
+            <PropertyRef Name="Weight" />
+            <PropertyRef Name="Side_Guid_Status" />
+            <PropertyRef Name="Slitter_Status" />
+          </Key>
+          <Property Name="LINE" Type="Int32" Nullable="false" />
+          <Property Name="GET_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LINE_STATUS" Type="Int32" Nullable="false" />
+          <Property Name="SPEED" Type="Int32" Nullable="false" />
+          <Property Name="SIZE" Type="Decimal" Nullable="false" Precision="16" Scale="6" />
+          <Property Name="THICK" Type="Decimal" Nullable="false" Precision="16" Scale="6" />
+          <Property Name="PLAN" Type="Int32" Nullable="false" />
+          <Property Name="RESULT" Type="Int32" Nullable="false" />
+          <Property Name="UNCOIL_expand" Type="Boolean" Nullable="false" />
+          <Property Name="UNCOIL_Speed" Type="Int32" Nullable="false" />
+          <Property Name="RECOIL_expand" Type="Boolean" Nullable="false" />
+          <Property Name="RECOIL_Speed" Type="Int32" Nullable="false" />
+          <Property Name="SCRAP_WINDER_L_expand" Type="Boolean" Nullable="false" />
+          <Property Name="SCRAP_WINDER_L_Speed" Type="Int32" Nullable="false" />
+          <Property Name="SCRAP_WINDER_R_Speed" Type="Int32" Nullable="false" />
+          <Property Name="SCRAP_WINDER_R_expand" Type="Boolean" Nullable="false" />
+          <Property Name="Outside_Diameter_UC" Type="Int32" Nullable="false" />
+          <Property Name="Outside_Diameter_RC" Type="Int32" Nullable="false" />
+          <Property Name="Inside_Diameter_UC" Type="Int32" Nullable="false" />
+          <Property Name="Inside_Diameter_RC" Type="Int32" Nullable="false" />
+          <Property Name="Cutting_Mode" Type="Int32" Nullable="false" />
+          <Property Name="Preparetion" Type="Boolean" Nullable="false" />
+          <Property Name="COIL_DIVIDE_SET" Type="Int32" Nullable="false" />
+          <Property Name="Weight" Type="Int32" Nullable="false" />
+          <Property Name="Side_Guid_Status" Type="Boolean" Nullable="false" />
+          <Property Name="Slitter_Status" Type="Boolean" Nullable="false" />
+          <Property Name="Motor_Uncoiler_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Tree_Roll_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Slitter_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Roll_Tension_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Recoiler_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Uncoiler_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Tree_Roll_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Slitter_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Roll_Tension_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Recoiler_A" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Uncoiler_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Tree_Roll_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Slitter_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Roll_Tension_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Recoiler_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Uncoiler_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Tree_Roll_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Slitter_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Roll_Tension_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Recoiler_V" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Uncoiler_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Tree_Roll_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Slitter_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Roll_Tension_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Motor_Recoiler_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Uncoiler_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Tree_Roll_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Slitter_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Roll_Tension_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="GearBox_Recoiler_Temp" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="Laser_Scanner_1" Type="Boolean" />
+          <Property Name="Laser_Scanner_2" Type="Boolean" />
+          <Property Name="Laser_Scanner_3" Type="Boolean" />
+          <Property Name="Laser_Scanner_4" Type="Boolean" />
+          <Property Name="Laser_Scanner_5" Type="Boolean" />
+          <Property Name="Laser_Scanner_6" Type="Boolean" />
+          <Property Name="Laser_Scanner_7" Type="Boolean" />
+          <Property Name="Laser_Scanner_8" Type="Boolean" />
+          <Property Name="Laser_Scanner_9" Type="Boolean" />
+          <Property Name="Laser_Scanner_10" Type="Boolean" />
+          <Property Name="Laser_Scanner_11" Type="Boolean" />
+          <Property Name="Laser_Scanner_12" Type="Boolean" />
+          <Property Name="Laser_Scanner_13" Type="Boolean" />
+          <Property Name="Laser_Scanner_14" Type="Boolean" />
+          <Property Name="Laser_Scanner_15" Type="Boolean" />
+          <Property Name="Laser_Scanner_16" Type="Boolean" />
+          <Property Name="Laser_Scanner_17" Type="Boolean" />
+          <Property Name="Laser_Scanner_18" Type="Boolean" />
+          <Property Name="Laser_Scanner_19" Type="Boolean" />
+          <Property Name="Laser_Scanner_20" Type="Boolean" />
+          <Property Name="Door_Sensor_1" Type="Boolean" />
+          <Property Name="Door_Sensor_2" Type="Boolean" />
+          <Property Name="Door_Sensor_3" Type="Boolean" />
+          <Property Name="Door_Sensor_4" Type="Boolean" />
+          <Property Name="Door_Sensor_5" Type="Boolean" />
+          <Property Name="Gate_1" Type="Boolean" />
+          <Property Name="Gate_2" Type="Boolean" />
+          <Property Name="Gate_3" Type="Boolean" />
+          <Property Name="Signal_Tower_1" Type="Boolean" />
+          <Property Name="Signal_Tower_2" Type="Boolean" />
+          <Property Name="Signal_Tower_3" Type="Boolean" />
+          <Property Name="Signal_Tower_4" Type="Boolean" />
+          <Property Name="Signal_Tower_5" Type="Boolean" />
+          <Property Name="Signal_Tower_6" Type="Boolean" />
+          <Property Name="Safety_pin_1" Type="Boolean" />
+          <Property Name="Safety_pin_2" Type="Boolean" />
+          <Property Name="Safety_pin_3" Type="Boolean" />
+          <Property Name="Safety_pin_4" Type="Boolean" />
+          <Property Name="Safety_pin_5" Type="Boolean" />
+          <Property Name="Safety_pin_6" Type="Boolean" />
+          <Property Name="Safety_pin_7" Type="Boolean" />
+          <Property Name="Safety_pin_8" Type="Boolean" />
+          <Property Name="Safety_pin_9" Type="Boolean" />
+          <Property Name="Safety_pin_10" Type="Boolean" />
+          <Property Name="Safety_pin_11" Type="Boolean" />
+          <Property Name="Safety_pin_12" Type="Boolean" />
+          <Property Name="Safety_pin_13" Type="Boolean" />
+          <Property Name="Safety_pin_14" Type="Boolean" />
+          <Property Name="Error_Time" Type="DateTime" Precision="3" />
+          <Property Name="Error_Number" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SND_SNOSModelStoreContainer" CdmEntityContainer="SND_SNOSEntities">
+          <EntitySetMapping Name="Log_Error">
+            <EntityTypeMapping TypeName="SND_SNOSModel.Log_Error">
+              <MappingFragment StoreEntitySet="Log_Error">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="Error_Time" ColumnName="Error_Time" />
+                <ScalarProperty Name="Error_Number" ColumnName="Error_Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_Temp">
+            <EntityTypeMapping TypeName="SND_SNOSModel.Log_Temp">
+              <MappingFragment StoreEntitySet="Log_Temp">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="GET_TIME" ColumnName="GET_TIME" />
+                <ScalarProperty Name="Motor_Uncoiler" ColumnName="Motor_Uncoiler" />
+                <ScalarProperty Name="Motor_Tree_Roll" ColumnName="Motor_Tree_Roll" />
+                <ScalarProperty Name="Motor_Slitter" ColumnName="Motor_Slitter" />
+                <ScalarProperty Name="Motor_Roll_Tension" ColumnName="Motor_Roll_Tension" />
+                <ScalarProperty Name="Motor_Recoiler" ColumnName="Motor_Recoiler" />
+                <ScalarProperty Name="GearBox_Uncoiler" ColumnName="GearBox_Uncoiler" />
+                <ScalarProperty Name="GearBox_Tree_Roll" ColumnName="GearBox_Tree_Roll" />
+                <ScalarProperty Name="GearBox_Slitter" ColumnName="GearBox_Slitter" />
+                <ScalarProperty Name="GearBox_Roll_Tension" ColumnName="GearBox_Roll_Tension" />
+                <ScalarProperty Name="GearBox_Recoiler" ColumnName="GearBox_Recoiler" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mac_Spec">
+            <EntityTypeMapping TypeName="SND_SNOSModel.Mac_Spec">
+              <MappingFragment StoreEntitySet="Mac_Spec">
+                <ScalarProperty Name="Line_Name" ColumnName="Line_Name" />
+                <ScalarProperty Name="LINE_TYPE" ColumnName="LINE_TYPE" />
+                <ScalarProperty Name="Line_No" ColumnName="Line_No" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Think_W" ColumnName="Think_W" />
+                <ScalarProperty Name="Think_A" ColumnName="Think_A" />
+                <ScalarProperty Name="Think_M" ColumnName="Think_M" />
+                <ScalarProperty Name="Order_Size_W" ColumnName="Order_Size_W" />
+                <ScalarProperty Name="Order_Size_A" ColumnName="Order_Size_A" />
+                <ScalarProperty Name="Order_Size_M" ColumnName="Order_Size_M" />
+                <ScalarProperty Name="Uncoil_W" ColumnName="Uncoil_W" />
+                <ScalarProperty Name="Uncoil_A" ColumnName="Uncoil_A" />
+                <ScalarProperty Name="Uncoil_M" ColumnName="Uncoil_M" />
+                <ScalarProperty Name="Recoil_W" ColumnName="Recoil_W" />
+                <ScalarProperty Name="Recoil_A" ColumnName="Recoil_A" />
+                <ScalarProperty Name="Recoil_M" ColumnName="Recoil_M" />
+                <ScalarProperty Name="Speed_W" ColumnName="Speed_W" />
+                <ScalarProperty Name="Speed_A" ColumnName="Speed_A" />
+                <ScalarProperty Name="Speed_M" ColumnName="Speed_M" />
+                <ScalarProperty Name="Work_rate_W" ColumnName="Work_rate_W" />
+                <ScalarProperty Name="Work_rate_A" ColumnName="Work_rate_A" />
+                <ScalarProperty Name="Work_rate_M" ColumnName="Work_rate_M" />
+                <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+                <ScalarProperty Name="Modifly_Date" ColumnName="Modifly_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Versionchecks">
+            <EntityTypeMapping TypeName="SND_SNOSModel.Versioncheck">
+              <MappingFragment StoreEntitySet="Versioncheck">
+                <ScalarProperty Name="Customer_Name" ColumnName="Customer_Name" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="SNTM_Key" ColumnName="SNTM_Key" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Error_Mapping">
+            <EntityTypeMapping TypeName="SND_SNOSModel.Error_Mapping">
+              <MappingFragment StoreEntitySet="Error_Mapping">
+                <ScalarProperty Name="LINE_TYPE" ColumnName="LINE_TYPE" />
+                <ScalarProperty Name="Error_No" ColumnName="Error_No" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_A">
+            <EntityTypeMapping TypeName="SND_SNOSModel.Log_A">
+              <MappingFragment StoreEntitySet="Log_A">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="GET_TIME" ColumnName="GET_TIME" />
+                <ScalarProperty Name="Motor_Uncoiler" ColumnName="Motor_Uncoiler" />
+                <ScalarProperty Name="Motor_Tree_Roll" ColumnName="Motor_Tree_Roll" />
+                <ScalarProperty Name="Motor_Slitter" ColumnName="Motor_Slitter" />
+                <ScalarProperty Name="Motor_Roll_Tension" ColumnName="Motor_Roll_Tension" />
+                <ScalarProperty Name="Motor_Recoiler" ColumnName="Motor_Recoiler" />
+                <ScalarProperty Name="GearBox_Uncoiler" ColumnName="GearBox_Uncoiler" />
+                <ScalarProperty Name="GearBox_Tree_Roll" ColumnName="GearBox_Tree_Roll" />
+                <ScalarProperty Name="GearBox_Slitter" ColumnName="GearBox_Slitter" />
+                <ScalarProperty Name="GearBox_Roll_Tension" ColumnName="GearBox_Roll_Tension" />
+                <ScalarProperty Name="GearBox_Recoiler" ColumnName="GearBox_Recoiler" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_security_Sensor">
+            <EntityTypeMapping TypeName="SND_SNOSModel.Log_security_Sensor">
+              <MappingFragment StoreEntitySet="Log_security_Sensor">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="GET_TIME" ColumnName="GET_TIME" />
+                <ScalarProperty Name="Laser_Scanner_1" ColumnName="Laser_Scanner_1" />
+                <ScalarProperty Name="Laser_Scanner_2" ColumnName="Laser_Scanner_2" />
+                <ScalarProperty Name="Laser_Scanner_3" ColumnName="Laser_Scanner_3" />
+                <ScalarProperty Name="Laser_Scanner_4" ColumnName="Laser_Scanner_4" />
+                <ScalarProperty Name="Laser_Scanner_5" ColumnName="Laser_Scanner_5" />
+                <ScalarProperty Name="Laser_Scanner_6" ColumnName="Laser_Scanner_6" />
+                <ScalarProperty Name="Laser_Scanner_7" ColumnName="Laser_Scanner_7" />
+                <ScalarProperty Name="Laser_Scanner_8" ColumnName="Laser_Scanner_8" />
+                <ScalarProperty Name="Laser_Scanner_9" ColumnName="Laser_Scanner_9" />
+                <ScalarProperty Name="Laser_Scanner_10" ColumnName="Laser_Scanner_10" />
+                <ScalarProperty Name="Laser_Scanner_11" ColumnName="Laser_Scanner_11" />
+                <ScalarProperty Name="Laser_Scanner_12" ColumnName="Laser_Scanner_12" />
+                <ScalarProperty Name="Laser_Scanner_13" ColumnName="Laser_Scanner_13" />
+                <ScalarProperty Name="Laser_Scanner_14" ColumnName="Laser_Scanner_14" />
+                <ScalarProperty Name="Laser_Scanner_15" ColumnName="Laser_Scanner_15" />
+                <ScalarProperty Name="Laser_Scanner_16" ColumnName="Laser_Scanner_16" />
+                <ScalarProperty Name="Laser_Scanner_17" ColumnName="Laser_Scanner_17" />
+                <ScalarProperty Name="Laser_Scanner_18" ColumnName="Laser_Scanner_18" />
+                <ScalarProperty Name="Laser_Scanner_19" ColumnName="Laser_Scanner_19" />
+                <ScalarProperty Name="Laser_Scanner_20" ColumnName="Laser_Scanner_20" />
+                <ScalarProperty Name="Door_Sensor_1" ColumnName="Door_Sensor_1" />
+                <ScalarProperty Name="Door_Sensor_2" ColumnName="Door_Sensor_2" />
+                <ScalarProperty Name="Door_Sensor_3" ColumnName="Door_Sensor_3" />
+                <ScalarProperty Name="Door_Sensor_4" ColumnName="Door_Sensor_4" />
+                <ScalarProperty Name="Door_Sensor_5" ColumnName="Door_Sensor_5" />
+                <ScalarProperty Name="Gate_1" ColumnName="Gate_1" />
+                <ScalarProperty Name="Gate_2" ColumnName="Gate_2" />
+                <ScalarProperty Name="Gate_3" ColumnName="Gate_3" />
+                <ScalarProperty Name="Signal_Tower_1" ColumnName="Signal_Tower_1" />
+                <ScalarProperty Name="Signal_Tower_2" ColumnName="Signal_Tower_2" />
+                <ScalarProperty Name="Signal_Tower_3" ColumnName="Signal_Tower_3" />
+                <ScalarProperty Name="Signal_Tower_4" ColumnName="Signal_Tower_4" />
+                <ScalarProperty Name="Signal_Tower_5" ColumnName="Signal_Tower_5" />
+                <ScalarProperty Name="Signal_Tower_6" ColumnName="Signal_Tower_6" />
+                <ScalarProperty Name="Safety_pin_1" ColumnName="Safety_pin_1" />
+                <ScalarProperty Name="Safety_pin_2" ColumnName="Safety_pin_2" />
+                <ScalarProperty Name="Safety_pin_3" ColumnName="Safety_pin_3" />
+                <ScalarProperty Name="Safety_pin_4" ColumnName="Safety_pin_4" />
+                <ScalarProperty Name="Safety_pin_5" ColumnName="Safety_pin_5" />
+                <ScalarProperty Name="Safety_pin_6" ColumnName="Safety_pin_6" />
+                <ScalarProperty Name="Safety_pin_7" ColumnName="Safety_pin_7" />
+                <ScalarProperty Name="Safety_pin_8" ColumnName="Safety_pin_8" />
+                <ScalarProperty Name="Safety_pin_9" ColumnName="Safety_pin_9" />
+                <ScalarProperty Name="Safety_pin_10" ColumnName="Safety_pin_10" />
+                <ScalarProperty Name="Safety_pin_11" ColumnName="Safety_pin_11" />
+                <ScalarProperty Name="Safety_pin_12" ColumnName="Safety_pin_12" />
+                <ScalarProperty Name="Safety_pin_13" ColumnName="Safety_pin_13" />
+                <ScalarProperty Name="Safety_pin_14" ColumnName="Safety_pin_14" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_V">
+            <EntityTypeMapping TypeName="SND_SNOSModel.Log_V">
+              <MappingFragment StoreEntitySet="Log_V">
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+                <ScalarProperty Name="GET_TIME" ColumnName="GET_TIME" />
+                <ScalarProperty Name="Motor_Uncoiler" ColumnName="Motor_Uncoiler" />
+                <ScalarProperty Name="Motor_Tree_Roll" ColumnName="Motor_Tree_Roll" />
+                <ScalarProperty Name="Motor_Slitter" ColumnName="Motor_Slitter" />
+                <ScalarProperty Name="Motor_Roll_Tension" ColumnName="Motor_Roll_Tension" />
+                <ScalarProperty Name="Motor_Recoiler" ColumnName="Motor_Recoiler" />
+                <ScalarProperty Name="GearBox_Uncoiler" ColumnName="GearBox_Uncoiler" />
+                <ScalarProperty Name="GearBox_Tree_Roll" ColumnName="GearBox_Tree_Roll" />
+                <ScalarProperty Name="GearBox_Slitter" ColumnName="GearBox_Slitter" />
+                <ScalarProperty Name="GearBox_Roll_Tension" ColumnName="GearBox_Roll_Tension" />
+                <ScalarProperty Name="GearBox_Recoiler" ColumnName="GearBox_Recoiler" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_Work">
+            <EntityTypeMapping TypeName="SND_SNOSModel.Log_Work">
+              <MappingFragment StoreEntitySet="Log_Work">
+                <ScalarProperty Name="PILER_NO2" ColumnName="PILER_NO2" />
+                <ScalarProperty Name="PILER_NO1" ColumnName="PILER_NO1" />
+                <ScalarProperty Name="Slitter_Status" ColumnName="Slitter_Status" />
+                <ScalarProperty Name="Side_Guid_Status" ColumnName="Side_Guid_Status" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="COIL_DIVIDE_SET" ColumnName="COIL_DIVIDE_SET" />
+                <ScalarProperty Name="Preparetion" ColumnName="Preparetion" />
+                <ScalarProperty Name="Cutting_Mode" ColumnName="Cutting_Mode" />
+                <ScalarProperty Name="Inside_Diameter_RC" ColumnName="Inside_Diameter_RC" />
+                <ScalarProperty Name="Inside_Diameter_UC" ColumnName="Inside_Diameter_UC" />
+                <ScalarProperty Name="Outside_Diameter_RC" ColumnName="Outside_Diameter_RC" />
+                <ScalarProperty Name="Outside_Diameter_UC" ColumnName="Outside_Diameter_UC" />
+                <ScalarProperty Name="SCRAP_WINDER_R_Speed" ColumnName="SCRAP_WINDER_R_Speed" />
+                <ScalarProperty Name="SCRAP_WINDER_R_expand" ColumnName="SCRAP_WINDER_R_expand" />
+                <ScalarProperty Name="SCRAP_WINDER_L_Speed" ColumnName="SCRAP_WINDER_L_Speed" />
+                <ScalarProperty Name="SCRAP_WINDER_L_expand" ColumnName="SCRAP_WINDER_L_expand" />
+                <ScalarProperty Name="RECOIL_Speed" ColumnName="RECOIL_Speed" />
+                <ScalarProperty Name="RECOIL_expand" ColumnName="RECOIL_expand" />
+                <ScalarProperty Name="UNCOIL_Speed" ColumnName="UNCOIL_Speed" />
+                <ScalarProperty Name="UNCOIL_expand" ColumnName="UNCOIL_expand" />
+                <ScalarProperty Name="RESULT" ColumnName="RESULT" />
+                <ScalarProperty Name="PLAN" ColumnName="PLAN" />
+                <ScalarProperty Name="THICK" ColumnName="THICK" />
+                <ScalarProperty Name="SIZE" ColumnName="SIZE" />
+                <ScalarProperty Name="SPEED" ColumnName="SPEED" />
+                <ScalarProperty Name="LINE_STATUS" ColumnName="LINE_STATUS" />
+                <ScalarProperty Name="GET_TIME" ColumnName="GET_TIME" />
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="All_DataView">
+            <EntityTypeMapping TypeName="SND_SNOSModel.All_DataView">
+              <MappingFragment StoreEntitySet="All_DataView">
+                <ScalarProperty Name="Error_Number" ColumnName="Error_Number" />
+                <ScalarProperty Name="Error_Time" ColumnName="Error_Time" />
+                <ScalarProperty Name="Safety_pin_14" ColumnName="Safety_pin_14" />
+                <ScalarProperty Name="Safety_pin_13" ColumnName="Safety_pin_13" />
+                <ScalarProperty Name="Safety_pin_12" ColumnName="Safety_pin_12" />
+                <ScalarProperty Name="Safety_pin_11" ColumnName="Safety_pin_11" />
+                <ScalarProperty Name="Safety_pin_10" ColumnName="Safety_pin_10" />
+                <ScalarProperty Name="Safety_pin_9" ColumnName="Safety_pin_9" />
+                <ScalarProperty Name="Safety_pin_8" ColumnName="Safety_pin_8" />
+                <ScalarProperty Name="Safety_pin_7" ColumnName="Safety_pin_7" />
+                <ScalarProperty Name="Safety_pin_6" ColumnName="Safety_pin_6" />
+                <ScalarProperty Name="Safety_pin_5" ColumnName="Safety_pin_5" />
+                <ScalarProperty Name="Safety_pin_4" ColumnName="Safety_pin_4" />
+                <ScalarProperty Name="Safety_pin_3" ColumnName="Safety_pin_3" />
+                <ScalarProperty Name="Safety_pin_2" ColumnName="Safety_pin_2" />
+                <ScalarProperty Name="Safety_pin_1" ColumnName="Safety_pin_1" />
+                <ScalarProperty Name="Signal_Tower_6" ColumnName="Signal_Tower_6" />
+                <ScalarProperty Name="Signal_Tower_5" ColumnName="Signal_Tower_5" />
+                <ScalarProperty Name="Signal_Tower_4" ColumnName="Signal_Tower_4" />
+                <ScalarProperty Name="Signal_Tower_3" ColumnName="Signal_Tower_3" />
+                <ScalarProperty Name="Signal_Tower_2" ColumnName="Signal_Tower_2" />
+                <ScalarProperty Name="Signal_Tower_1" ColumnName="Signal_Tower_1" />
+                <ScalarProperty Name="Gate_3" ColumnName="Gate_3" />
+                <ScalarProperty Name="Gate_2" ColumnName="Gate_2" />
+                <ScalarProperty Name="Gate_1" ColumnName="Gate_1" />
+                <ScalarProperty Name="Door_Sensor_5" ColumnName="Door_Sensor_5" />
+                <ScalarProperty Name="Door_Sensor_4" ColumnName="Door_Sensor_4" />
+                <ScalarProperty Name="Door_Sensor_3" ColumnName="Door_Sensor_3" />
+                <ScalarProperty Name="Door_Sensor_2" ColumnName="Door_Sensor_2" />
+                <ScalarProperty Name="Door_Sensor_1" ColumnName="Door_Sensor_1" />
+                <ScalarProperty Name="Laser_Scanner_20" ColumnName="Laser_Scanner_20" />
+                <ScalarProperty Name="Laser_Scanner_19" ColumnName="Laser_Scanner_19" />
+                <ScalarProperty Name="Laser_Scanner_18" ColumnName="Laser_Scanner_18" />
+                <ScalarProperty Name="Laser_Scanner_17" ColumnName="Laser_Scanner_17" />
+                <ScalarProperty Name="Laser_Scanner_16" ColumnName="Laser_Scanner_16" />
+                <ScalarProperty Name="Laser_Scanner_15" ColumnName="Laser_Scanner_15" />
+                <ScalarProperty Name="Laser_Scanner_14" ColumnName="Laser_Scanner_14" />
+                <ScalarProperty Name="Laser_Scanner_13" ColumnName="Laser_Scanner_13" />
+                <ScalarProperty Name="Laser_Scanner_12" ColumnName="Laser_Scanner_12" />
+                <ScalarProperty Name="Laser_Scanner_11" ColumnName="Laser_Scanner_11" />
+                <ScalarProperty Name="Laser_Scanner_10" ColumnName="Laser_Scanner_10" />
+                <ScalarProperty Name="Laser_Scanner_9" ColumnName="Laser_Scanner_9" />
+                <ScalarProperty Name="Laser_Scanner_8" ColumnName="Laser_Scanner_8" />
+                <ScalarProperty Name="Laser_Scanner_7" ColumnName="Laser_Scanner_7" />
+                <ScalarProperty Name="Laser_Scanner_6" ColumnName="Laser_Scanner_6" />
+                <ScalarProperty Name="Laser_Scanner_5" ColumnName="Laser_Scanner_5" />
+                <ScalarProperty Name="Laser_Scanner_4" ColumnName="Laser_Scanner_4" />
+                <ScalarProperty Name="Laser_Scanner_3" ColumnName="Laser_Scanner_3" />
+                <ScalarProperty Name="Laser_Scanner_2" ColumnName="Laser_Scanner_2" />
+                <ScalarProperty Name="Laser_Scanner_1" ColumnName="Laser_Scanner_1" />
+                <ScalarProperty Name="GearBox_Recoiler_Temp" ColumnName="GearBox_Recoiler_Temp" />
+                <ScalarProperty Name="GearBox_Roll_Tension_Temp" ColumnName="GearBox_Roll_Tension_Temp" />
+                <ScalarProperty Name="GearBox_Slitter_Temp" ColumnName="GearBox_Slitter_Temp" />
+                <ScalarProperty Name="GearBox_Tree_Roll_Temp" ColumnName="GearBox_Tree_Roll_Temp" />
+                <ScalarProperty Name="GearBox_Uncoiler_Temp" ColumnName="GearBox_Uncoiler_Temp" />
+                <ScalarProperty Name="Motor_Recoiler_Temp" ColumnName="Motor_Recoiler_Temp" />
+                <ScalarProperty Name="Motor_Roll_Tension_Temp" ColumnName="Motor_Roll_Tension_Temp" />
+                <ScalarProperty Name="Motor_Slitter_Temp" ColumnName="Motor_Slitter_Temp" />
+                <ScalarProperty Name="Motor_Tree_Roll_Temp" ColumnName="Motor_Tree_Roll_Temp" />
+                <ScalarProperty Name="Motor_Uncoiler_Temp" ColumnName="Motor_Uncoiler_Temp" />
+                <ScalarProperty Name="GearBox_Recoiler_V" ColumnName="GearBox_Recoiler_V" />
+                <ScalarProperty Name="GearBox_Roll_Tension_V" ColumnName="GearBox_Roll_Tension_V" />
+                <ScalarProperty Name="GearBox_Slitter_V" ColumnName="GearBox_Slitter_V" />
+                <ScalarProperty Name="GearBox_Tree_Roll_V" ColumnName="GearBox_Tree_Roll_V" />
+                <ScalarProperty Name="GearBox_Uncoiler_V" ColumnName="GearBox_Uncoiler_V" />
+                <ScalarProperty Name="Motor_Recoiler_V" ColumnName="Motor_Recoiler_V" />
+                <ScalarProperty Name="Motor_Roll_Tension_V" ColumnName="Motor_Roll_Tension_V" />
+                <ScalarProperty Name="Motor_Slitter_V" ColumnName="Motor_Slitter_V" />
+                <ScalarProperty Name="Motor_Tree_Roll_V" ColumnName="Motor_Tree_Roll_V" />
+                <ScalarProperty Name="Motor_Uncoiler_V" ColumnName="Motor_Uncoiler_V" />
+                <ScalarProperty Name="GearBox_Recoiler_A" ColumnName="GearBox_Recoiler_A" />
+                <ScalarProperty Name="GearBox_Roll_Tension_A" ColumnName="GearBox_Roll_Tension_A" />
+                <ScalarProperty Name="GearBox_Slitter_A" ColumnName="GearBox_Slitter_A" />
+                <ScalarProperty Name="GearBox_Tree_Roll_A" ColumnName="GearBox_Tree_Roll_A" />
+                <ScalarProperty Name="GearBox_Uncoiler_A" ColumnName="GearBox_Uncoiler_A" />
+                <ScalarProperty Name="Motor_Recoiler_A" ColumnName="Motor_Recoiler_A" />
+                <ScalarProperty Name="Motor_Roll_Tension_A" ColumnName="Motor_Roll_Tension_A" />
+                <ScalarProperty Name="Motor_Slitter_A" ColumnName="Motor_Slitter_A" />
+                <ScalarProperty Name="Motor_Tree_Roll_A" ColumnName="Motor_Tree_Roll_A" />
+                <ScalarProperty Name="Motor_Uncoiler_A" ColumnName="Motor_Uncoiler_A" />
+                <ScalarProperty Name="Slitter_Status" ColumnName="Slitter_Status" />
+                <ScalarProperty Name="Side_Guid_Status" ColumnName="Side_Guid_Status" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="COIL_DIVIDE_SET" ColumnName="COIL_DIVIDE_SET" />
+                <ScalarProperty Name="Preparetion" ColumnName="Preparetion" />
+                <ScalarProperty Name="Cutting_Mode" ColumnName="Cutting_Mode" />
+                <ScalarProperty Name="Inside_Diameter_RC" ColumnName="Inside_Diameter_RC" />
+                <ScalarProperty Name="Inside_Diameter_UC" ColumnName="Inside_Diameter_UC" />
+                <ScalarProperty Name="Outside_Diameter_RC" ColumnName="Outside_Diameter_RC" />
+                <ScalarProperty Name="Outside_Diameter_UC" ColumnName="Outside_Diameter_UC" />
+                <ScalarProperty Name="SCRAP_WINDER_R_expand" ColumnName="SCRAP_WINDER_R_expand" />
+                <ScalarProperty Name="SCRAP_WINDER_R_Speed" ColumnName="SCRAP_WINDER_R_Speed" />
+                <ScalarProperty Name="SCRAP_WINDER_L_Speed" ColumnName="SCRAP_WINDER_L_Speed" />
+                <ScalarProperty Name="SCRAP_WINDER_L_expand" ColumnName="SCRAP_WINDER_L_expand" />
+                <ScalarProperty Name="RECOIL_Speed" ColumnName="RECOIL_Speed" />
+                <ScalarProperty Name="RECOIL_expand" ColumnName="RECOIL_expand" />
+                <ScalarProperty Name="UNCOIL_Speed" ColumnName="UNCOIL_Speed" />
+                <ScalarProperty Name="UNCOIL_expand" ColumnName="UNCOIL_expand" />
+                <ScalarProperty Name="RESULT" ColumnName="RESULT" />
+                <ScalarProperty Name="PLAN" ColumnName="PLAN" />
+                <ScalarProperty Name="THICK" ColumnName="THICK" />
+                <ScalarProperty Name="SIZE" ColumnName="SIZE" />
+                <ScalarProperty Name="SPEED" ColumnName="SPEED" />
+                <ScalarProperty Name="LINE_STATUS" ColumnName="LINE_STATUS" />
+                <ScalarProperty Name="GET_TIME" ColumnName="GET_TIME" />
+                <ScalarProperty Name="LINE" ColumnName="LINE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Add_Log" FunctionName="SND_SNOSModel.Store.Add_Log" />
+          <FunctionImportMapping FunctionImportName="Add_Log_Timeset" FunctionName="SND_SNOSModel.Store.Add_Log_Timeset" />
+          <FunctionImportMapping FunctionImportName="Clear_All_Log" FunctionName="SND_SNOSModel.Store.Clear_All_Log" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

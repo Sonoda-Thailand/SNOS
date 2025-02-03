@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "ThisWeek";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SNOS_Report.Models.DataClass.Error_item> datalist = null;
+    List<SNOS_Report.Database.Mac_Spec> lineinfor = ViewBag.linelist;
+    try
+    {
+        datalist = ViewBag.Error;
+    }
+    catch { }
+
+    string gettimeformat(int secs)
+    {
+        TimeSpan t = TimeSpan.FromSeconds(secs);
+
+        string answer = string.Format("{0:D2}h {1:D2}m {2:D2}s",
+                        t.Hours,
+                        t.Minutes,
+                        t.Seconds,
+                        t.Milliseconds);
+        return answer;
+    }
+
+    string linename = "";
+
+}
+<main class="content">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-8">
+                <h1 class="h3 d-inline align-middle">This week errors</h1>
+            </div>
+
+            <div class="justify-content-end col-4">
+                <select class="form-select" aria-label="Default select example" id="line" onchange="changeline()">
+                    @{
+                        int ct = 1;
+                        foreach (var x in lineinfor)
+                        {
+                            if (x.Line_No == ViewBag.Line)
+                            {
+                                <option selected value="@x.Line_No">@x.Line_Name</option>
+                                linename = x.Line_Name;
+
+                            }
+                            else
+                            {
+                                <option value="@x.Line_No">@x.Line_Name</option>
+
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <br>
+
+        <div class="row" style="justify-content: center;">
+            <div class="col-xl-6 col-xxl-5 d-flex">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title" style="color:purple">Total error in week</h5>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fas fa-dizzy"></i> <span class="align-middle"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3 text-center">@datalist.Count() Errors</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 ">
+                <h1 class="h3 d-inline align-middle"></h1>
+            </div>
+            <div class="justify-content-end col-4 text-end">
+                <button type="button" class="btn btn-success" onclick="fnExcelReport();"><i class="fas fa-file-export"></i> Export To CSV</button>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-responsive" id="Tabledata">
+                        <thead>
+
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">StartTime</th>
+                                <th scope="col">EndTime</th>
+                                @* <th scope="col">Line</th>
+                                    <th scope="col">Line Name</th>*@
+                                <th scope="col">Error</th>
+                                <th scope="col">Detail</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @{
+                                ct = 1;
+                                foreach (var item in datalist)
+                                {
+                                    <tr>
+                                        <td>@ct</td>
+                                        <td>@item.start.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                        <td>@item.end.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                        @*<td>@item.LINE</td>
+                                            <td>@item.LINE_NAME</td>*@
+                                        <td>@item.mapping.Title</td>
+                                        <td>@item.mapping.Detail</td>
+                                    </tr>
+                                    ct++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</main>
+<script>
+    document.getElementById("li_ErrorThisWeek").classList.add("active")
+    //Dropdown li
+    document.getElementById("li-Error").classList.add("active");
+    document.getElementById("Error-a").classList.remove("collapsed");
+    document.getElementById("Error").classList.add("show");
+
+    function changeline() {
+        var line = document.getElementById("line").value;
+        window.location.replace("../Error_Report/ThisWeek?line=" + line);
+    }
+     function fnExcelReport() {
+        /* Get the HTML data using Element by Id */
+        var table = document.getElementById("Tabledata");
+
+        /* Declaring array variable */
+        var rows = [];
+
+        //iterate through rows of table
+        for (var i = 0, row; row = table.rows[i]; i++) {
+            //rows would be accessed using the "row" variable assigned in the for loop
+            //Get each cell value/column from the row
+            column1 = row.cells[0].innerText;
+            column2 = row.cells[1].innerText;
+            column3 = row.cells[2].innerText;
+            column4 = row.cells[3].innerText;
+            column5 = row.cells[4].innerText;
+            /* add a new records in the array */
+            rows.push(
+                [
+                    column1,
+                    column2,
+                    column3,
+                    column4,
+                    column5
+                ]
+            );
+
+        }
+        csvContent = "data:text/csv;charset=utf-8,";
+        /* add the column delimiter as comma(,) and each row splitted by new line character (\n) */
+        rows.forEach(function (rowArray) {
+            row = rowArray.join(",");
+            csvContent += row + "\r\n";
+        });
+
+        /* create a hidden <a> DOM node and set its download attribute */
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download","@Html.Raw(linename) Error_List.csv");
+        document.body.appendChild(link);
+        link.click();
+    }
+</script>

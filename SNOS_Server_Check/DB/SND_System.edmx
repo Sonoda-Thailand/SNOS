@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SND_SystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Factory_Report_Iog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Reporter1" Type="uniqueidentifier" />
+          <Property Name="WorkerID1" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorkerID2" Type="uniqueidentifier" />
+          <Property Name="WorkerID3" Type="uniqueidentifier" />
+          <Property Name="WorkerID4" Type="uniqueidentifier" />
+          <Property Name="FileID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SNOS_IP_Checklist">
+          <Key>
+            <PropertyRef Name="STM_ID" />
+          </Key>
+          <Property Name="STM_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cus_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IP_Address_CS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IP_Address_SND" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact_status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SND_SystemModelStoreContainer">
+          <EntitySet Name="Factory_Report_Iog" EntityType="Self.Factory_Report_Iog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SNOS_IP_Checklist" EntityType="Self.SNOS_IP_Checklist" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SND_SystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Factory_Report_Iog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reporter1" Type="Guid" />
+          <Property Name="WorkerID1" Type="Guid" Nullable="false" />
+          <Property Name="WorkerID2" Type="Guid" />
+          <Property Name="WorkerID3" Type="Guid" />
+          <Property Name="WorkerID4" Type="Guid" />
+          <Property Name="FileID" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SNOS_IP_Checklist">
+          <Key>
+            <PropertyRef Name="STM_ID" />
+          </Key>
+          <Property Name="STM_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cus_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IP_Address_CS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IP_Address_SND" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contact_status" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SND_SystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Factory_Report_Iog" EntityType="Self.Factory_Report_Iog" />
+          <EntitySet Name="SNOS_IP_Checklist" EntityType="Self.SNOS_IP_Checklist" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SND_SystemModelStoreContainer" CdmEntityContainer="SND_SystemEntities">
+          <EntitySetMapping Name="Factory_Report_Iog">
+            <EntityTypeMapping TypeName="SND_SystemModel.Factory_Report_Iog">
+              <MappingFragment StoreEntitySet="Factory_Report_Iog">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Reporter1" ColumnName="Reporter1" />
+                <ScalarProperty Name="WorkerID1" ColumnName="WorkerID1" />
+                <ScalarProperty Name="WorkerID2" ColumnName="WorkerID2" />
+                <ScalarProperty Name="WorkerID3" ColumnName="WorkerID3" />
+                <ScalarProperty Name="WorkerID4" ColumnName="WorkerID4" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SNOS_IP_Checklist">
+            <EntityTypeMapping TypeName="SND_SystemModel.SNOS_IP_Checklist">
+              <MappingFragment StoreEntitySet="SNOS_IP_Checklist">
+                <ScalarProperty Name="STM_ID" ColumnName="STM_ID" />
+                <ScalarProperty Name="Cus_Name" ColumnName="Cus_Name" />
+                <ScalarProperty Name="IP_Address_CS" ColumnName="IP_Address_CS" />
+                <ScalarProperty Name="IP_Address_SND" ColumnName="IP_Address_SND" />
+                <ScalarProperty Name="Contact_status" ColumnName="Contact_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

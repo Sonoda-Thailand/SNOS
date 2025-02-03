@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/jquery")
+    <link href="~/Content/app.css" rel="stylesheet">
+    <link href="~/Content/SND.css" rel="stylesheet">
+</head>
+<body onload="load()">
+    <script type="text/javascript" src="~/Scripts/app.js"></script>
+    <div class="wrapper">
+        <nav id="sidebar" class="sidebar js-sidebar">
+            <div class="sidebar-content js-simplebar">
+                <a class="sidebar-brand" href="@Url.Action("Index", "Home")">
+                    <span class="align-middle">Home</span>
+                </a>
+
+                <ul class="sidebar-nav">
+                    @{
+                        if (true/*ViewBag.Exuser == "1"*/)
+                        {
+                            <li class="sidebar-header">
+                                SNOS Report
+                            </li>
+                            <li class="sidebar-item" id="li-dashboard">
+                                <a class="sidebar-link" href="@Url.Action("Index", "Home")">
+                                    <i class="fas fa-chart-line"></i> <span class="align-middle">DashBoard</span>
+                                </a>
+                            </li>
+                            //Order
+                            <li class="sidebar-item" id="li-Order">
+                                <a href="#Order" data-bs-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false" id="Order-a">
+                                    <i class="fas fa-clipboard-list"></i> <span class="align-middle">Order history</span>
+                                </a>
+                                <ul id="Order" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" style="">
+                                    <li class="sidebar-item" id="li_OrderSearch">
+                                        <a class="sidebar-link" href="@Url.Action("Search", "Order_Report")">
+                                            <i class="fas fa-search"></i> <span class="align-middle">Search</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item" id="li_OrderThisWeek">
+                                        <a class="sidebar-link" href="@Url.Action("ThisWeek", "Order_Report")">
+                                            <i class="fas fa-object-ungroup"></i> <span class="align-middle">This week</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item" id="li_OrderThisMonth">
+                                        <a class="sidebar-link" href="@Url.Action("ThisMonth", "Order_Report")">
+                                            <i class="fas fa-object-ungroup"></i> <span class="align-middle">This month</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            //Error
+                            <li class="sidebar-item" id="li-Error">
+                                <a href="#Error" data-bs-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false" id="Error-a">
+                                    <i class="fas fa-frown"></i> <span class="align-middle">Error list</span>
+                                </a>
+                                <ul id="Error" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" style="">
+                                    <li class="sidebar-item" id="li_ErrorSearch">
+                                        <a class="sidebar-link" href="@Url.Action("Search", "Error_Report")">
+                                            <i class="fas fa-search"></i> <span class="align-middle">Search</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item" id="li_ErrorThisWeek">
+                                        <a class="sidebar-link" href="@Url.Action("ThisWeek", "Error_Report")">
+                                            <i class="fas fa-object-ungroup"></i> <span class="align-middle">This week</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item" id="li_ErrorThisMonth">
+                                        <a class="sidebar-link" href="@Url.Action("ThisMonth", "Error_Report")">
+                                            <i class="fas fa-object-ungroup"></i> <span class="align-middle">This month</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            //Time chart
+                            <li class="sidebar-item" id="li_Timechart">
+                                <a href="#Timechart" data-bs-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false" id="Timechart-a">
+                                    <i class="fas fa-th"></i> <span class="align-middle">Time chart</span>
+                                </a>
+                                <ul id="Timechart" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" style="">
+                                    <li class="sidebar-item" id="li_Timechart_Daily">
+                                        <a class="sidebar-link" href="@Url.Action("Daily", "TimeChart")">
+                                            <i class="fas fa-eye"></i> <span class="align-middle">Daily</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-item" id="li_Zone">
+                                        <a class="sidebar-link" href="@Url.Action("Zone", "TimeChart")">
+                                            <i class="fas fa-hand-point-right"></i><i class="fas fa-hand-point-left"></i> <span class="align-middle">Zone select</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                    }
+                    @*<li class="sidebar-header">
+                            資料
+                        </li>
+                        <li class="sidebar-item" id="li-document">
+                            <a class="sidebar-link" href="@Url.Action("document", "Executive")">
+                                <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">古い資料</span>
+                            </a>
+                        </li>*@
+
+                </ul>
+            </div>
+        </nav>
+        <div class="main">
+            <nav class="navbar navbar-expand navbar-light navbar-bg">
+                <a class="sidebar-toggle js-sidebar-toggle">
+                    <i class="hamburger align-self-center"></i>
+                </a>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav navbar-align" style="margin-left: unset;">
+                        <li class="nav-item">
+                            <span class="SND_Header">SNOS System</span>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            @RenderBody()
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row text-muted">
+                        <div class="col-12 text-center">
+                            <p class="mb-0">
+                                <strong>Copyright 2023 &copy; SONODA Thailand. All rights reserved.</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <div class="modal fade" id="ErrorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Error</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @ViewBag.Message
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    function load()
+    {
+        var message = "@ViewBag.Message";
+        if (message != null && message != "")
+        {
+            var Modal = new bootstrap.Modal(document.getElementById('ErrorModal'), {
+                keyboard: false
+            })
+            Modal.show()
+        }
+    }
+    </script>
+</body>
+</html>
