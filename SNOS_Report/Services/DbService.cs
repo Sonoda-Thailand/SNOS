@@ -54,7 +54,5 @@ namespace SNOS_Report.Services
             _context.Dispose();
             GC.SuppressFinalize(this);
         }
-
-
     }
 }

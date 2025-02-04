@@ -11,7 +11,7 @@ namespace SNOS_Report.Services
     {
         DbService db = new DbService();
 
-        public List<Error_Compair> GetErrorMonthlyCompair(int line, string lang, int month, int year)
+        public List<Error_Compair> GetErrorMonthlyCompair(int line, string lang, int month, int year, bool lastused)
         {
             var totalData = new List<Error_Total>();
             var lastMonth_Data = db.GetErrorByMonth(line, lang, month == 1 ? 12 : (month - 1), month == 1 ? year - 1 : year);
@@ -32,6 +32,11 @@ namespace SNOS_Report.Services
 
             //totalData.AddRange(lastMonth_Data);
             //totalData.AddRange(thisMonth_Data);
+
+            if (lastused)
+            {
+                db.Dispose();
+            }
 
             return result;
         }
