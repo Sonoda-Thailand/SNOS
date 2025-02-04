@@ -25,6 +25,7 @@ namespace SNOS_Report.Controllers
                 int line = Convert.ToInt32(Request["line"]);
                 if (line != 0)
                 {
+                    //test
                     ViewBag.topthickday = Dashboard_data.gettopthick_day(line);
                     ViewBag.topthickweek = Dashboard_data.gettopthick_week(line);
                     ViewBag.topthickmonth = Dashboard_data.gettopthick_month(line);
