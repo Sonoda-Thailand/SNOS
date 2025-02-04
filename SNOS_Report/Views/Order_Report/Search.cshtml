@@ -80,43 +80,52 @@
 
             </div>
             <div class="card-body">
-                <table class="table table-hover" id="Tabledata">
-                    <thead>
+                <button id="showTable" class="btn btn-primary">Data</button>
+                <button id="showChart" class="btn btn-secondary">Chart</button>
 
-                        <tr>
-                            <th scope="col">No.</th>
-                            <th scope="col">Start time</th>
-                            <th scope="col">End time</th>
-                            <th scope="col">Job</th>
-                            <th scope="col">Thick</th>
-                            <th scope="col">Working rate</th>
-                            <th scope="col">Total time</th>
-                            <th scope="col">Auto Run</th>
-                            <th scope="col">Stop</th>
-                        </tr>
-                    </thead>
+                <div id="tableContainer">
+                    <table class="table table-hover" id="Tabledata">
+                        <thead>
 
-                    <tbody>
-                        @{
-                            ct = 1;
-                            foreach (var item in datalist)
-                            {
-                                <tr>
-                                    <td>@ct</td>
-                                    <td>@item.start.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                    <td>@item.end.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                    <td>@item.Length</td>
-                                    <td>@item.THICK</td>
-                                    <td>@Html.Raw(((item.workrate > 0) ? item.workrate : 0).ToString("N2"))</td>
-                                    <td>@gettimeformat(item.poweron)</td>
-                                    <td>@gettimeformat(item.auto)</td>
-                                    <td>@gettimeformat(item.stop)</td>
-                                </tr>
-                                ct++;
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Start time</th>
+                                <th scope="col">End time</th>
+                                <th scope="col">Job</th>
+                                <th scope="col">Thick</th>
+                                <th scope="col">Working rate</th>
+                                <th scope="col">Total time</th>
+                                <th scope="col">Auto Run</th>
+                                <th scope="col">Stop</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @{
+                                ct = 1;
+                                foreach (var item in datalist)
+                                {
+                                    <tr>
+                                        <td>@ct</td>
+                                        <td>@item.start.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                        <td>@item.end.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                        <td>@item.Length</td>
+                                        <td>@item.THICK</td>
+                                        <td>@Html.Raw(((item.workrate > 0) ? item.workrate : 0).ToString("N2"))</td>
+                                        <td>@gettimeformat(item.poweron)</td>
+                                        <td>@gettimeformat(item.auto)</td>
+                                        <td>@gettimeformat(item.stop)</td>
+                                    </tr>
+                                    ct++;
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="chartContainer" style="display: none;">
+                    <div id="chart"></div>
+                </div>
             </div>
         </div>
 
@@ -187,5 +196,35 @@
         link.setAttribute("download","@Html.Raw(linename) Order_List.csv");
         document.body.appendChild(link);
         link.click();
+    }
+
+    document.getElementById("showTable").addEventListener("click", function () {
+        document.getElementById("tableContainer").style.display = "block";
+        document.getElementById("chartContainer").style.display = "none";
+    });
+
+    document.getElementById("showChart").addEventListener("click", function () {
+        document.getElementById("tableContainer").style.display = "none";
+        document.getElementById("chartContainer").style.display = "block";
+        renderChart();
+    });
+
+    function renderChart() {
+        var options = {
+            series: [{
+                name: 'Working Rate',
+                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(datalist.Select(d => d.workrate > 0 ? d.workrate : 0)))
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            xaxis: {
+                categories: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(datalist.Select(d => d.start.ToString("dd/MM/yyyy HH:mm:ss"))))
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
     }
 </script>
