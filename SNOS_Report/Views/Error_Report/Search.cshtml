@@ -80,43 +80,58 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-hover table-responsive" id="Tabledata">
-                    <thead>
+                <button id="showTable" class="btn btn-primary">Data</button>
+                <button id="showChart" class="btn btn-secondary">Chart</button>
 
-                        <tr>
-                            <th scope="col">No.</th>
-                            <th scope="col">StartTime</th>
-                            <th scope="col">EndTime</th>
-                            @* <th scope="col">Line</th>
-                                <th scope="col">Line Name</th>*@
-                            <th scope="col">Error</th>
-                            <th scope="col">Detail</th>
-                        </tr>
-                    </thead>
+                <div id="tableContainer">
+                    <table class="table table-hover table-responsive" id="Tabledata">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">StartTime</th>
+                                <th scope="col">EndTime</th>
+                                <th scope="col">Error</th>
+                                <th scope="col">Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                ct = 1;
+                                var errorCounts = new Dictionary<string, int>();
 
-                    <tbody>
-                        @{
-                            ct = 1;
-                            try
-                            {
-                                foreach (var item in datalist)
+                                try
                                 {
-                                    <tr>
-                                        <td>@ct</td>
-                                        <td>@item.start.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                        <td>@item.end.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                        @*<td>@item.LINE</td>
-                                            <td>@item.LINE_NAME</td>*@
-                                        <td>@item.mapping.Title</td>
-                                        <td>@item.mapping.Detail</td>
-                                    </tr>
-                                    ct++;
+                                    foreach (var item in datalist)
+                                    {
+                                        // นับความถี่ของ item.mapping.Title
+                                        if (errorCounts.ContainsKey(item.mapping.Title))
+                                        {
+                                            errorCounts[item.mapping.Title]++;
+                                        }
+                                        else
+                                        {
+                                            errorCounts[item.mapping.Title] = 1;
+                                        }
+
+                                        <tr>
+                                            <td>@ct</td>
+                                            <td>@item.start.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                            <td>@item.end.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                            <td>@item.mapping.Title</td>
+                                            <td>@item.mapping.Detail</td>
+                                        </tr>
+                                        ct++;
+                                    }
                                 }
+                                catch { }
                             }
-                            catch { }
-                        }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="chartContainer" style="display: none;">
+                    <div id="chart"></div>
+                </div>
             </div>
         </div>
 
@@ -175,5 +190,39 @@
         link.setAttribute("download","@Html.Raw(linename) Error_List.csv");
         document.body.appendChild(link);
         link.click();
+    }
+    document.getElementById("showTable").addEventListener("click", function () {
+        document.getElementById("tableContainer").style.display = "block";
+        document.getElementById("chartContainer").style.display = "none";
+    });
+
+    document.getElementById("showChart").addEventListener("click", function () {
+        document.getElementById("tableContainer").style.display = "none";
+        document.getElementById("chartContainer").style.display = "block";
+        renderChart();
+    });
+
+    function renderChart() {
+        var errorCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(errorCounts));
+
+        var options = {
+            series: [{
+                name: 'Count',
+                data: Object.values(errorCounts) // ค่านับของแต่ละประเภท
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            xaxis: {
+                categories: Object.keys(errorCounts) // ชื่อประเภท Error
+            },
+            title: {
+                text: 'Error Frequency'
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
     }
 </script>
