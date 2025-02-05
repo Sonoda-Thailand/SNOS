@@ -292,6 +292,7 @@
     <Content Include="Views\Error_Report\Search.cshtml" />
     <Content Include="Views\TimeChart\Daily.cshtml" />
     <Content Include="Views\TimeChart\Zone.cshtml" />
+    <Content Include="Views\Error_Report\CompareError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
