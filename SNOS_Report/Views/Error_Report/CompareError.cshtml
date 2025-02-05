@@ -69,6 +69,11 @@
 </main>
 
 <script>
+    document.getElementById("li_ErrorCompareMonth").classList.add("active")
+    //Dropdown li
+    document.getElementById("li-Error").classList.add("active");
+    document.getElementById("Error-a").classList.remove("collapsed");
+    document.getElementById("Error").classList.add("show");
     $(document).ready(function () {
         if (localStorage.getItem("selectedMonth")) {
             $("#month").val(localStorage.getItem("selectedMonth"));
