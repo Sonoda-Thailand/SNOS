@@ -35,22 +35,35 @@ namespace SNOS_Report.Services
 
                 var type = _context.Mac_Spec.FirstOrDefault(x => x.Line_No == line).LINE_TYPE;
 
-                result = getError
-                    .Join(
-                        _context.Error_Mapping,                             
-                        e => new { Error_No = e.Error_Num, Line_Type = type, Lang = lang }, 
-                        m => new { Error_No = m.Error_No, Line_Type = m.LINE_TYPE, Lang = m.Language }, 
-                        (e, m) => new Error_Total                           
-                        {
-                            month = e.month,
-                            year = e.year,
-                            Line = line,
-                            Error_No = e.Error_Num,
-                            Count = e.count,
-                            Title = m.Title
-                        }
-                    )
-                    .ToList();
+                var errorMap = _context.Error_Mapping.Where(x => x.LINE_TYPE == type && x.Language == lang).ToList();
+
+                //result = getError
+                //    .Join(
+                //        _context.Error_Mapping,                             
+                //        e => new { Error_No = e.Error_Num, Line_Type = type, Lang = lang }, 
+                //        m => new { Error_No = m.Error_No, Line_Type = m.LINE_TYPE, Lang = m.Language }, 
+                //        (e, m) => new Error_Total                           
+                //        {
+                //            month = e.month,
+                //            year = e.year,
+                //            Line = line,
+                //            Error_No = e.Error_Num,
+                //            Count = e.count,
+                //            Title = m.Title
+                //        }
+                //    )
+                //    .ToList();
+
+                result = getError.Select(x => new Error_Total
+                {
+                    month = x.month,
+                    year = x.year,
+                    Line = line,
+                    Error_No = x.Error_Num,
+                    Count = x.count,
+                    Title = errorMap.FirstOrDefault(e => e.Error_No == x.Error_Num).Title
+
+                }).ToList();
             }
 
             return result;
