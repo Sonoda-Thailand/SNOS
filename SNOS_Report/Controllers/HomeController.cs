@@ -13,8 +13,12 @@ namespace SNOS_Report.Controllers
 {
     public class HomeController : Controller
     {
+        ErrorService error = new ErrorService();
+
         public ActionResult Index()
         {
+            var test = error.GetErrorMonthlyCompair(1, "en", 2, 2025);
+
             using (var data = new SND_SNOSEntities())
             {
                 var infor = (from s in data.Mac_Spec

@@ -26,7 +26,7 @@ namespace SNOS_Report.Services
                 Line = x.FirstOrDefault().Line,
                 Title = x.FirstOrDefault().Title,
                 This_Count = x.Count(t => t.month == month && t.year == year) != 0 ? x.FirstOrDefault(t => t.month == month && t.year == year).Count : 0,
-                Last_Count = x.Count(t => t.month != month && t.year != year) != 0 ? x.FirstOrDefault(t => t.month != month && t.year != year).Count : 0
+                Last_Count = x.Count(t => t.month != month) != 0 ? x.FirstOrDefault(t => t.month != month).Count : 0
 
             }).ToList();
 
