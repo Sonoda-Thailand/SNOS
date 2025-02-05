@@ -11,6 +11,8 @@ namespace SNOS_Report.Services
     {
         public List<Error_Total> GetErrorByMonth(int line, string lang, int month, int year)
         {
+            line = line == 0 ? 1 : line;
+
             var result = new List<Error_Total>();
 
             using (var _context = new SND_SNOSEntities())
