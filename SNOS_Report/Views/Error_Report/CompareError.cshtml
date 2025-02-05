@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "CompareError";
+    List<SNOS_Report.Database.Mac_Spec> lineinfor = ViewBag.linelist;
+    string linename = "";
+}
+
+<main class="content">
+    <div class="container-fluid p-0">
+        <div class="mb-3">
+            <h1 class="h3 d-inline align-middle">CompareData Monthly</h1>
+        </div>
+        <div class="card">
+            <div class="card-header pb-0">
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label class="form-label">Month</label>
+                        <select id="month" class="form-select">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label class="form-label">Year</label>
+                        <input type="number" id="year" class="form-control" min="2000" max="2100" value="2024">
+                    </div>
+                    <div class="mb-3 col-md-2">
+                        <label class="form-label">Line</label>
+                        <select class="form-select" aria-label="Default select example" id="line" onchange="changeline()">
+                            @{
+                                int ct = 1;
+                                foreach (var x in lineinfor)
+                                {
+                                    if (x.Line_No == ViewBag.Line)
+                                    {
+                                        <option selected value="@x.Line_No">@x.Line_Name</option>
+                                        linename = x.Line_Name;
+
+                                    }
+                                    else
+                                    {
+                                        <option value="@x.Line_No">@x.Line_Name</option>
+
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3 col-md-2 d-flex align-items-end">
+                        <button id="showChart" class="btn btn-primary w-100" onclick="searchclick();">Show Chart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    $(document).ready(function () {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart;
+
+            $('#showChart').click(function () {
+                var month = parseInt($('#month').val());
+                var year = $('#year').val();
+                var line = $('#line').val();
+                var prevMonth = month === 1 ? 12 : month - 1;
+                var prevYear = month === 1 ? year - 1 : year;
+
+                var currentData = Array.from({ length: 30 }, () => Math.floor(Math.random() * 100));
+                var previousData = Array.from({ length: 30 }, () => Math.floor(Math.random() * 100));
+
+                if (myChart) {
+                    myChart.destroy();
+                }
+
+                myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Array.from({ length: 30 }, (_, i) => i + 1),
+                        datasets: [
+                            {
+                                label: `Data for ${$('#month option:selected').text()} ${year} (Line ${line})`,
+                                data: currentData,
+                                backgroundColor: 'blue',
+                                borderWidth: 1,
+                                barPercentage: 0.5,
+                                categoryPercentage: 0.5
+                            },
+                            {
+                                label: `Data for ${$('#month option[value="' + prevMonth + '"]').text()} ${prevYear} (Line ${line})`,
+                                data: previousData,
+                                backgroundColor: 'red',
+                                borderWidth: 1,
+                                barPercentage: 0.5,
+                                categoryPercentage: 0.5
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: { stacked: false },
+                            y: { stacked: false }
+                        }
+                    }
+                });
+            });
+    });
+    function searchclick() {
+        var month = document.getElementById("month").value;
+        var year = document.getElementById("year").value;
+        var line = document.getElementById("line").value;
+        window.location.replace("../Error_Report/CompareError?month=" + month + "&year=" + year + "&line=" + line);
+    }
+</script>
+
