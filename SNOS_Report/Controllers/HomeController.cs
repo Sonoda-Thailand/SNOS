@@ -1,4 +1,5 @@
-﻿using SNOS_Report.Database;
+﻿using Microsoft.Ajax.Utilities;
+using SNOS_Report.Database;
 using SNOS_Report.Models;
 using SNOS_Report.Models.DataClass;
 using SNOS_Report.Services;
@@ -14,8 +15,6 @@ namespace SNOS_Report.Controllers
     {
         public ActionResult Index()
         {
-            var test = (new ErrorService()).GetErrorMonthlyCompair(1, "en", 1, 2025, true);
-
             using (var data = new SND_SNOSEntities())
             {
                 var infor = (from s in data.Mac_Spec
@@ -28,7 +27,6 @@ namespace SNOS_Report.Controllers
                 int line = Convert.ToInt32(Request["line"]);
                 if (line != 0)
                 {
-                    //test
                     ViewBag.topthickday = Dashboard_data.gettopthick_day(line);
                     ViewBag.topthickweek = Dashboard_data.gettopthick_week(line);
                     ViewBag.topthickmonth = Dashboard_data.gettopthick_month(line);

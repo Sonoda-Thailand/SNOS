@@ -204,12 +204,17 @@ namespace SNOS_Report.Models
                     foreach (var mac in mac_spec)
                     {
                         log_work = null;
-                        log_work = (from s in data.Log_Work
-                                    where s.GET_TIME >= start_para
-                                            && s.GET_TIME <= end_para
-                                            && s.LINE == mac.Line_No
-                                    orderby s.GET_TIME ascending
-                                    select s).ToList();
+
+                        log_work = data.Log_Work.Where(x => x.GET_TIME >= start_para && x.LINE == mac.Line_No).OrderByDescending(x => x.GET_TIME).ToList();
+                        //log_work = (from s in data.Log_Work
+                        //            where s.GET_TIME >= start_para
+                        //                    && s.GET_TIME <= end_para
+                        //                    && s.LINE == mac.Line_No
+                        //            orderby s.GET_TIME ascending
+                        //            select s).ToList();
+
+                        
+
                         int powerontime = 0;
                         int stoptime = 0;
                         int autoruntime = 0;
