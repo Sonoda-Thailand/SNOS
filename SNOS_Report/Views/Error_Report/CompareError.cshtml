@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <canvas id="myChart"></canvas>
+                <div id="myChart"></div>
             </div>
         </div>
     </div>
@@ -70,56 +70,48 @@
 
 <script>
     $(document).ready(function () {
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart;
-
-            $('#showChart').click(function () {
-                var month = parseInt($('#month').val());
-                var year = $('#year').val();
-                var line = $('#line').val();
-                var prevMonth = month === 1 ? 12 : month - 1;
-                var prevYear = month === 1 ? year - 1 : year;
-
-                var currentData = Array.from({ length: 30 }, () => Math.floor(Math.random() * 100));
-                var previousData = Array.from({ length: 30 }, () => Math.floor(Math.random() * 100));
-
-                if (myChart) {
-                    myChart.destroy();
-                }
-
-                myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: Array.from({ length: 30 }, (_, i) => i + 1),
-                        datasets: [
-                            {
-                                label: `Data for ${$('#month option:selected').text()} ${year} (Line ${line})`,
-                                data: currentData,
-                                backgroundColor: 'blue',
-                                borderWidth: 1,
-                                barPercentage: 0.5,
-                                categoryPercentage: 0.5
-                            },
-                            {
-                                label: `Data for ${$('#month option[value="' + prevMonth + '"]').text()} ${prevYear} (Line ${line})`,
-                                data: previousData,
-                                backgroundColor: 'red',
-                                borderWidth: 1,
-                                barPercentage: 0.5,
-                                categoryPercentage: 0.5
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            x: { stacked: false },
-                            y: { stacked: false }
-                        }
-                    }
-                });
-            });
+        if (localStorage.getItem("selectedMonth")) {
+            $("#month").val(localStorage.getItem("selectedMonth"));
+        }
+        if (localStorage.getItem("selectedYear")) {
+            $("#year").val(localStorage.getItem("selectedYear"));
+        }
+            loadChart();
     });
+    $("#month, #year").change(function () {
+        localStorage.setItem("selectedMonth", $("#month").val());
+        localStorage.setItem("selectedYear", $("#year").val());
+    });
+
+    function loadChart() {
+        var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata));
+
+        console.log("Raw Data:", rawData); // ตรวจสอบข้อมูล
+
+        if (!rawData || rawData.length === 0) {
+            console.error("Error: No data found in ViewBag.Errordata");
+            return;
+        }
+
+        var categories = rawData.map(item => item.Title);
+        var lastCounts = rawData.map(item => item.Last_Count);
+        var thisCounts = rawData.map(item => item.This_Count);
+
+        var options = {
+            series: [
+                { name: 'Last Count', data: lastCounts },
+                { name: 'This Count', data: thisCounts }
+            ],
+            chart: { type: 'bar', height: 350 },
+            plotOptions: { bar: { horizontal: false, columnWidth: '50%' } },
+            xaxis: { categories: categories },
+            title: { text: 'Error Comparison: Last Count vs This Count' }
+        };
+
+        window.myChart = new ApexCharts($("#myChart")[0], options);
+        window.myChart.render();
+    }
+
     function searchclick() {
         var month = document.getElementById("month").value;
         var year = document.getElementById("year").value;
@@ -127,4 +119,6 @@
         window.location.replace("../Error_Report/CompareError?month=" + month + "&year=" + year + "&line=" + line);
     }
 </script>
+
+
 

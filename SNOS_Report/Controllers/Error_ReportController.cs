@@ -1,4 +1,5 @@
-﻿using SNOS_Report.Database;
+﻿using Newtonsoft.Json;
+using SNOS_Report.Database;
 using SNOS_Report.Models;
 using SNOS_Report.Services;
 using System;
@@ -119,10 +120,12 @@ namespace SNOS_Report.Controllers
                          select s).ToList();
                 ViewBag.linelist = infor;
             }
-            var month = Request["month"];
-            var year = Request["year"];
+            var month = Convert.ToInt32(Request["month"]);
+            var year = Convert.ToInt32(Request["year"]);
             int line = Convert.ToInt32(Request["line"]);
-            var data = errorService.GetErrorMonthlyCompair(line, "EN", month, year);
+            var dataCahrt = errorService.GetErrorMonthlyCompair(line, "EN", month, year);
+            var check = JsonConvert.SerializeObject(dataCahrt);
+            ViewBag.Errordata = dataCahrt;
             return View();
         }
     }
