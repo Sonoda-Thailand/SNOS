@@ -201,28 +201,41 @@
         document.getElementById("chartContainer").style.display = "block";
         renderChart();
     });
+   var chart; // กำหนดตัวแปร chart ไว้ข้างนอกเพื่อใช้ซ้ำ
 
-    function renderChart() {
-        var errorCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(errorCounts));
+function renderChart() {
+    var errorCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(errorCounts));
 
-        var options = {
-            series: [{
-                name: 'Count',
-                data: Object.values(errorCounts) // ค่านับของแต่ละประเภท
-            }],
-            chart: {
-                type: 'bar',
-                height: 350
-            },
-            xaxis: {
-                categories: Object.keys(errorCounts) // ชื่อประเภท Error
-            },
-            title: {
-                text: 'Error Frequency'
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+    if (!errorCounts || Object.keys(errorCounts).length === 0) {
+        console.error("Error: No data available");
+        return;
     }
+
+    // ล้างค่า chart ก่อนหน้า
+    if (chart) {
+        chart.destroy();  // ทำลายกราฟเดิมก่อน
+        document.getElementById("chart").innerHTML = ""; // ล้าง div chart
+    }
+
+    var options = {
+        series: [{
+            name: 'Count',
+            data: Object.values(errorCounts)
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        xaxis: {
+            categories: Object.keys(errorCounts)
+        },
+        title: {
+            text: 'Error Frequency'
+        }
+    };
+
+    chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+}
+
 </script>
