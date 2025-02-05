@@ -106,6 +106,22 @@ namespace SNOS_Report.Controllers
 
             return View();
         }
+
+        public ActionResult CompareError()
+        {
+            List<Mac_Spec> infor = new List<Mac_Spec>();
+            using (var data = new SND_SNOSEntities())
+            {
+                infor = (from s in data.Mac_Spec
+                         orderby s.Line_No ascending
+                         select s).ToList();
+                ViewBag.linelist = infor;
+            }
+            var month = Request["month"];
+            var year = Request["year"];
+            int line = Convert.ToInt32(Request["line"]);
+            return View();
+        }
     }
 
 }
