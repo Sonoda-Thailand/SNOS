@@ -26,10 +26,12 @@ namespace SNOS_Report.Services
                     count = x.Count()
                 });
 
+                var type = _context.Mac_Spec.FirstOrDefault(x => x.Line_No == line).LINE_TYPE;
+
                 result = getError
                     .Join(
                         _context.Error_Mapping,                             
-                        e => new { Error_No = e.Error_Num, Line_Type = line, Lang = lang }, 
+                        e => new { Error_No = e.Error_Num, Line_Type = type, Lang = lang }, 
                         m => new { Error_No = m.Error_No, Line_Type = m.LINE_TYPE, Lang = m.Language }, 
                         (e, m) => new Error_Total                           
                         {
