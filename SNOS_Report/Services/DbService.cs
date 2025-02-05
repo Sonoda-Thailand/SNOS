@@ -15,16 +15,23 @@ namespace SNOS_Report.Services
 
             using (var _context = new SND_SNOSEntities())
             {
-                var getError = _context.Log_Error
+                var data = _context.Log_Error
                 .Where(x => x.LINE == line && x.Error_Time.Month == month && x.Error_Time.Year == year)
-                .GroupBy(x => x.Error_Number)
-                .Select(x => new
+                .GroupBy(x => x.Error_Number).Select(x => new
                 {
                     month = month,
                     year = year,
                     Error_Num = x.Key,
-                    count = x.Count()
-                });
+                    LstTime = x.Select(t => t.Error_Time).ToList()
+                }).ToList();
+
+                var getError = data.Select(x => new
+                {
+                    month = x.month,
+                    year = x.year,
+                    Error_Num = x.Error_Num,
+                    count = FilterErrorTime(x.LstTime)
+                }).ToList();
 
                 var type = _context.Mac_Spec.FirstOrDefault(x => x.Line_No == line).LINE_TYPE;
 
@@ -47,6 +54,30 @@ namespace SNOS_Report.Services
             }
 
             return result;
+        }
+
+        private int FilterErrorTime(List<DateTime> logs)
+        {
+            logs = logs.OrderBy(x => x).ToList();
+            int groupCount = 1;
+            DateTime? bufferTime = null;
+
+            foreach (var log in logs)
+            {
+                if (bufferTime != null)
+                {
+                    var diff = (log - bufferTime.Value).TotalMinutes;
+
+                    if (diff > 1.30) 
+                    {
+                        groupCount++; 
+                    }
+                }
+
+                bufferTime = log;
+            }
+
+            return groupCount;
         }
     }
 }

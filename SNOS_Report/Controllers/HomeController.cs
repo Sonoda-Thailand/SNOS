@@ -17,8 +17,6 @@ namespace SNOS_Report.Controllers
 
         public ActionResult Index()
         {
-            var test = error.GetErrorMonthlyCompair(2, "en", 1, 2025);
-
             using (var data = new SND_SNOSEntities())
             {
                 var infor = (from s in data.Mac_Spec
