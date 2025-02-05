@@ -1,5 +1,6 @@
 ﻿using SNOS_Report.Database;
 using SNOS_Report.Models;
+using SNOS_Report.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace SNOS_Report.Controllers
 {
     public class Error_ReportController : Controller
     {
+        ErrorService errorService = new ErrorService();
         public ActionResult Search()
         {
             List<Mac_Spec> infor = new List<Mac_Spec>();
@@ -120,6 +122,7 @@ namespace SNOS_Report.Controllers
             var month = Request["month"];
             var year = Request["year"];
             int line = Convert.ToInt32(Request["line"]);
+            var data = errorService.GetErrorMonthlyCompair(line, "EN", month, year);
             return View();
         }
     }
