@@ -123,9 +123,12 @@ namespace SNOS_Report.Controllers
             var month = Convert.ToInt32(Request["month"]);
             var year = Convert.ToInt32(Request["year"]);
             int line = Convert.ToInt32(Request["line"]);
-            var dataCahrt = errorService.GetErrorMonthlyCompair(line, "EN", month, year);
-            var check = JsonConvert.SerializeObject(dataCahrt);
-            ViewBag.Errordata = dataCahrt;
+            if( line != 0)
+            {
+                var dataCahrt = errorService.GetErrorMonthlyCompair(line, "EN", month, year);
+                var check = JsonConvert.SerializeObject(dataCahrt);
+                ViewBag.Errordata = dataCahrt;
+            }
             return View();
         }
     }
