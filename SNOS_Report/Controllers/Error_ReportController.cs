@@ -128,7 +128,8 @@ namespace SNOS_Report.Controllers
             {
                 if(SelectChart == "Yearly")
                 {
-
+                    var dataChart = errorService.GetErrorYearly(line, "EN", year);
+                    ViewBag.Errordata = dataChart;
                 }
                 else
                 {
