@@ -76,70 +76,81 @@
 </main>
 
 <script>
-    document.getElementById("li_ErrorCompareMonth").classList.add("active")
-    //Dropdown li
-    document.getElementById("li-Error").classList.add("active");
-    document.getElementById("Error-a").classList.remove("collapsed");
-    document.getElementById("Error").classList.add("show");
     $(document).ready(function () {
-        if (localStorage.getItem("selectedMonth")) {
-            $("#month").val(localStorage.getItem("selectedMonth"));
-        }
-        if (localStorage.getItem("selectedYear")) {
-            $("#year").val(localStorage.getItem("selectedYear"));
-        }
-            loadChart();
-    });
+    // เซ็ตค่าถ้ายังไม่มีค่าใน sessionStorage
+    if (!sessionStorage.getItem("selectChart")) {
+        sessionStorage.setItem("selectChart", "Monthly");
+    }
+
+    // โหลดค่าจาก sessionStorage
+    $("#SelectChart").val(sessionStorage.getItem("selectChart"));
+    selectChart($("#SelectChart").val()); // ตรวจสอบค่า dropdown
+
+    if (sessionStorage.getItem("selectedMonth")) {
+        $("#month").val(sessionStorage.getItem("selectedMonth"));
+    }
+    if (sessionStorage.getItem("selectedYear")) {
+        $("#year").val(sessionStorage.getItem("selectedYear"));
+    }
+
+    loadChart();
+});
+
+function selectChart(value) {
+    sessionStorage.setItem("selectChart", value);
+    if (value == "Yearly") {
+        $("#divMonth").hide();
+    } else {
+        $("#divMonth").show();
+    }
+}
     $("#month, #year").change(function () {
-        localStorage.setItem("selectedMonth", $("#month").val());
-        localStorage.setItem("selectedYear", $("#year").val());
+        sessionStorage.setItem("selectedMonth", $("#month").val());
+        sessionStorage.setItem("selectedYear", $("#year").val());
     });
+function loadChart() {
+    var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata)) || [];
 
-    function selectChart(value) {
-        if(value == "Yearly"){
-            $("#divMonth").hide();
-        }
-        else{
-            $("#divMonth").show();
-        }
+    if (!Array.isArray(rawData) || rawData.length === 0) {
+        console.error("Error: No data found in ViewBag.Errordata");
+        return;
     }
 
-    function loadChart() {
-        var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata));
+    var categories = rawData.map(item => item.Title);
+    var lastCounts = rawData.map(item => item.Last_Count);
+    var thisCounts = rawData.map(item => item.This_Count);
 
-        console.log("Raw Data:", rawData); // ตรวจสอบข้อมูล
 
-        if (!rawData || rawData.length === 0) {
-            console.error("Error: No data found in ViewBag.Errordata");
-            return;
-        }
+    var options = {
+        series: [
+            { name: 'Last Count', data: lastCounts },
+            { name: 'This Count', data: thisCounts }
+        ],
+        chart: { type: 'bar', height: 350 },
+        plotOptions: { bar: { horizontal: false, columnWidth: '50%' } },
+        xaxis: { categories: categories },
+        title: { text: 'Error Comparison: Last Count vs This Count' }
+    };
 
-        var categories = rawData.map(item => item.Title);
-        var lastCounts = rawData.map(item => item.Last_Count);
-        var thisCounts = rawData.map(item => item.This_Count);
+    window.myChart = new ApexCharts($("#myChart")[0], options);
+    window.myChart.render();
+}
 
-        var options = {
-            series: [
-                { name: 'Last Count', data: lastCounts },
-                { name: 'This Count', data: thisCounts }
-            ],
-            chart: { type: 'bar', height: 350 },
-            plotOptions: { bar: { horizontal: false, columnWidth: '50%' } },
-            xaxis: { categories: categories },
-            title: { text: 'Error Comparison: Last Count vs This Count' }
-        };
+function searchclick() {
+    var SelectChart = document.getElementById("SelectChart").value;
+    var month = document.getElementById("month").value;
+    var year = document.getElementById("year").value;
+    var line = document.getElementById("line").value;
 
-        window.myChart = new ApexCharts($("#myChart")[0], options);
-        window.myChart.render();
-    }
+    var url = "../Error_Report/CompareError";
+    url += "?month=" + encodeURIComponent(month);
+    url += "&year=" + encodeURIComponent(year);
+    url += "&line=" + encodeURIComponent(line);
+    url += "&SelectChart=" + encodeURIComponent(SelectChart);
 
-    function searchclick() {
-        var SelectChart = document.getElementById("SelectChart").value;
-        var month = document.getElementById("month").value;
-        var year = document.getElementById("year").value;
-        var line = document.getElementById("line").value;
-        window.location.replace("../Error_Report/CompareError?month=" + month + "&year=" + year + "&line=" + line+"&SelectChart="+SelectChart);
-    }
+    window.location.replace(url);
+}
+
 </script>
 
 

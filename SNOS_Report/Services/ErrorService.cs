@@ -34,7 +34,7 @@ namespace SNOS_Report.Services
             return result;
         }
 
-        public List<Error_Compair> GetErrorMonthlyYearly(int line, string lang, int year)
+        public List<Error_Compair> GetErrorYearly(int line, string lang, int year)
         {
             var totalData = new List<Error_Total>();
             var lastYear_Data = db.GetErrorByYear(line, lang, year - 1);
