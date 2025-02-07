@@ -70,5 +70,11 @@ namespace SNOS_Report.Controllers
             }
             return View();
         }
+
+        public ActionResult Version()
+        {
+            return View();
+        }
     }
+
 }
