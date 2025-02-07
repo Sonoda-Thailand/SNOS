@@ -72,22 +72,43 @@ namespace SNOS_Report.Services
             return result;
         }
 
-        public List<Error_CompareYear> GetErrorByYear(int line, string lang, int year)
+        public List<Error_Total> GetErrorByYear(int line, string lang, int year)
         {
             line = line == 0 ? 1 : line;
-            var result = new List<Error_CompareYear>();
+
+            var result = new List<Error_Total>();
 
             using (var _context = new SND_SNOSEntities())
             {
-                result = _context.Log_Error
+                var data = _context.Log_Error
                 .Where(x => x.LINE == line && x.Error_Time.Year == year)
-                .GroupBy(x => x.Error_Number).Select(x => new Error_CompareYear
+                .GroupBy(x => x.Error_Number).Select(x => new
                 {
-                    Line = 1,
-                    Year = year,
-                    Error_No = x.Key,
-                    ListTime = x.Select(t => t.Error_Time).ToList(),
-                    Count = 0
+                    year = year,
+                    Error_Num = x.Key,
+                    LstTime = x.Select(t => t.Error_Time).ToList()
+                }).ToList();
+
+                var getError = data.Select(x => new
+                {
+                    year = x.year,
+                    Error_Num = x.Error_Num,
+                    count = FilterErrorTime(x.LstTime)
+                }).ToList();
+
+                var type = _context.Mac_Spec.FirstOrDefault(x => x.Line_No == line).LINE_TYPE;
+
+                var errorMap = _context.Error_Mapping.Where(x => x.LINE_TYPE == type && x.Language == lang).ToList();
+
+                result = getError.Select(x => new Error_Total
+                {
+                    month = 0,
+                    year = x.year,
+                    Line = line,
+                    Error_No = x.Error_Num,
+                    Count = x.count,
+                    Title = errorMap.FirstOrDefault(e => e.Error_No == x.Error_Num).Title
+
                 }).ToList();
             }
 
