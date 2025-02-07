@@ -129,6 +129,7 @@ namespace SNOS_Report.Controllers
                 if(SelectChart == "Yearly")
                 {
                     var dataChart = errorService.GetErrorYearly(line, "EN", year);
+                    var check =JsonConvert.SerializeObject(dataChart);
                     ViewBag.Errordata = dataChart;
                 }
                 else
