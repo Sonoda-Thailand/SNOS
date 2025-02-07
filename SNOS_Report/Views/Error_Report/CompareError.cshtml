@@ -13,7 +13,14 @@
         <div class="card">
             <div class="card-header pb-0">
                 <div class="row">
-                    <div class="mb-3 col-md-4">
+                    <div class="mb-3 col-md-2">
+                        <label class="form-label">SelectChart</label>
+                        <select id="SelectChart" class="form-select" onchange="selectChart($(this).val())">
+                            <option value="Monthly">Monthly</option>
+                            <option value="Yearly">Yearly</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 col-md-3" id="divMonth">
                         <label class="form-label">Month</label>
                         <select id="month" class="form-select">
                             <option value="1">January</option>
@@ -30,7 +37,7 @@
                             <option value="12">December</option>
                         </select>
                     </div>
-                    <div class="mb-3 col-md-4">
+                    <div class="mb-3 col-md-3">
                         <label class="form-label">Year</label>
                         <input type="number" id="year" class="form-control" min="2000" max="2100" value="2024">
                     </div>
@@ -88,6 +95,15 @@
         localStorage.setItem("selectedYear", $("#year").val());
     });
 
+    function selectChart(value) {
+        if(value == "Yearly"){
+            $("#divMonth").hide();
+        }
+        else{
+            $("#divMonth").show();
+        }
+    }
+
     function loadChart() {
         var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata));
 
@@ -118,10 +134,11 @@
     }
 
     function searchclick() {
+        var SelectChart = document.getElementById("SelectChart").value;
         var month = document.getElementById("month").value;
         var year = document.getElementById("year").value;
         var line = document.getElementById("line").value;
-        window.location.replace("../Error_Report/CompareError?month=" + month + "&year=" + year + "&line=" + line);
+        window.location.replace("../Error_Report/CompareError?month=" + month + "&year=" + year + "&line=" + line+"&SelectChart="+SelectChart);
     }
 </script>
 
