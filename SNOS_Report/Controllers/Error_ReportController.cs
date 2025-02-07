@@ -120,14 +120,21 @@ namespace SNOS_Report.Controllers
                          select s).ToList();
                 ViewBag.linelist = infor;
             }
+            var SelectChart = Request["SelectChart"];
             var month = Convert.ToInt32(Request["month"]);
             var year = Convert.ToInt32(Request["year"]);
             int line = Convert.ToInt32(Request["line"]);
             if( line != 0)
             {
-                var dataCahrt = errorService.GetErrorMonthlyCompair(line, "EN", month, year);
-                var check = JsonConvert.SerializeObject(dataCahrt);
-                ViewBag.Errordata = dataCahrt;
+                if(SelectChart == "Yearly")
+                {
+
+                }
+                else
+                {
+                    var dataCahrt = errorService.GetErrorMonthlyCompair(line, "EN", month, year);
+                    ViewBag.Errordata = dataCahrt;
+                }
             }
             return View();
         }
