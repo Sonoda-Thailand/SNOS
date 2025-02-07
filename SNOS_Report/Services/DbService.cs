@@ -2,6 +2,7 @@
 using SNOS_Report.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 
@@ -65,6 +66,28 @@ namespace SNOS_Report.Services
                     Count = x.count,
                     Title = errorMap.FirstOrDefault(e => e.Error_No == x.Error_Num).Title
 
+                }).ToList();
+            }
+
+            return result;
+        }
+
+        public List<Error_CompareYear> GetErrorByYear(int line, string lang, int year)
+        {
+            line = line == 0 ? 1 : line;
+            var result = new List<Error_CompareYear>();
+
+            using (var _context = new SND_SNOSEntities())
+            {
+                result = _context.Log_Error
+                .Where(x => x.LINE == line && x.Error_Time.Year == year)
+                .GroupBy(x => x.Error_Number).Select(x => new Error_CompareYear
+                {
+                    Line = 1,
+                    Year = year,
+                    Error_No = x.Key,
+                    ListTime = x.Select(t => t.Error_Time).ToList(),
+                    Count = 0
                 }).ToList();
             }
 
