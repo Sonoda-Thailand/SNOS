@@ -96,45 +96,114 @@
     loadChart();
 });
 
-function selectChart(value) {
-    sessionStorage.setItem("selectChart", value);
-    if (value == "Yearly") {
-        $("#divMonth").hide();
-    } else {
-        $("#divMonth").show();
+    function selectChart(value) {
+        sessionStorage.setItem("selectChart", value);
+        if (value == "Yearly") {
+            $("#divMonth").hide();
+        } else {
+            $("#divMonth").show();
+        }
     }
-}
+
     $("#month, #year").change(function () {
         sessionStorage.setItem("selectedMonth", $("#month").val());
         sessionStorage.setItem("selectedYear", $("#year").val());
     });
-function loadChart() {
-    var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata)) || [];
 
-    if (!Array.isArray(rawData) || rawData.length === 0) {
-        console.error("Error: No data found in ViewBag.Errordata");
-        return;
+    function loadChart() {
+        var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata)) || [];
+        var _lastCounts = [];
+        var _thisCounts = [];
+        var maxLastCount = Math.max(...rawData.map(data => data.Last_Count));
+        var maxThisCount = Math.max(...rawData.map(data => data.This_Count));
+        var maxCount = Math.max(maxLastCount, maxThisCount);
+
+        rawData.forEach(item => {
+            var _lastCount = item.Last_Count;
+            var _thisCount = item.This_Count;
+
+            var percentage_lastCount = (_lastCount / maxCount) * 100;
+            var roundedPercentage_lastCount = roundToNearest5(percentage_lastCount);
+            var percentage_thisCount = (_thisCount / maxCount) * 100; 
+            var roundedPercentage_thisCount = roundToNearest5(percentage_thisCount);
+
+            _lastCounts.push(roundedPercentage_lastCount);  // เก็บค่า Last_Count
+            _thisCounts.push(roundedPercentage_thisCount);  // เก็บค่า This_Count ที่ปัดลงตัว 5
+        });
+
+        if (!Array.isArray(rawData) || rawData.length === 0) {
+            console.error("Error: No data found in ViewBag.Errordata");
+            return;
+        }
+
+        var categories = rawData.map(item => item.Title);
+        var lastCounts = rawData.map(item => item.Last_Count);
+        var thisCounts = rawData.map(item => item.This_Count);
+
+
+        var options = {
+            series: [
+                { name: 'Last Count', data: _lastCounts },
+                { name: 'This Count', data: _thisCounts }
+            ],
+            chart: { type: 'bar', height: 350 },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '50%',
+                    dataLabels: {
+                        position: 'top'
+                    }
+                }
+            },
+            xaxis: {
+                categories: categories,
+                labels: {
+                    rotate: 0,
+                    trim: true,
+                    style: {
+                        colors: 'black',
+                        fontWeight: 'bold',
+                        background: 'black'
+                    }
+                }
+                //labels: {
+                //    formatter: function (value) {
+                //        var item = rawData.find(data => data.Title === value);
+                //        return [item.Last_Count.toString() + " " + item.This_Count.toString(), value];
+                //    }
+                //}
+            },
+            yaxis: {
+                show: false,
+                max: 100
+            },
+            dataLabels: {
+                formatter: function (val, opt) {
+                    var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
+                    var seriesIndex = opt.seriesIndex;
+                    var item = rawData.find(data => data.Title === category);
+                    return (seriesIndex == 0 ? item.Last_Count : item.This_Count);
+                },
+                style: {
+                    colors: ['#000000'],
+                    fontSize: '20px'
+                },
+                offsetY: 0
+            },
+            title: { text: 'Error Comparison: Last Count vs This Count' },
+            tooltip: {
+                enabled: false
+            }
+        };
+
+        window.myChart = new ApexCharts($("#myChart")[0], options);
+        window.myChart.render();
     }
 
-    var categories = rawData.map(item => item.Title);
-    var lastCounts = rawData.map(item => item.Last_Count);
-    var thisCounts = rawData.map(item => item.This_Count);
-
-
-    var options = {
-        series: [
-            { name: 'Last Count', data: lastCounts },
-            { name: 'This Count', data: thisCounts }
-        ],
-        chart: { type: 'bar', height: 350 },
-        plotOptions: { bar: { horizontal: false, columnWidth: '50%' } },
-        xaxis: { categories: categories },
-        title: { text: 'Error Comparison: Last Count vs This Count' }
-    };
-
-    window.myChart = new ApexCharts($("#myChart")[0], options);
-    window.myChart.render();
-}
+    function roundToNearest5(value) {
+        return Math.ceil(value / 5) * 5;
+    }
 
 function searchclick() {
     var SelectChart = document.getElementById("SelectChart").value;
