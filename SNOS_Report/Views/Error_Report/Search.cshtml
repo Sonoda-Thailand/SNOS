@@ -137,6 +137,7 @@
 
     </div>
 </main>
+
 <script>
     document.getElementById("li_ErrorSearch").classList.add("active")
     //Dropdown li
@@ -201,41 +202,109 @@
         document.getElementById("chartContainer").style.display = "block";
         renderChart();
     });
-   var chart; // กำหนดตัวแปร chart ไว้ข้างนอกเพื่อใช้ซ้ำ
+    var chart; // กำหนดตัวแปร chart ไว้ข้างนอกเพื่อใช้ซ้ำ
 
-function renderChart() {
-    var errorCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(errorCounts));
+    function renderChart() {
+        var errorCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@errorCounts));
+        var maxError = Math.max(...Object.values(errorCounts));
 
-    if (!errorCounts || Object.keys(errorCounts).length === 0) {
-        console.error("Error: No data available");
-        return;
-    }
+        var _errorCounts = [];
 
-    // ล้างค่า chart ก่อนหน้า
-    if (chart) {
-        chart.destroy();  // ทำลายกราฟเดิมก่อน
-        document.getElementById("chart").innerHTML = ""; // ล้าง div chart
-    }
+        Object.entries(errorCounts).forEach(([key, value]) => {
+            //var _thisCount = item.This_Count;
 
-    var options = {
-        series: [{
-            name: 'Count',
-            data: Object.values(errorCounts)
-        }],
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        xaxis: {
-            categories: Object.keys(errorCounts)
-        },
-        title: {
-            text: 'Error Frequency'
+            var percentage = (value / maxError) * 100;
+            var roundedPercentage = roundToNearest5(percentage);
+
+            _errorCounts.push(roundedPercentage);  // เก็บค่า This_Count ที่ปัดลงตัว 5
+        });
+
+        if (!errorCounts || Object.keys(errorCounts).length === 0) {
+            console.error("Error: No data available");
+            return;
         }
-    };
 
-    chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
-}
+        // ล้างค่า chart ก่อนหน้า
+        if (chart) {
+            chart.destroy();  // ทำลายกราฟเดิมก่อน
+            document.getElementById("chart").innerHTML = ""; // ล้าง div chart
+        }
+
+        var options = {
+            series: [{
+                name: 'Count',
+                data: _errorCounts
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            colors: ['#3b7ddd80', 'blue'],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    dataLabels: {
+                        position: 'top'
+                    }
+                }
+            },
+            xaxis: {
+                categories: Object.keys(errorCounts),
+                labels: {
+                    rotate: 0,
+                    trim: true,
+                    style: {
+                        colors: 'black',
+                        fontWeight: 'bold',
+                        background: 'black'
+                    }
+                }
+                //labels: {
+                //    formatter: function (value) {
+                //        return [errorCounts[value], value];
+                //    }
+                //}
+            },
+            yaxis: {
+                show: false,
+                max: 100
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: function (val, opt) {
+                    var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
+                    return errorCounts[category]
+                },
+                style: {
+                    colors: ['#000000'],
+                    fontSize: '20px'
+                },
+                offsetY: 0
+            },
+            title: {
+                text: 'Error Frequency'
+            },
+            tooltip: {
+                enabled: false,
+                //y: {
+                //    formatter: function () {
+                //        return undefined; // ✅ ซ่อนค่า Y อย่างสมบูรณ์
+                //    }
+                //},
+                //x: {
+                //    formatter: function (val) {
+                //        return val; // ✅ แสดงเฉพาะ Category (X-axis)
+                //    }
+                //}
+            }
+        };
+
+        chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    }
+
+    function roundToNearest5(value) {
+        return Math.ceil(value / 5) * 5;
+    }
 
 </script>

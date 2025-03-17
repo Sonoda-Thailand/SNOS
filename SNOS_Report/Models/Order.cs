@@ -23,12 +23,20 @@ namespace SNOS_Report.Models
                 DateRange timeset = DateRange.ThisYear(DateTime.Now);
                 using (var data = new SND_SNOSEntities())
                 {
-                    log_work = (from s in data.Log_Work
-                                where s.LINE == 1
-                                && s.GET_TIME >= timeset.Start
-                                && s.GET_TIME <= timeset.End
-                                orderby s.GET_TIME ascending
-                                select s).ToList();
+                    log_work = data.Log_Work.Where(x => x.LINE == 1 && x.GET_TIME >= timeset.Start && x.GET_TIME <= timeset.End).OrderByDescending(x => x.GET_TIME).ToList();
+                    //log_work = (from s in data.Log_Work
+                    //            where s.LINE == 1
+                    //            && s.GET_TIME >= timeset.Start
+                    //            && s.GET_TIME <= timeset.End
+                    //            orderby s.GET_TIME ascending
+                    //            select s).ToList();
+
+                    //log_work = (from s in data.Log_Work
+                    //            where s.LINE == 1
+                    //            && s.GET_TIME >= timeset.Start
+                    //            && s.GET_TIME <= timeset.End
+                    //            orderby s.GET_TIME ascending
+                    //            select s).ToList();
                 }
                 int powerontime = 0;
                 int stoptime = 0;
@@ -94,6 +102,7 @@ namespace SNOS_Report.Models
 
                     lasttime = item.GET_TIME;
                 }
+                var check = dataset.Take(20).ToList();
                 return dataset.Take(20).ToList();
             }
             catch (Exception ex)
@@ -111,12 +120,13 @@ namespace SNOS_Report.Models
                 List<Log_Work> log_work = null;
                 using (var data = new SND_SNOSEntities())
                 {
-                    log_work = (from s in data.Log_Work
-                                where s.LINE == line
-                                            && s.GET_TIME >= start_para
-                                            && s.GET_TIME <= end_para
-                                orderby s.GET_TIME ascending
-                                select s).ToList();
+                    log_work =  data.Log_Work.Where(x => x.LINE == line && x.GET_TIME >= start_para && x.GET_TIME <= end_para).OrderByDescending(x => x.GET_TIME).ToList();
+                    //log_work = (from s in data.Log_Work
+                    //            where s.LINE == line
+                    //                        && s.GET_TIME >= start_para
+                    //                        && s.GET_TIME <= end_para
+                    //            orderby s.GET_TIME ascending
+                    //            select s).ToList();
                 }
                 int powerontime = 0;
                 int stoptime = 0;
@@ -301,12 +311,13 @@ namespace SNOS_Report.Models
                 DateRange timeset = DateRange.ThisWeek(DateTime.Now);
                 using (var data = new SND_SNOSEntities())
                 {
-                    log_work = (from s in data.Log_Work
-                                where s.LINE == line
-                                && s.GET_TIME >= timeset.Start
-                                && s.GET_TIME <= timeset.End
-                                orderby s.GET_TIME ascending
-                                select s).ToList();
+                    log_work = data.Log_Work.Where(x => x.LINE == line && x.GET_TIME >= timeset.Start && x.GET_TIME <= timeset.End).OrderByDescending(x => x.GET_TIME).ToList();
+                    //log_work = (from s in data.Log_Work
+                    //            where s.LINE == line
+                    //            && s.GET_TIME >= timeset.Start
+                    //            && s.GET_TIME <= timeset.End
+                    //            orderby s.GET_TIME ascending
+                    //            select s).ToList();
                 }
                 int powerontime = 0;
                 int stoptime = 0;
@@ -391,12 +402,13 @@ namespace SNOS_Report.Models
                 DateRange timeset = DateRange.ThisMonth(DateTime.Now);
                 using (var data = new SND_SNOSEntities())
                 {
-                    log_work = (from s in data.Log_Work
-                                where s.LINE == line
-                                && s.GET_TIME >= timeset.Start
-                                && s.GET_TIME <= timeset.End
-                                orderby s.GET_TIME ascending
-                                select s).ToList();
+                    log_work = data.Log_Work.Where(x => x.LINE == line && x.GET_TIME >= timeset.Start && x.GET_TIME <= timeset.End).OrderByDescending(x => x.GET_TIME).ToList();
+                    //log_work = (from s in data.Log_Work
+                    //            where s.LINE == line
+                    //            && s.GET_TIME >= timeset.Start
+                    //            && s.GET_TIME <= timeset.End
+                    //            orderby s.GET_TIME ascending
+                    //            select s).ToList();
                 }
                 int powerontime = 0;
                 int stoptime = 0;
