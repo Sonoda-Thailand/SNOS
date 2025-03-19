@@ -121,96 +121,79 @@
     });
 
     function loadChart() {
-        var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata)) || [];
-        var _lastCounts = [];
-        var _thisCounts = [];
-        var maxLastCount = Math.max(...rawData.map(data => data.Last_Count));
-        var maxThisCount = Math.max(...rawData.map(data => data.This_Count));
-        var maxCount = Math.max(maxLastCount, maxThisCount);
+    var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata)) || [];
+    var _lastCounts = [];
+    var _thisCounts = [];
+    var maxLastCount = Math.max(...rawData.map(data => data.Last_Count));
+    var maxThisCount = Math.max(...rawData.map(data => data.This_Count));
+    var maxCount = Math.max(maxLastCount, maxThisCount);
+    var isYearly = sessionStorage.getItem("selectChart") === "Yearly";
 
-        rawData.forEach(item => {
-            var _lastCount = item.Last_Count;
-            var _thisCount = item.This_Count;
+    rawData.forEach(item => {
+        var _lastCount = item.Last_Count;
+        var _thisCount = item.This_Count;
 
-            var percentage_lastCount = (_lastCount / maxCount) * 100;
-            var roundedPercentage_lastCount = roundToNearest5(percentage_lastCount);
-            var percentage_thisCount = (_thisCount / maxCount) * 100;
-            var roundedPercentage_thisCount = roundToNearest5(percentage_thisCount);
+        var percentage_lastCount = (_lastCount / maxCount) * 100;
+        var roundedPercentage_lastCount = roundToNearest5(percentage_lastCount);
+        var percentage_thisCount = (_thisCount / maxCount) * 100;
+        var roundedPercentage_thisCount = roundToNearest5(percentage_thisCount);
 
-            _lastCounts.push(roundedPercentage_lastCount);  // เก็บค่า Last_Count
-            _thisCounts.push(roundedPercentage_thisCount);  // เก็บค่า This_Count ที่ปัดลงตัว 5
-        });
+        _lastCounts.push(roundedPercentage_lastCount);
+        _thisCounts.push(roundedPercentage_thisCount);
+    });
 
-        if (!Array.isArray(rawData) || rawData.length === 0) {
-            console.error("Error: No data found in ViewBag.Errordata");
-            return;
-        }
-
-        var categories = rawData.map(item => item.Error_No);
-        var lastCounts = rawData.map(item => item.Last_Count);
-        var thisCounts = rawData.map(item => item.This_Count);
-
-
-        var options = {
-            series: [
-                { name: 'Last Count', data: _lastCounts },
-                { name: 'This Count', data: _thisCounts }
-            ],
-            chart: { type: 'bar', height: 350 },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '50%',
-                    dataLabels: {
-                        position: 'top'
-                    }
-                }
-            },
-            xaxis: {
-                categories: categories,
-                labels: {
-                    //rotate: 0,
-                    //trim: true,
-                    style: {
-                        colors: 'black',
-                        fontWeight: 'bold',
-                        background: 'black'
-                    }
-                }
-                //labels: {
-                //    formatter: function (value) {
-                //        var item = rawData.find(data => data.Title === value);
-                //        return [item.Last_Count.toString() + " " + item.This_Count.toString(), value];
-                //    }
-                //}
-            },
-            yaxis: {
-                show: false,
-                max: 100
-            },
-            dataLabels: {
-                formatter: function (val, opt) {
-                    var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
-                    var seriesIndex = opt.seriesIndex;
-                    var item = rawData.find(data => data.Error_No === category);
-                    return (seriesIndex == 0 ? item.Last_Count : item.This_Count);
-                },
-                style: {
-                    colors: ['#000000'],
-                    fontSize: '20px'
-                },
-                offsetY: 0
-            },
-            title: { text: 'Error Comparison: Last Count vs This Count' },
-            tooltip: {
-                enabled: false
-            }
-        };
-
-        window.myChart = new ApexCharts($("#myChart")[0], options);
-        window.myChart.render();
-        loadTable(rawData);
+    if (!Array.isArray(rawData) || rawData.length === 0) {
+        console.error("Error: No data found in ViewBag.Errordata");
+        return;
     }
+
+    var categories = rawData.map(item => `Error No. ${item.Error_No}`);
+
+    var seriesData = isYearly
+        ? [{ name: 'This Count', data: _thisCounts }]  // แสดงเฉพาะ This Count
+        : [
+            { name: 'Last Count', data: _lastCounts },
+            { name: 'This Count', data: _thisCounts }
+        ];
+
+    var options = {
+        series: seriesData,
+        chart: { type: 'bar', height: 350 },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '50%',
+                dataLabels: { position: 'top' }
+            }
+        },
+        xaxis: {
+            categories: categories,
+            labels: {
+                style: { colors: 'black', fontWeight: 'bold' }
+            }
+        },
+        yaxis: {
+            show: false,
+            max: 100
+        },
+        dataLabels: {
+            formatter: function (val, opt) {
+                var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
+                var item = rawData.find(data => `Error No. ${data.Error_No}` === category);
+                return item ? item.This_Count : "";  // แสดงเฉพาะ This Count ถ้าเลือก Yearly
+            },
+            style: { colors: ['#000000'], fontSize: '20px' },
+            offsetY: 0
+        },
+        title: { text: 'Error Comparison' },
+        tooltip: { enabled: false }
+    };
+
+    window.myChart = new ApexCharts($("#myChart")[0], options);
+    window.myChart.render();
+    loadTable(rawData);
+}
+
     function loadTable(data) {
         var tableBody = document.getElementById("errorTableBody");
         tableBody.innerHTML = "";  // ล้างข้อมูลเก่า
