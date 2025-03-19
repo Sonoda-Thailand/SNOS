@@ -70,6 +70,16 @@
             </div>
             <div class="card-body">
                 <div id="myChart"></div>
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>Error No.</th>
+                            <th>Title</th>
+                        </tr>
+                    </thead>
+                    <tbody id="errorTableBody"></tbody>
+                </table>
+
             </div>
         </div>
     </div>
@@ -124,7 +134,7 @@
 
             var percentage_lastCount = (_lastCount / maxCount) * 100;
             var roundedPercentage_lastCount = roundToNearest5(percentage_lastCount);
-            var percentage_thisCount = (_thisCount / maxCount) * 100; 
+            var percentage_thisCount = (_thisCount / maxCount) * 100;
             var roundedPercentage_thisCount = roundToNearest5(percentage_thisCount);
 
             _lastCounts.push(roundedPercentage_lastCount);  // เก็บค่า Last_Count
@@ -136,7 +146,7 @@
             return;
         }
 
-        var categories = rawData.map(item => item.Title);
+        var categories = rawData.map(item => item.Error_No);
         var lastCounts = rawData.map(item => item.Last_Count);
         var thisCounts = rawData.map(item => item.This_Count);
 
@@ -159,8 +169,8 @@
             xaxis: {
                 categories: categories,
                 labels: {
-                    rotate: 0,
-                    trim: true,
+                    //rotate: 0,
+                    //trim: true,
                     style: {
                         colors: 'black',
                         fontWeight: 'bold',
@@ -182,7 +192,7 @@
                 formatter: function (val, opt) {
                     var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
                     var seriesIndex = opt.seriesIndex;
-                    var item = rawData.find(data => data.Title === category);
+                    var item = rawData.find(data => data.Error_No === category);
                     return (seriesIndex == 0 ? item.Last_Count : item.This_Count);
                 },
                 style: {
@@ -199,7 +209,22 @@
 
         window.myChart = new ApexCharts($("#myChart")[0], options);
         window.myChart.render();
+        loadTable(rawData);
     }
+    function loadTable(data) {
+        var tableBody = document.getElementById("errorTableBody");
+        tableBody.innerHTML = "";  // ล้างข้อมูลเก่า
+
+        data.forEach(item => {
+            var row = `<tr>
+            <td>${item.Error_No}</td>
+            <td>${item.Title}</td>
+        </tr>`;
+            tableBody.innerHTML += row;
+        });
+    }
+
+
 
     function roundToNearest5(value) {
         return Math.ceil(value / 5) * 5;

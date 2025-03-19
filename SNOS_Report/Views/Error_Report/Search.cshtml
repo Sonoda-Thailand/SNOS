@@ -205,103 +205,88 @@
     var chart; // กำหนดตัวแปร chart ไว้ข้างนอกเพื่อใช้ซ้ำ
 
     function renderChart() {
-        var errorCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@errorCounts));
-        var maxError = Math.max(...Object.values(errorCounts));
+    var errorCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@errorCounts));
+    var maxError = Math.max(...Object.values(errorCounts));
 
-        var _errorCounts = [];
+    var _errorCounts = [];
+    var categories = Object.keys(errorCounts);
+    var colors = categories.map((_, index) => `rgba(${(index * 50) % 255}, 100, 200, 0.45)`); // ใช้ rgba และกำหนด opacity 0.45
 
-        Object.entries(errorCounts).forEach(([key, value]) => {
-            //var _thisCount = item.This_Count;
+    Object.entries(errorCounts).forEach(([key, value]) => {
+        var percentage = (value / maxError) * 100;
+        var roundedPercentage = roundToNearest5(percentage);
+        _errorCounts.push(roundedPercentage);
+    });
 
-            var percentage = (value / maxError) * 100;
-            var roundedPercentage = roundToNearest5(percentage);
-
-            _errorCounts.push(roundedPercentage);  // เก็บค่า This_Count ที่ปัดลงตัว 5
-        });
-
-        if (!errorCounts || Object.keys(errorCounts).length === 0) {
-            console.error("Error: No data available");
-            return;
-        }
-
-        // ล้างค่า chart ก่อนหน้า
-        if (chart) {
-            chart.destroy();  // ทำลายกราฟเดิมก่อน
-            document.getElementById("chart").innerHTML = ""; // ล้าง div chart
-        }
-
-        var options = {
-            series: [{
-                name: 'Count',
-                data: _errorCounts
-            }],
-            chart: {
-                type: 'bar',
-                height: 350
-            },
-            colors: ['#3b7ddd80', 'blue'],
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    dataLabels: {
-                        position: 'top'
-                    }
-                }
-            },
-            xaxis: {
-                categories: Object.keys(errorCounts),
-                labels: {
-                    rotate: 0,
-                    trim: true,
-                    style: {
-                        colors: 'black',
-                        fontWeight: 'bold',
-                        background: 'black'
-                    }
-                }
-                //labels: {
-                //    formatter: function (value) {
-                //        return [errorCounts[value], value];
-                //    }
-                //}
-            },
-            yaxis: {
-                show: false,
-                max: 100
-            },
-            dataLabels: {
-                enabled: true,
-                formatter: function (val, opt) {
-                    var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
-                    return errorCounts[category]
-                },
-                style: {
-                    colors: ['#000000'],
-                    fontSize: '20px'
-                },
-                offsetY: 0
-            },
-            title: {
-                text: 'Error Frequency'
-            },
-            tooltip: {
-                enabled: false,
-                //y: {
-                //    formatter: function () {
-                //        return undefined; // ✅ ซ่อนค่า Y อย่างสมบูรณ์
-                //    }
-                //},
-                //x: {
-                //    formatter: function (val) {
-                //        return val; // ✅ แสดงเฉพาะ Category (X-axis)
-                //    }
-                //}
-            }
-        };
-
-        chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+    if (!errorCounts || Object.keys(errorCounts).length === 0) {
+        console.error("Error: No data available");
+        return;
     }
+
+    if (chart) {
+        chart.destroy();
+        document.getElementById("chart").innerHTML = "";
+    }
+
+    var options = {
+        series: [{
+            name: 'Count',
+            data: _errorCounts
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        colors: colors,  // ใช้ colors ที่มี transparency 0.45
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                distributed: true,
+                dataLabels: {
+                    position: 'top'
+                }
+            }
+        },
+        xaxis: {
+            categories: categories,
+            labels: {
+                rotate: 0,
+                trim: true,
+                style: {
+                    colors: 'black',
+                    fontWeight: 'bold'
+                }
+            }
+        },
+        yaxis: {
+            show: false,
+            max: 100
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opt) {
+                var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
+                return errorCounts[category];
+            },
+            style: {
+                colors: ['#000000'],
+                fontSize: '20px'
+            },
+            offsetY: 0
+        },
+        title: {
+            text: 'Error Frequency'
+        },
+        tooltip: {
+            enabled: false
+        }
+    };
+
+    chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+}
+
+
 
     function roundToNearest5(value) {
         return Math.ceil(value / 5) * 5;
