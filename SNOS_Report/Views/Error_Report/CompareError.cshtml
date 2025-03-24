@@ -120,16 +120,32 @@
         sessionStorage.setItem("selectedYear", $("#year").val());
     });
 
-    function loadChart() {
+function loadChart() {
     var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata)) || [];
+
+    // กรองข้อมูลที่มีค่า Last_Count และ This_Count ไม่เป็น 0
+    var filteredData = rawData.filter(item => item.Last_Count !== 0 || item.This_Count !== 0);
+
     var _lastCounts = [];
     var _thisCounts = [];
-    var maxLastCount = Math.max(...rawData.map(data => data.Last_Count));
-    var maxThisCount = Math.max(...rawData.map(data => data.This_Count));
-    var maxCount = Math.max(maxLastCount, maxThisCount);
+
+    if (!Array.isArray(filteredData) || filteredData.length === 0) {
+        console.error("Error: No data found after filtering zero values");
+        return;
+    }
+
     var isYearly = sessionStorage.getItem("selectChart") === "Yearly";
 
-    rawData.forEach(item => {
+    // ถ้าเป็น Yearly ให้ใช้เฉพาะ This_Count
+    if (isYearly) {
+        filteredData = filteredData.filter(item => item.This_Count !== 0);
+    }
+
+    var maxLastCount = Math.max(...filteredData.map(data => data.Last_Count));
+    var maxThisCount = Math.max(...filteredData.map(data => data.This_Count));
+    var maxCount = Math.max(maxLastCount, maxThisCount);
+
+    filteredData.forEach(item => {
         var _lastCount = item.Last_Count;
         var _thisCount = item.This_Count;
 
@@ -142,12 +158,7 @@
         _thisCounts.push(roundedPercentage_thisCount);
     });
 
-    if (!Array.isArray(rawData) || rawData.length === 0) {
-        console.error("Error: No data found in ViewBag.Errordata");
-        return;
-    }
-
-    var categories = rawData.map(item => `Error No. ${item.Error_No}`);
+    var categories = filteredData.map(item => `Error No. ${item.Error_No}`);
 
     var seriesData = isYearly
         ? [{ name: 'This Count', data: _thisCounts }]  // แสดงเฉพาะ This Count
@@ -179,8 +190,21 @@
         dataLabels: {
             formatter: function (val, opt) {
                 var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
-                var item = rawData.find(data => `Error No. ${data.Error_No}` === category);
-                return item ? item.This_Count : "";  // แสดงเฉพาะ This Count ถ้าเลือก Yearly
+                var item = filteredData.find(data => `Error No. ${data.Error_No}` === category);
+
+                if (!item) return "";
+
+                // ตรวจสอบว่าเป็น Yearly หรือไม่ ถ้าใช่ให้โชว์เฉพาะ This_Count
+                if (isYearly) {
+                    return item.This_Count;
+                }
+
+                // ตรวจสอบว่าเป็นซีรีส์ไหน (Last Count หรือ This Count)
+                if (opt.seriesIndex === 0) {
+                    return item.Last_Count; // ถ้าเป็นซีรีส์แรก ให้โชว์ Last Count
+                } else {
+                    return item.This_Count; // ถ้าเป็นซีรีส์ที่สอง ให้โชว์ This Count
+                }
             },
             style: { colors: ['#000000'], fontSize: '20px' },
             offsetY: 0
@@ -191,8 +215,11 @@
 
     window.myChart = new ApexCharts($("#myChart")[0], options);
     window.myChart.render();
-    loadTable(rawData);
+    loadTable(filteredData);
 }
+
+
+
 
     function loadTable(data) {
         var tableBody = document.getElementById("errorTableBody");
