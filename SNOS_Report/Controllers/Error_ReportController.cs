@@ -69,8 +69,16 @@ namespace SNOS_Report.Controllers
             {
                 int line = Convert.ToInt32(Request["line"]);
                 Error error = new Error();
-                if (line != 0) { ViewBag.Error = error.geterrorthisweek(line, "EN", (infor.Find(s => s.Line_No == line).LINE_TYPE)); }
-                else { ViewBag.Error = error.geterrorthisweek(1, "EN", (infor.Find(s => s.Line_No == 1).LINE_TYPE)); }
+                if (line != 0) 
+                { 
+                    var errorThisweek = error.geterrorthisweek(line, "EN", (infor.Find(s => s.Line_No == line).LINE_TYPE));
+                    ViewBag.Error = errorThisweek;
+                }
+                else 
+                { 
+                    var errorThisweek = error.geterrorthisweek(1, "EN", (infor.Find(s => s.Line_No == 1).LINE_TYPE));
+                    ViewBag.Error = errorThisweek;
+                }
                 ViewBag.Line = line;
             }
             catch
@@ -138,6 +146,7 @@ namespace SNOS_Report.Controllers
                     ViewBag.Errordata = dataCahrt;
                 }
             }
+            ViewBag.Line = line;
             return View();
         }
     }
