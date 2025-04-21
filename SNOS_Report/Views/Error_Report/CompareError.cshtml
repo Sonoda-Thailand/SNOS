@@ -75,6 +75,7 @@
                         <tr>
                             <th>Error No.</th>
                             <th>Title</th>
+                            <th width="50%">Description</th>
                         </tr>
                     </thead>
                     <tbody id="errorTableBody"></tbody>
@@ -229,6 +230,7 @@ function loadChart() {
             var row = `<tr>
             <td>${item.Error_No}</td>
             <td>${item.Title}</td>
+            <td>              </td>
         </tr>`;
             tableBody.innerHTML += row;
         });
