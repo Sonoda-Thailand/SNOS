@@ -311,13 +311,13 @@ namespace SNOS_Report.Models
                 DateRange timeset = DateRange.ThisWeek(DateTime.Now);
                 using (var data = new SND_SNOSEntities())
                 {
-                    log_work = data.Log_Work.Where(x => x.LINE == line && x.GET_TIME >= timeset.Start && x.GET_TIME <= timeset.End).OrderByDescending(x => x.GET_TIME).ToList();
-                    //log_work = (from s in data.Log_Work
-                    //            where s.LINE == line
-                    //            && s.GET_TIME >= timeset.Start
-                    //            && s.GET_TIME <= timeset.End
-                    //            orderby s.GET_TIME ascending
-                    //            select s).ToList();
+                    //log_work = data.Log_Work.Where(x => x.LINE == line && x.GET_TIME >= timeset.Start && x.GET_TIME <= timeset.End).OrderByDescending(x => x.GET_TIME).ToList();
+                    log_work = (from s in data.Log_Work
+                                where s.LINE == line
+                                && s.GET_TIME >= timeset.Start
+                                && s.GET_TIME <= timeset.End
+                                orderby s.GET_TIME ascending
+                                select s).ToList();
                 }
                 int powerontime = 0;
                 int stoptime = 0;
@@ -402,7 +402,7 @@ namespace SNOS_Report.Models
                 DateRange timeset = DateRange.ThisMonth(DateTime.Now);
                 using (var data = new SND_SNOSEntities())
                 {
-                    log_work = data.Log_Work.Where(x => x.LINE == line && x.GET_TIME >= timeset.Start && x.GET_TIME <= timeset.End).OrderByDescending(x => x.GET_TIME).ToList();
+                    log_work = data.Log_Work.Where(x => x.LINE == line && x.GET_TIME >= timeset.Start && x.GET_TIME <= timeset.End).OrderBy(x => x.GET_TIME).ToList();
                     //log_work = (from s in data.Log_Work
                     //            where s.LINE == line
                     //            && s.GET_TIME >= timeset.Start

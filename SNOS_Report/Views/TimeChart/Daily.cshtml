@@ -91,6 +91,10 @@
                                                     var item = datalist.Find(ta => ta.GET_TIME >= start.AddMinutes(j) && ta.GET_TIME <= start.AddMinutes(j + 1).AddSeconds(-1));
                                                     if (item != null)
                                                     {
+                                                        if(j == 25)
+                                                        {
+                                                            var t = 0;
+                                                        }
                                                         laststatus = item.LINE_STATUS;
                                                         if (item.GET_TIME > nowtime)
                                                         {
@@ -184,7 +188,7 @@
 
                             <tbody>
                                 @{
-                                    laststatus = datalist.Count == 0 ? 0 : 2;
+                                    laststatus = datalist.Count;
                                     for (int i = 0; i < 24; i++)
                                     {
                                         DateTime nowtime = DateTime.Now;

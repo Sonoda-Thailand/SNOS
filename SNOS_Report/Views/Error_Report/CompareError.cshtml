@@ -70,6 +70,17 @@
             </div>
             <div class="card-body">
                 <div id="myChart"></div>
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>Error No.</th>
+                            <th>Title</th>
+                            <th width="50%">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="errorTableBody"></tbody>
+                </table>
+
             </div>
         </div>
     </div>
@@ -110,96 +121,122 @@
         sessionStorage.setItem("selectedYear", $("#year").val());
     });
 
-    function loadChart() {
-        var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata)) || [];
-        var _lastCounts = [];
-        var _thisCounts = [];
-        var maxLastCount = Math.max(...rawData.map(data => data.Last_Count));
-        var maxThisCount = Math.max(...rawData.map(data => data.This_Count));
-        var maxCount = Math.max(maxLastCount, maxThisCount);
+function loadChart() {
+    var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata)) || [];
 
-        rawData.forEach(item => {
-            var _lastCount = item.Last_Count;
-            var _thisCount = item.This_Count;
+    // กรองข้อมูลที่มีค่า Last_Count และ This_Count ไม่เป็น 0
+    var filteredData = rawData.filter(item => item.Last_Count !== 0 || item.This_Count !== 0);
 
-            var percentage_lastCount = (_lastCount / maxCount) * 100;
-            var roundedPercentage_lastCount = roundToNearest5(percentage_lastCount);
-            var percentage_thisCount = (_thisCount / maxCount) * 100; 
-            var roundedPercentage_thisCount = roundToNearest5(percentage_thisCount);
+    var _lastCounts = [];
+    var _thisCounts = [];
 
-            _lastCounts.push(roundedPercentage_lastCount);  // เก็บค่า Last_Count
-            _thisCounts.push(roundedPercentage_thisCount);  // เก็บค่า This_Count ที่ปัดลงตัว 5
-        });
-
-        if (!Array.isArray(rawData) || rawData.length === 0) {
-            console.error("Error: No data found in ViewBag.Errordata");
-            return;
-        }
-
-        var categories = rawData.map(item => item.Title);
-        var lastCounts = rawData.map(item => item.Last_Count);
-        var thisCounts = rawData.map(item => item.This_Count);
-
-
-        var options = {
-            series: [
-                { name: 'Last Count', data: _lastCounts },
-                { name: 'This Count', data: _thisCounts }
-            ],
-            chart: { type: 'bar', height: 350 },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '50%',
-                    dataLabels: {
-                        position: 'top'
-                    }
-                }
-            },
-            xaxis: {
-                categories: categories,
-                labels: {
-                    rotate: 0,
-                    trim: true,
-                    style: {
-                        colors: 'black',
-                        fontWeight: 'bold',
-                        background: 'black'
-                    }
-                }
-                //labels: {
-                //    formatter: function (value) {
-                //        var item = rawData.find(data => data.Title === value);
-                //        return [item.Last_Count.toString() + " " + item.This_Count.toString(), value];
-                //    }
-                //}
-            },
-            yaxis: {
-                show: false,
-                max: 100
-            },
-            dataLabels: {
-                formatter: function (val, opt) {
-                    var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
-                    var seriesIndex = opt.seriesIndex;
-                    var item = rawData.find(data => data.Title === category);
-                    return (seriesIndex == 0 ? item.Last_Count : item.This_Count);
-                },
-                style: {
-                    colors: ['#000000'],
-                    fontSize: '20px'
-                },
-                offsetY: 0
-            },
-            title: { text: 'Error Comparison: Last Count vs This Count' },
-            tooltip: {
-                enabled: false
-            }
-        };
-
-        window.myChart = new ApexCharts($("#myChart")[0], options);
-        window.myChart.render();
+    if (!Array.isArray(filteredData) || filteredData.length === 0) {
+        console.error("Error: No data found after filtering zero values");
+        return;
     }
+
+    var isYearly = sessionStorage.getItem("selectChart") === "Yearly";
+
+    // ถ้าเป็น Yearly ให้ใช้เฉพาะ This_Count
+    if (isYearly) {
+        filteredData = filteredData.filter(item => item.This_Count !== 0);
+    }
+
+    var maxLastCount = Math.max(...filteredData.map(data => data.Last_Count));
+    var maxThisCount = Math.max(...filteredData.map(data => data.This_Count));
+    var maxCount = Math.max(maxLastCount, maxThisCount);
+
+    filteredData.forEach(item => {
+        var _lastCount = item.Last_Count;
+        var _thisCount = item.This_Count;
+
+        var percentage_lastCount = (_lastCount / maxCount) * 100;
+        var roundedPercentage_lastCount = roundToNearest5(percentage_lastCount);
+        var percentage_thisCount = (_thisCount / maxCount) * 100;
+        var roundedPercentage_thisCount = roundToNearest5(percentage_thisCount);
+
+        _lastCounts.push(roundedPercentage_lastCount);
+        _thisCounts.push(roundedPercentage_thisCount);
+    });
+
+    var categories = filteredData.map(item => `Error No. ${item.Error_No}`);
+
+    var seriesData = isYearly
+        ? [{ name: 'This Count', data: _thisCounts }]  // แสดงเฉพาะ This Count
+        : [
+            { name: 'Last Count', data: _lastCounts },
+            { name: 'This Count', data: _thisCounts }
+        ];
+
+    var options = {
+        series: seriesData,
+        chart: { type: 'bar', height: 350 },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '50%',
+                dataLabels: { position: 'top' }
+            }
+        },
+        xaxis: {
+            categories: categories,
+            labels: {
+                style: { colors: 'black', fontWeight: 'bold' }
+            }
+        },
+        yaxis: {
+            show: false,
+            max: 100
+        },
+        dataLabels: {
+            formatter: function (val, opt) {
+                var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
+                var item = filteredData.find(data => `Error No. ${data.Error_No}` === category);
+
+                if (!item) return "";
+
+                // ตรวจสอบว่าเป็น Yearly หรือไม่ ถ้าใช่ให้โชว์เฉพาะ This_Count
+                if (isYearly) {
+                    return item.This_Count;
+                }
+
+                // ตรวจสอบว่าเป็นซีรีส์ไหน (Last Count หรือ This Count)
+                if (opt.seriesIndex === 0) {
+                    return item.Last_Count; // ถ้าเป็นซีรีส์แรก ให้โชว์ Last Count
+                } else {
+                    return item.This_Count; // ถ้าเป็นซีรีส์ที่สอง ให้โชว์ This Count
+                }
+            },
+            style: { colors: ['#000000'], fontSize: '20px' },
+            offsetY: 0
+        },
+        title: { text: 'Error Comparison' },
+        tooltip: { enabled: false }
+    };
+
+    window.myChart = new ApexCharts($("#myChart")[0], options);
+    window.myChart.render();
+    loadTable(filteredData);
+}
+
+
+
+
+    function loadTable(data) {
+        var tableBody = document.getElementById("errorTableBody");
+        tableBody.innerHTML = "";  // ล้างข้อมูลเก่า
+
+        data.forEach(item => {
+            var row = `<tr>
+            <td>${item.Error_No}</td>
+            <td>${item.Title}</td>
+            <td>              </td>
+        </tr>`;
+            tableBody.innerHTML += row;
+        });
+    }
+
+
 
     function roundToNearest5(value) {
         return Math.ceil(value / 5) * 5;
