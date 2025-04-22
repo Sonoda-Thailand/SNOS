@@ -32,6 +32,7 @@ namespace SNOS_Report.Controllers
                     end = end.AddDays(1).AddSeconds(-1);
                     ViewBag.start = start;
                     ViewBag.end = end;
+                    var checkdata = order.getorder(start, end, line);
                     ViewBag.Order = order.getorder(start, end, line);
                     ViewBag.Line = line;
                 }
@@ -61,7 +62,9 @@ namespace SNOS_Report.Controllers
             {
                 int line = Convert.ToInt32(Request["line"]);
                 Order order = new Order();
-                if (line != 0) { ViewBag.Order = order.getorderthisweek(line); } else { ViewBag.Order = order.getorderthisweek(1); }
+                if (line != 0) {
+                    var checkdata = order.getorderthisweek(line); 
+                    ViewBag.Order = order.getorderthisweek(line); } else { ViewBag.Order = order.getorderthisweek(1); }
                 ViewBag.Line = line;
             }
             catch
