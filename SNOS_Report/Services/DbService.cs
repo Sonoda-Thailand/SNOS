@@ -80,40 +80,48 @@ namespace SNOS_Report.Services
 
             using (var _context = new SND_SNOSEntities())
             {
-                var data = _context.Log_Error
-                .Where(x => x.LINE == line && x.Error_Time.Year == year)
-                .GroupBy(x => x.Error_Number).Select(x => new
-                {
-                    year = year,
-                    Error_Num = x.Key,
-                    LstTime = x.Select(t => t.Error_Time).ToList()
-                }).ToList();
+                var raw = _context.Log_Error
+                    .Where(x => x.LINE == line && x.Error_Time.Year == year)
+                    .ToList(); // ให้ EF ดึงมาทั้งหมดก่อน
 
-                var getError = data.Select(x => new
+                var grouped = raw
+                    .GroupBy(x => new { x.Error_Time.Month, x.Error_Number })
+                    .Select(g => new
+                    {
+                        month = g.Key.Month,
+                        year = year,
+                        Error_Num = g.Key.Error_Number,
+                        LstTime = g.Select(t => t.Error_Time).ToList()
+                    }).ToList();
+
+                var getError = grouped.Select(x => new
                 {
+                    month = x.month,
                     year = x.year,
                     Error_Num = x.Error_Num,
                     count = FilterErrorTime(x.LstTime)
                 }).ToList();
 
-                var type = _context.Mac_Spec.FirstOrDefault(x => x.Line_No == line).LINE_TYPE;
+                var type = _context.Mac_Spec.FirstOrDefault(x => x.Line_No == line)?.LINE_TYPE;
 
-                var errorMap = _context.Error_Mapping.Where(x => x.LINE_TYPE == type && x.Language == lang).ToList();
+                var errorMap = _context.Error_Mapping
+                    .Where(x => x.LINE_TYPE == type && x.Language == lang)
+                    .ToDictionary(e => e.Error_No, e => e.Title);
 
                 result = getError.Select(x => new Error_Total
                 {
-                    month = 0,
+                    month = x.month,
                     year = x.year,
                     Line = line,
                     Error_No = x.Error_Num,
                     Count = x.count,
-                    Title = errorMap.FirstOrDefault(e => e.Error_No == x.Error_Num).Title
-
+                    Title = errorMap.ContainsKey(x.Error_Num) ? errorMap[x.Error_Num] : "Error " + x.Error_Num
                 }).ToList();
             }
 
             return result;
         }
+
 
         private int FilterErrorTime(List<DateTime> logs)
         {

@@ -120,35 +120,37 @@ namespace SNOS_Report.Controllers
 
         public ActionResult CompareError()
         {
-            List<Mac_Spec> infor = new List<Mac_Spec>();
             using (var data = new SND_SNOSEntities())
             {
-                infor = (from s in data.Mac_Spec
-                         orderby s.Line_No ascending
-                         select s).ToList();
-                ViewBag.linelist = infor;
+                ViewBag.linelist = data.Mac_Spec.OrderBy(s => s.Line_No).ToList();
             }
+
             var SelectChart = Request["SelectChart"];
             var month = Convert.ToInt32(Request["month"]);
             var year = Convert.ToInt32(Request["year"]);
             int line = Convert.ToInt32(Request["line"]);
-            if( line != 0)
+            ViewBag.Line = line;
+
+            if (line != 0)
             {
-                if(SelectChart == "Yearly")
+                if (SelectChart == "Yearly")
                 {
-                    var dataChart = errorService.GetErrorYearly(line, "EN", year);
-                    var check =JsonConvert.SerializeObject(dataChart);
+                    // 📌 ต้องส่งแบบ Grouped Error ต่อเดือน
+                    var dataChart = errorService.GetErrorYearlyGrouped(line, "EN", year);
+                    var data = JsonConvert.SerializeObject(dataChart);
                     ViewBag.Errordata = dataChart;
                 }
                 else
                 {
-                    var dataCahrt = errorService.GetErrorMonthlyCompair(line, "EN", month, year);
-                    ViewBag.Errordata = dataCahrt;
+                    var dataChart = errorService.GetErrorMonthlyCompair(line, "EN", month, year);
+                    var data = JsonConvert.SerializeObject(dataChart);
+                    ViewBag.Errordata = dataChart;
                 }
             }
-            ViewBag.Line = line;
+
             return View();
         }
+
     }
 
 }

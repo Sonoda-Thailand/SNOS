@@ -123,24 +123,91 @@
 
 function loadChart() {
     var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Errordata)) || [];
+    var isYearly = sessionStorage.getItem("selectChart") === "Yearly";
 
-    // กรองข้อมูลที่มีค่า Last_Count และ This_Count ไม่เป็น 0
+    if (!Array.isArray(rawData) || rawData.length === 0) {
+        console.error("Error: No data found");
+        return;
+    }
+
+    // ✅ เคส Yearly: มี Month + Error_No → แสดงเป็นหลายแท่งแยกสีตามเดือน
+    if (
+        isYearly &&
+        rawData.length > 0 &&
+        rawData[0].hasOwnProperty("Month") &&
+        rawData[0].hasOwnProperty("Error_No")
+    )
+    {
+        const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        const errorTypes = [...new Set(rawData.map(item => item.Error_No))];
+
+        const series = errorTypes.map(errorNo => {
+            const monthlyCounts = new Array(12).fill(0);
+            rawData
+                .filter(x => x.Error_No === errorNo)
+                .forEach(x => {
+                    const idx = x.Month - 1;
+                    monthlyCounts[idx] = x.Count || 0;
+                });
+
+            return {
+                name: `Error ${errorNo}`,
+                data: monthlyCounts
+            };
+        });
+
+        const options = {
+            series: series,
+            chart: {
+                type: 'bar',
+                height: 400,
+                stacked: false
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '60%'
+                }
+            },
+            xaxis: {
+                categories: monthLabels,
+                labels: {
+                    style: { fontWeight: 'bold' }
+                }
+            },
+            yaxis: {
+                title: { text: "Error Count" }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            title: {
+                text: 'Yearly Error Breakdown by Month'
+            },
+            legend: {
+                position: 'top'
+            },
+            tooltip: {
+                shared: true,
+                intersect: false  // ✅ เพิ่มบรรทัดนี้
+            }
+        };
+
+        $("#myChart").empty();
+        window.myChart = new ApexCharts($("#myChart")[0], options);
+        window.myChart.render();
+        $("#errorTableBody").html("");
+        loadTable(rawData);  // <-- เพิ่มตรงนี้หลัง render chart (Yearly)
+
+        return;
+    }
+
+    // ✅ เคส Monthly: เปรียบเทียบ Last/This Count
     var filteredData = rawData.filter(item => item.Last_Count !== 0 || item.This_Count !== 0);
 
     var _lastCounts = [];
     var _thisCounts = [];
-
-    if (!Array.isArray(filteredData) || filteredData.length === 0) {
-        console.error("Error: No data found after filtering zero values");
-        return;
-    }
-
-    var isYearly = sessionStorage.getItem("selectChart") === "Yearly";
-
-    // ถ้าเป็น Yearly ให้ใช้เฉพาะ This_Count
-    if (isYearly) {
-        filteredData = filteredData.filter(item => item.This_Count !== 0);
-    }
 
     var maxLastCount = Math.max(...filteredData.map(data => data.Last_Count));
     var maxThisCount = Math.max(...filteredData.map(data => data.This_Count));
@@ -151,22 +218,18 @@ function loadChart() {
         var _thisCount = item.This_Count;
 
         var percentage_lastCount = (_lastCount / maxCount) * 100;
-        var roundedPercentage_lastCount = roundToNearest5(percentage_lastCount);
         var percentage_thisCount = (_thisCount / maxCount) * 100;
-        var roundedPercentage_thisCount = roundToNearest5(percentage_thisCount);
 
-        _lastCounts.push(roundedPercentage_lastCount);
-        _thisCounts.push(roundedPercentage_thisCount);
+        _lastCounts.push(roundToNearest5(percentage_lastCount));
+        _thisCounts.push(roundToNearest5(percentage_thisCount));
     });
 
     var categories = filteredData.map(item => `Error No. ${item.Error_No}`);
 
-    var seriesData = isYearly
-        ? [{ name: 'This Count', data: _thisCounts }]  // แสดงเฉพาะ This Count
-        : [
-            { name: 'Last Count', data: _lastCounts },
-            { name: 'This Count', data: _thisCounts }
-        ];
+    var seriesData = [
+        { name: 'Last Count', data: _lastCounts },
+        { name: 'This Count', data: _thisCounts }
+    ];
 
     var options = {
         series: seriesData,
@@ -192,49 +255,61 @@ function loadChart() {
             formatter: function (val, opt) {
                 var category = opt.w.config.xaxis.categories[opt.dataPointIndex];
                 var item = filteredData.find(data => `Error No. ${data.Error_No}` === category);
-
                 if (!item) return "";
-
-                // ตรวจสอบว่าเป็น Yearly หรือไม่ ถ้าใช่ให้โชว์เฉพาะ This_Count
-                if (isYearly) {
-                    return item.This_Count;
-                }
-
-                // ตรวจสอบว่าเป็นซีรีส์ไหน (Last Count หรือ This Count)
-                if (opt.seriesIndex === 0) {
-                    return item.Last_Count; // ถ้าเป็นซีรีส์แรก ให้โชว์ Last Count
-                } else {
-                    return item.This_Count; // ถ้าเป็นซีรีส์ที่สอง ให้โชว์ This Count
-                }
+                return opt.seriesIndex === 0 ? item.Last_Count : item.This_Count;
             },
             style: { colors: ['#000000'], fontSize: '20px' },
             offsetY: 0
         },
-        title: { text: 'Error Comparison' },
+        title: { text: 'Monthly Error Comparison' },
         tooltip: { enabled: false }
     };
 
+    $("#myChart").empty();
     window.myChart = new ApexCharts($("#myChart")[0], options);
     window.myChart.render();
     loadTable(filteredData);
 }
 
 
-
-
     function loadTable(data) {
         var tableBody = document.getElementById("errorTableBody");
-        tableBody.innerHTML = "";  // ล้างข้อมูลเก่า
+        tableBody.innerHTML = ""; // ล้างข้อมูลเก่า
+
+        if (!Array.isArray(data) || data.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="3" class="text-center text-muted">No error data found</td></tr>`;
+            return;
+        }
+
+        // 👉 สร้างรายการ error สรุป (ใช้ Error_No + Title เป็น key)
+        const grouped = {};
 
         data.forEach(item => {
+            const key = item.Error_No + "|" + (item.Title || "");
+            if (!grouped[key]) {
+                grouped[key] = {
+                    Error_No: item.Error_No,
+                    Title: item.Title,
+                    Count: 0
+                };
+            }
+            grouped[key].Count += item.Count || 0;
+        });
+
+        // 👉 แปลงกลับเป็น array เพื่อ render
+        const rows = Object.values(grouped);
+
+        rows.forEach(item => {
             var row = `<tr>
             <td>${item.Error_No}</td>
-            <td>${item.Title}</td>
-            <td>              </td>
+            <td>${item.Title || '-'}</td>
+            <td></td>
         </tr>`;
             tableBody.innerHTML += row;
         });
     }
+
+
 
 
 

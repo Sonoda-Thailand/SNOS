@@ -171,6 +171,7 @@ namespace SNOS_Report.Models
                         {
                             order_Data.Length = (double)item.PLAN;
                             order_Data.THICK = item.THICK;
+                            order_Data.sizes = item.SIZE;
                         }
                     }
                     else if (flagstart == false && item.RECOIL_expand == false)
@@ -267,6 +268,7 @@ namespace SNOS_Report.Models
                                 {
                                     order_Data.Length = (double)item.PLAN;
                                     order_Data.THICK = item.THICK;
+                                    order_Data.sizes = item.SIZE;
                                 }
                             }
                             else if (flagstart == false && item.RECOIL_expand == false)
@@ -362,8 +364,11 @@ namespace SNOS_Report.Models
                         {
                             order_Data.Length = (double)item.PLAN;
                             order_Data.THICK = item.THICK;
+                            order_Data.sizes = item.SIZE;
                         }
                     }
+                    
+                    
                     else if (flagstart == false && item.RECOIL_expand == false)
                     {
 
@@ -453,6 +458,7 @@ namespace SNOS_Report.Models
                         {
                             order_Data.Length = (double)item.PLAN;
                             order_Data.THICK = item.THICK;
+                            order_Data.sizes = item.SIZE;
                         }
                     }
                     else if (flagstart == false && item.RECOIL_expand == false)

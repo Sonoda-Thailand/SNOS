@@ -17,5 +17,6 @@ namespace SNOS_Report.Models
         public int poweron { get; set; }
         public int stop { get; set; }
         public int auto { get; set; }
+        public decimal sizes { get; set; }
     }
 }

@@ -101,6 +101,7 @@
                                     }
                                     else
                                     {
+                            <th scope="col">Order Size</th>
                                         <th scope="col">Pcs.</th>
                                     }
                                 }
@@ -118,17 +119,26 @@
                                 ct = 1;
                                 foreach (var item in datalist)
                                 {
-                                    <tr>
-                                        <td>@ct</td>
-                                        <td>@item.start.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                        <td>@item.end.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                        <td>@item.Length</td>
-                                        <td>@item.THICK</td>
-                                        <td>@Html.Raw(((item.workrate > 0) ? item.workrate : 0).ToString("N2"))</td>
-                                        <td>@gettimeformat(item.poweron)</td>
-                                        <td>@gettimeformat(item.auto)</td>
-                                        <td>@gettimeformat(item.stop)</td>
-                                    </tr>
+                                                        <tr>
+                                                            <td>@ct</td>
+                                                            <td>@item.start.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                                            <td>@item.end.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                                            @{
+                                                                if (lineNmae == 1)
+                                                                {
+                                                                }
+                                                                else
+                                                                {
+                                                                   <td scope="col">@string.Format("{0:0.00}", item.sizes)</td>
+                                                                }
+                                                            }
+                                                            <td>@item.Length</td>
+                                                            <td>@string.Format("{0:0.00}", item.THICK)</td>
+                                                            <td>@Html.Raw(((item.workrate > 0) ? item.workrate : 0).ToString("N2"))</td>
+                                                            <td>@gettimeformat(item.poweron)</td>
+                                                            <td>@gettimeformat(item.auto)</td>
+                                                            <td>@gettimeformat(item.stop)</td>
+                                                        </tr>
                                     ct++;
                                 }
                             }

@@ -177,6 +177,8 @@
     <Compile Include="Models\DataClass\weekly_workrate.cs" />
     <Compile Include="Models\DateRange.cs" />
     <Compile Include="Models\Error.cs" />
+    <Compile Include="Models\ErrorMonthlyDto.cs" />
+    <Compile Include="Models\ErrorMonthlyGrouped.cs" />
     <Compile Include="Models\Error_Compair.cs" />
     <Compile Include="Models\Error_Total.cs" />
     <Compile Include="Models\Order.cs" />

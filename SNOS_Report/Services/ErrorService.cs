@@ -53,5 +53,26 @@ namespace SNOS_Report.Services
 
             return result;
         }
+
+        public List<ErrorMonthlyGrouped> GetErrorYearlyGrouped(int line, string lang, int year)
+        {
+            // ดึงข้อมูลที่รวมทั้งเวลาและ title มาให้แล้ว
+            var rawData = db.GetErrorByYear(line, lang, year);
+
+            var grouped = rawData
+                .GroupBy(e => new { e.month, e.Error_No })
+                .Select(g => new ErrorMonthlyGrouped
+                {
+                    Month = g.Key.month == 0 ? 1 : g.Key.month, // กันไว้เผื่อเดือน = 0
+                    Error_No = "E" + g.Key.Error_No.ToString("D3"),
+                    Title = g.FirstOrDefault()?.Title ?? "Error " + g.Key.Error_No,
+                    Count = g.Sum(x => x.Count)
+                })
+                .OrderBy(x => x.Month)
+                .ThenBy(x => x.Error_No)
+                .ToList();
+
+            return grouped;
+        }
     }
 }
